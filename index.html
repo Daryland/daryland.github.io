@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./css/themes.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/pages.css">
+  <title>Folio</title>
+</head>
+<body>
+  <!--Page Theme-->
+  <div class="theme-panel">
+    <div class="theme-body">
+      <span>Change Theme</span>
+      <div class="btn-group">
+        <button class="btn-switch active">Light</button>
+        <button class="btn-switch">Dark</button>
+      </div>
+      <button class="theme-tab">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+  </div>
+  <!--Main Site Wrapper-->
+  <main class="site-wrapper">
+    <header class="site-header">
+      <nav class="navbar">
+        <div class="brand-logo">
+          <a href="/"><h2>folio.</h2></a>
+        </div>
+        <div class="navbar-nav">
+          <ul class="ul-defaults-none main-menu">
+            <li class="nav-item">Home</li>
+            <li class="nav-item" data-open="about">About me</li>
+            <li class="nav-item" data-open="contact">Contact</li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+  <!--Hero Section-->
+  <section class="hero-bg">
+    <div class="container">
+      <div class="hero-content">
+        <div class="code-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <h2 class="header-lg">Code. Eat. Sleep.</h2>
+        <div class="sub-header">I create meaningful solutions for your brands and products.
+          <br>
+          Give your customers the best experience possible.
+        </div>
+        <div class="btn btn-primary round-pill">
+          <a href="#" data-open="contact">Let's talk now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+   <!--Modals-->
+  <!--About Page Modal-->
+  <div id="about" class="full-site-modal page-block is-visible" data-animation="zoomInOut">
+    <header class="modal-header">
+      <h3>About Page</h3>
+      <i class="fas fa-times" data-close></i>
+    </header>
+    <div class="modal-body">
+      <div class="img-wrapper">
+        <img src="/assests/images/img4.jpg" alt="head shot">
+      </div>
+      <h2>Daniel Ryland</h2>
+      <p>Text 1</p>
+      <p>Text 2</p>
+      <div>
+        <div>Email Me:</div>
+        <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <!--Contact Page Modal-->
+  <div id="contact" class="full-site-modal page-block" data-animation="zoomInOut">
+    <header class="modal-header">
+      <h3>About Page</h3>
+      <i class="fas fa-times" data-close></i>
+    </header>
+    <div class="modal-body">
+      <div class="img-wrapper">
+        <img src="/assests/images/img4.jpg" alt="head shot">
+      </div>
+      <h2>Daniel Ryland</h2>
+      <p>Text 1</p>
+      <p>Text 2</p>
+      <div>
+        <div>Email Me:</div>
+        <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>
