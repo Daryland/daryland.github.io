@@ -1,10 +1,54 @@
+const theme = 'theme';//stores settings on local browser. This will remember user settings
+const dataTheme = 'data-theme';
+const themeTab = '.theme-tab'// ( . ) collects attribute/class
+const switcherBtn = '.switcher-btn';
+const dark = 'dark';
+const light = 'light';
+const open = 'open';
+const active = 'active';
+
+
 const modalOpen = '[data-open]';
 const modalClose = '[data-close]';
 const isVisible = 'is-visible';
 
+//to access the root page we can store a selector inside a variable
+const root = document.documentElement; //gives us a shorthand way to use 
 
-const openModal =  document.querySelectorAll(modalOpen);
-const closeModal =  document.querySelectorAll(modalClose);
+//Theme
+const toggleTheme = document.querySelector(themeTab);
+const switcher = document.querySelectorAll(switcherBtn);
+const currentTheme = localStorage.getItem(theme);
+
+
+//Modal
+const openModal = document.querySelectorAll(modalOpen);
+const closeModal = document.querySelectorAll(modalClose);
+
+const setActive = (elm, selector) => {
+  if (document.querySelector(`${selector}.${active}`) !== null) {
+    document.querySelector(`${selector}.${active}`).classList.remove(active);
+  } else {
+    elm.classList.add(active);
+  }
+}
+
+//Open tab 
+toggleTheme.addEventListener('click', function(){
+  const tab = this.parentElement.parentElement;
+  if (!tab.className.includes(open)) {
+    tab.classList.add(open);
+  } else {
+    tab.classList.remove(open);
+  }
+});
+
+for (const elm of switcher) { //this is for the toggle button
+  elm.addEventListener('click', function() {
+    const toggle = this.dataset.toggle;
+    setActive(elm, switcherBtn);
+  })
+}
 
 //Full Site Modal "open buttons"
 for (const elm of openModal) {
