@@ -25,13 +25,12 @@ const currentTheme = localStorage.getItem(theme);
 const openModal = document.querySelectorAll(modalOpen);
 const closeModal = document.querySelectorAll(modalClose);
 
-const setActive = (elm, selector) => { //
+const setActive = (elm, selector) => { //function for theme selection
   if (document.querySelector(`${selector}.${active}`) !== null) {
     document.querySelector(`${selector}.${active}`).classList.remove(active);
-  } else {
-    elm.classList.add(active);
   }
-}
+  elm.classList.add(active); //keeps selection on active button
+};
 
 //setting theme for webpage when it switches from light to dark
 const setTheme = (val) => {
@@ -41,6 +40,19 @@ const setTheme = (val) => {
   } else {
     root.setAttribute(dataTheme, light);
     localStorage.setItem(theme, light);
+  }
+};
+
+if (currentTheme) { //this stores current theme
+  root.setAttribute(dataTheme, currentTheme);
+  switcher.forEach((bnt) => {
+    bnt.classList.remove(active);
+  });
+
+  if (currentTheme === dark) {
+    switcher[1].classList.add(active);
+  } else {
+    switcher[0].classList.add(active);
   }
 }
 
