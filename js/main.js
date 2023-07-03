@@ -25,11 +25,22 @@ const currentTheme = localStorage.getItem(theme);
 const openModal = document.querySelectorAll(modalOpen);
 const closeModal = document.querySelectorAll(modalClose);
 
-const setActive = (elm, selector) => {
+const setActive = (elm, selector) => { //
   if (document.querySelector(`${selector}.${active}`) !== null) {
     document.querySelector(`${selector}.${active}`).classList.remove(active);
   } else {
     elm.classList.add(active);
+  }
+}
+
+//setting theme for webpage when it switches from light to dark
+const setTheme = (val) => {
+  if (val === dark) {
+    root.setAttribute(dataTheme, dark); //two parameters
+    localStorage.setItem(theme, dark);
+  } else {
+    root.setAttribute(dataTheme, light);
+    localStorage.setItem(theme, light);
   }
 }
 
@@ -47,6 +58,7 @@ for (const elm of switcher) { //this is for the toggle button
   elm.addEventListener('click', function() {
     const toggle = this.dataset.toggle;
     setActive(elm, switcherBtn);
+    setTheme(toggle);
   })
 }
 
