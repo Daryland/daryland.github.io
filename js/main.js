@@ -1,6 +1,6 @@
-const theme = 'theme';//stores settings on local browser. This will remember user settings
+const theme = 'theme'; //stores settings on local browser. This will remember user settings
 const dataTheme = 'data-theme';
-const themeTab = '.theme-tab'// ( . ) collects attribute/class
+const themeTab = '.theme-tab'; // ( . ) collects attribute/class
 const switcherBtn = '.switcher-btn';
 const dark = 'dark';
 const light = 'light';
@@ -34,7 +34,7 @@ const setActive = (elm, selector) => {
 }
 
 //Open tab 
-toggleTheme.addEventListener('click', function(){
+toggleTheme.addEventListener('click', function() {
   const tab = this.parentElement.parentElement;
   if (!tab.className.includes(open)) {
     tab.classList.add(open);
@@ -52,7 +52,7 @@ for (const elm of switcher) { //this is for the toggle button
 
 //Full Site Modal "open buttons"
 for (const elm of openModal) {
-  elm.addEventListener('click', function(){
+  elm.addEventListener('click', function() {
     const modalId = this.dataset.open;
     document.getElementById(modalId).classList.add(isVisible);
   })
