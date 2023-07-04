@@ -124,6 +124,133 @@
   line-height: 1.5;
 }
 
+.search-container label {
+  align-items: center;
+  position: relative;
+  display: inline-flex;
+}
+
+.search-input {
+  padding: 0.75rem 1.5rem;
+  background-color: #f1f3f5;
+  border: 1px solid #f1f3f5;
+  border-radius: 50rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4dabf7;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.0125) , 0 0 8px rgba(34, 139, 230, 0.5);
+}
+
+.search-container .fa-search {
+  position: absolute;
+  right: 20px;
+}
+
+.portfolio-grid {
+  max-width: 1400px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.portfolio-filter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 0;
+}
+
+.portfolio-filter-nav .filter-link {
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  letter-spacing: 1.63px;
+  font-weight: 700;
+}
+
+.portfolio-filter-nav .filter-link:hover {
+  cursor: pointer;
+}
+
+.portfolio-filter-nav .filter-link.active {
+  color: #495fef;
+}
+
+.portfolio-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3rem 1rem;
+  justify-content: center;
+}
+
+.portfolio-card {
+  position: relative;
+  margin: 0 1rem 1.85rem;
+  max-width: 255px;
+}
+
+.card-body img {
+  width: 100%;
+  height: 255px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-popup-box {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  transition: 0.4s;
+  z-index: 1;
+  padding: 1.25rem 1.875rem;
+  opacity: 0;
+}
+
+.card-popup-box:before {
+  position: absolute;
+  content: "";
+  background-color: var(--bg);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.9;
+  border-radius: 8px;
+}
+
+.portfolio-card:hover .card-popup-box {
+  bottom: 20px;
+  opacity: 1;
+}
+
+.card-popup-box div {
+  color: var(--color-text-opacity);
+  font-size: 0.8125rem;
+  line-height: 1.63;
+  letter-spacing: 1.63px;
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.card-popup-box h3{
+  pointer-events: none;
+  color: var(--color-headings);
+  font-size: 1.3125rem;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+
+
+
+
+
+
 .main-menu {  display: flex; }
 
 .main-menu .nav-item {

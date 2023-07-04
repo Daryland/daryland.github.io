@@ -12,6 +12,8 @@ const modalOpen = '[data-open]';
 const modalClose = '[data-close]';
 const isVisible = 'is-visible';
 
+const dataFilter = 'data-filter';
+
 //to access the root page we can store a selector inside a variable
 const root = document.documentElement; //gives us a shorthand way to use 
 
@@ -19,6 +21,9 @@ const root = document.documentElement; //gives us a shorthand way to use
 const toggleTheme = document.querySelector(themeTab);
 const switcher = document.querySelectorAll(switcherBtn);
 const currentTheme = localStorage.getItem(theme);
+
+//Portfolio
+const filterLink = document.querySelectorAll(dataFilter);
 
 
 //Modal
@@ -71,6 +76,12 @@ for (const elm of switcher) { //this is for the toggle button
     const toggle = this.dataset.toggle;
     setActive(elm, switcherBtn);
     setTheme(toggle);
+  })
+}
+
+for (const link of filterLink) {
+  link.addEventListener('click', function() {
+    setActive(link, '.filter-link'); //set active takes in element
   })
 }
 
