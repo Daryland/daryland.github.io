@@ -82,9 +82,17 @@ for (const elm of switcher) { //this is for the toggle button
   })
 }
 
+// searches through cards, display cards else don't show it in the display
 searchBox.addEventListener('keyup' , (e) => {
   const searchInput = e.target.value.toLowerCase().trim();
-  console.log(searchInput);
+
+  portfolioItems.forEach((card) => {
+    if (card.dataset.item.includes(searchInput)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  })
 })
 
 for (const link of filterLink) {
