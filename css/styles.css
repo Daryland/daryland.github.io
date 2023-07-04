@@ -150,8 +150,11 @@
 
 .portfolio-grid {
   max-width: 1400px;
-  max-width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3rem 1rem;
+  justify-content: center;
 }
 
 .portfolio-filter-nav {
@@ -176,17 +179,11 @@
   color: #495fef;
 }
 
-.portfolio-grid {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 3rem 1rem;
-  justify-content: center;
-}
-
 .portfolio-card {
   position: relative;
   margin: 0 1rem 1.85rem;
   max-width: 255px;
+  width: 100%;
 }
 
 .card-body img {
