@@ -77,7 +77,7 @@
 
     <div class="portfolio-grid">
 
-      <div class="portfolio-card" data-item="web"> 
+      <div class="portfolio-card" data-item="web" data-open="web-1"> 
         <div class="card-body">
           <img src="./assests/images/portfolio-1.jpg" alt="portfolio-icon">
           <a href="#" class="card-popup-box">
@@ -157,42 +157,68 @@
    <!--Modals-->
   <!--About Page Modal-->
   <div id="about" class="full-site-modal page-block" data-animation="zoomInOut">
-    <header class="modal-header">
-      <h3>About Page</h3>
-      <i class="fas fa-times" data-close></i>
-    </header>
-    <div class="modal-body">
-      <div class="img-wrapper">
-        <img src="/assests/images/img4.jpg" alt="head shot">
-      </div>
-      <h2>Daniel Ryland</h2>
-      <p>Text 1</p>
-      <p>Text 2</p>
-      <div>
-        <div>Email Me:</div>
-        <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+    <div class="container-fluid">
+      <header class="modal-header">
+        <h3>About Page</h3>
+        <i class="fas fa-times" data-close></i>
+      </header>
+      <div class="modal-body">
+        <div class="img-wrapper">
+          <img src="/assests/images/img4.jpg" alt="head shot">
+        </div>
+        <h2>Daniel Ryland</h2>
+        <p>Text 1</p>
+        <p>Text 2</p>
+        <div>
+          <div>Email Me:</div>
+          <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+        </div>
       </div>
     </div>
   </div>
   <!--Contact Page Modal-->
   <div id="contact" class="full-site-modal page-block" data-animation="zoomInOut">
-    <header class="modal-header">
-      <h3>About Page</h3>
-      <i class="fas fa-times" data-close></i>
-    </header>
-    <div class="modal-body">
-      <div class="img-wrapper">
-        <img src="/assests/images/img4.jpg" alt="head shot">
-      </div>
-      <h2>Daniel Ryland</h2>
-      <p>Text 1</p>
-      <p>Text 2</p>
-      <div>
-        <div>Email Me:</div>
-        <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+    <div class="container-fluid">
+      <header class="modal-header">
+        <h3>About Page</h3>
+        <i class="fas fa-times" data-close></i>
+      </header>
+      <div class="modal-body">
+        <div class="img-wrapper">
+          <img src="/assests/images/img4.jpg" alt="head shot">
+        </div>
+        <h2>Daniel Ryland</h2>
+        <p>Text 1</p>
+        <p>Text 2</p>
+        <div>
+          <div>Email Me:</div>
+          <a href="mailto:rylandsc@gmail.com">rylandsc@gmail.com</a>
+        </div>
       </div>
     </div>
   </div>
+
+  <!--PopUp Modals-->
+  <div id="web-1" class="modal" data-animation="slideInOutTop">
+    <div class="modal-dialog">
+      <header class="modal-header">
+        <h3>Web Project 1</h3>
+        <i class="fas fa-times" data-close></i>
+      </header>
+      <div class="modal-body">
+        <div class="img-wrapper">
+          <img src="./assests/images/portfolio-1.jpg" alt="portfolio image">
+        </div>
+        <div class="text-wrapper">
+          <p><strong>My first Website</strong></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   </main>
   
   <script src="/js/main.js"></script>
