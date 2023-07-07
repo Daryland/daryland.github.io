@@ -220,6 +220,7 @@
 .portfolio-card:hover .card-popup-box {
   bottom: 20px;
   opacity: 1;
+  cursor: pointer;
 }
 
 .card-popup-box div {
@@ -245,9 +246,6 @@
 
 
 
-
-
-
 .main-menu {  display: flex; }
 
 .main-menu .nav-item {
@@ -263,6 +261,7 @@
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,0.8);
+  cursor: pointer;
 }
 
 .modal,
@@ -276,6 +275,7 @@
   transition: all 0.35s ease-in;
   visibility: hidden;
   opacity: 0;
+  z-index: 1000; /*fixes overlap*/
 }
 
 .modal-dialog {
@@ -286,6 +286,11 @@
   overflow: hidden;
   padding: 1.2rem 1.85rem;
   border-radius: 8px;
+  cursor: default;
+}
+
+.modal-dialog .modal-header h3 {
+  color: var(--color-text-base);
 }
 
 .modal-header {
@@ -327,6 +332,8 @@
   height: 200px;
 }
 
+
+
 [data-animation="zoomInOut"].full-site-modal {
   transform: scale(0.2);
 }
@@ -335,3 +342,21 @@
   transform: none;
 }
 
+[data-animation="slideInOutTop"] .modal-dialog {
+  opacity: 0;
+  transition: 0.4s;
+}
+
+[data-animation="slideInOutTop"].is-visible .modal-dialog {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+[data-animation="slideInOutTop"] .modal-dialog {
+  transform: translateY(-100%);
+}
+
+[data-animation="zoomInOut"].full-site-modal.is-visible,
+[data-animation="slideInOutTop"].is-visible .modal-dialog {
+  transform: none;
+}
