@@ -327,6 +327,7 @@
 }
 
 .modal-body .img-wrapper img {
+  width: 100%;
   border-radius: 8px;
   object-fit: cover;
   height: 200px;
