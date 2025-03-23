@@ -108,8 +108,11 @@ button:not(:disabled):not(.disabled) {
 }
 
 .sub-header {
-  font-size: 1.3125;
-  line-height: 1.5;
+  padding: 0 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: 1.63px;
+  font-weight: 500;
   padding-top: 1.25rem;
   padding-bottom: 1.875rem;
 }

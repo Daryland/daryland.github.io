@@ -6,6 +6,7 @@
 #contact .modal-body {
   padding: 2rem;
   flex-wrap: wrap;
+  text-align: center;
 }
 
 #about .img-wrapper,
@@ -42,6 +43,14 @@
 
 .contact-text {
   padding-bottom: 3.5rem;
+}
+
+.folio-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .folio-form .form-control {

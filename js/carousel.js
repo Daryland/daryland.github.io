@@ -26,6 +26,7 @@ let prev = current > 0 ? current - 1 : slides.length - 1;
 // --- [next] current + 1 : 0
 // --- [prev] current - 1 : 0
 // update css classes
+
 const update = () => {
   slides.forEach((slide) => {
     slide.classList.remove('active', 'prev', 'next');
