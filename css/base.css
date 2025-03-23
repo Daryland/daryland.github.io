@@ -28,6 +28,11 @@ body {
   color: var(--color-text);
   background-color: var(--bg);
   text-align: left;
+  padding: 0 1rem;
+  letter-spacing: 1.63px;
+  font-weight: 500;
+  padding-top: 1.25rem;
+  padding-bottom: 1.875rem;
 }
 
 a {

@@ -29,7 +29,13 @@
 
 .about-text p,
 .about-text .contact-me-block {
-  font-size: 1.2rem;
+  padding: 0 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: 1.63px;
+  font-weight: 500;
+  padding-top: 1.25rem;
+  padding-bottom: 1.875rem;
 }
 
 #contact .modal-body {
@@ -68,7 +74,6 @@
   outline: none;
   background: transparent;
 }
-
 
 .marquee {
   width: var(--marquee-width);
