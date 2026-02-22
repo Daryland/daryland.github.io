@@ -1,49 +1,40 @@
-const theme = 'theme'; //stores settings on local browser. This will remember user settings
+// =============================================
+// CONSTANTS & SELECTORS
+// =============================================
+const theme     = 'theme';
 const dataTheme = 'data-theme';
-const themeTab = '.theme-tab'; // ( . ) collects attribute/class
+const themeTab  = '.theme-tab';
 const switcherBtn = '.switcher-btn';
-const dark = 'dark';
-const light = 'light';
-const open = 'open';
+const dark   = 'dark';
+const light  = 'light';
+const open   = 'open';
 const active = 'active';
 
-
-const modalOpen = '[data-open]';
+const modalOpen  = '[data-open]';
 const modalClose = '[data-close]';
-const isVisible = 'is-visible';
+const isVisible  = 'is-visible';
 
-const dataFilter = '[data-filter]';
+const dataFilter    = '[data-filter]';
 const portfolioData = '[data-item]';
 
-//to access the root page we can store a selector inside a variable
-const root = document.documentElement; //gives us a shorthand way to use 
+const root = document.documentElement;
 
-//Theme
-const toggleTheme = document.querySelector(themeTab);
-const switcher = document.querySelectorAll(switcherBtn);
-const currentTheme = localStorage.getItem(theme);
+// =============================================
+// THEME
+// =============================================
+const toggleTheme   = document.querySelector(themeTab);
+const switcher      = document.querySelectorAll(switcherBtn);
+const currentTheme  = localStorage.getItem(theme);
 
-//Portfolio
-const filterLink = document.querySelectorAll(dataFilter);
-const portfolioItems = document.querySelectorAll(portfolioData);
-const searchBox = document.querySelector('#search'); //css selector is #
-
-
-//Modal
-const openModal = document.querySelectorAll(modalOpen);
-const closeModal = document.querySelectorAll(modalClose);
-
-const setActive = (elm, selector) => { //function for theme selection
-  if (document.querySelector(`${selector}.${active}`) !== null) {
-    document.querySelector(`${selector}.${active}`).classList.remove(active);
-  }
-  elm.classList.add(active); //keeps selection on active button
+const setActive = (elm, selector) => {
+  const current = document.querySelector(`${selector}.${active}`);
+  if (current) current.classList.remove(active);
+  elm.classList.add(active);
 };
 
-//setting theme for webpage when it switches from light to dark
 const setTheme = (val) => {
   if (val === dark) {
-    root.setAttribute(dataTheme, dark); //two parameters
+    root.setAttribute(dataTheme, dark);
     localStorage.setItem(theme, dark);
   } else {
     root.setAttribute(dataTheme, light);
@@ -51,12 +42,9 @@ const setTheme = (val) => {
   }
 };
 
-if (currentTheme) { //this stores current theme
+if (currentTheme) {
   root.setAttribute(dataTheme, currentTheme);
-  switcher.forEach((bnt) => {
-    bnt.classList.remove(active);
-  });
-
+  switcher.forEach(btn => btn.classList.remove(active));
   if (currentTheme === dark) {
     switcher[1].classList.add(active);
   } else {
@@ -64,94 +52,315 @@ if (currentTheme) { //this stores current theme
   }
 }
 
-//Open tab 
-toggleTheme.addEventListener('click', function() {
+toggleTheme.addEventListener('click', function () {
   const tab = this.parentElement.parentElement;
-  if (!tab.className.includes(open)) {
-    tab.classList.add(open);
-  } else {
-    tab.classList.remove(open);
-  }
+  tab.classList.toggle(open);
 });
 
-for (const elm of switcher) { //this is for the toggle button
-  elm.addEventListener('click', function() {
-    const toggle = this.dataset.toggle;
+for (const elm of switcher) {
+  elm.addEventListener('click', function () {
     setActive(elm, switcherBtn);
-    setTheme(toggle);
-  })
+    setTheme(this.dataset.toggle);
+  });
 }
 
-// searches through cards, display cards else don't show it in the display
-searchBox.addEventListener('keyup' , (e) => {
-  const searchInput = e.target.value.toLowerCase().trim();
+// =============================================
+// SIDE NAVIGATION
+// =============================================
+const hamburgerBtn    = document.getElementById('hamburgerBtn');
+const sideNav         = document.getElementById('sideNav');
+const sideNavClose    = document.getElementById('sideNavClose');
+const sideNavOverlay  = document.getElementById('sideNavOverlay');
 
-  portfolioItems.forEach((card) => {
-    if (card.dataset.item.includes(searchInput)) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  })
-})
+const openSideNav = () => {
+  sideNav.classList.add('open');
+  sideNavOverlay.classList.add('active');
+  hamburgerBtn.classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeSideNav = () => {
+  sideNav.classList.remove('open');
+  sideNavOverlay.classList.remove('active');
+  hamburgerBtn.classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+hamburgerBtn.addEventListener('click', openSideNav);
+sideNavClose.addEventListener('click', closeSideNav);
+sideNavOverlay.addEventListener('click', closeSideNav);
+
+// Close side nav on any [data-sidenav-close] click
+document.querySelectorAll('[data-sidenav-close]').forEach(el => {
+  el.addEventListener('click', closeSideNav);
+});
+
+// =============================================
+// PORTFOLIO FILTER & SEARCH
+// =============================================
+const filterLink     = document.querySelectorAll(dataFilter);
+const portfolioItems = document.querySelectorAll(portfolioData);
+const searchBox      = document.querySelector('#search');
+
+searchBox.addEventListener('keyup', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  portfolioItems.forEach(card => {
+    // search against data-name (title/keywords) and data-item (category)
+    const nameMatch = (card.dataset.name || '').toLowerCase().includes(query);
+    const catMatch  = card.dataset.item.includes(query);
+    card.style.display = (nameMatch || catMatch) ? 'block' : 'none';
+  });
+});
 
 for (const link of filterLink) {
-  link.addEventListener('click', function() {
-    setActive(link, '.filter-link'); //set active takes in element
+  link.addEventListener('click', function () {
+    setActive(link, '.filter-link');
     const filter = this.dataset.filter;
-    portfolioItems.forEach((card) => {
-      if (filter === 'all') {
-        card.style.display = 'block';
-      } else if (card.dataset.item === filter) {
+    portfolioItems.forEach(card => {
+      if (filter === 'all' || card.dataset.item === filter) {
         card.style.display = 'block';
       } else {
         card.style.display = 'none';
       }
-    })
-  })
+    });
+  });
 }
 
+// =============================================
+// MODALS
+// =============================================
+const openModal  = document.querySelectorAll(modalOpen);
+const closeModal = document.querySelectorAll(modalClose);
 
-
-
-//Modal/Full Site Modal "open buttons"
 for (const elm of openModal) {
-  elm.addEventListener('click', function() {
-    const modalId = this.dataset.open; //unique ID
-    document.getElementById(modalId).classList.add(isVisible);
-  })
+  elm.addEventListener('click', function (e) {
+    // Don't trigger modal if it's a side-nav smooth-scroll link
+    const id = this.dataset.open;
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (target) target.classList.add(isVisible);
+  });
 }
 
 for (const elm of closeModal) {
-  elm.addEventListener('click', function(){
-    this.parentElement.parentElement.parentElement.classList.remove(isVisible);
-  })
+  elm.addEventListener('click', function () {
+    this.closest('.full-site-modal, .modal').classList.remove(isVisible);
+  });
 }
 
-// Individual Modals
 document.addEventListener('click', (e) => {
-  if (e.target === document.querySelector('.modal.is-visible')) {
-    document.querySelector('.modal.is-visible').classList.remove(isVisible);
+  const visibleModal = document.querySelector('.modal.is-visible');
+  if (visibleModal && e.target === visibleModal) {
+    visibleModal.classList.remove(isVisible);
   }
-})
+});
 
 document.addEventListener('keyup', (e) => {
   if (e.key === 'Escape') {
-    document.querySelector('.modal.is-visible').classList.remove(isVisible);
+    const visibleModal = document.querySelector('.modal.is-visible, .full-site-modal.is-visible');
+    if (visibleModal) visibleModal.classList.remove(isVisible);
   }
-})
+});
 
-
-//animation 
-const elmsDisplayed = getComputedStyle(root).getPropertyValue('--marquee-elms-displayed');
+// =============================================
+// MARQUEE
+// =============================================
+const elmsDisplayed  = getComputedStyle(root).getPropertyValue('--marquee-elms-displayed');
 const marqueeContent = document.querySelector('ul.marquee-content');
 
-root.style.setProperty('--marquee-elms', marqueeContent.children.length);
-
-for (let i = 0; i < elmsDisplayed; i += 1) {
-  marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+if (marqueeContent) {
+  root.style.setProperty('--marquee-elms', marqueeContent.children.length);
+  for (let i = 0; i < elmsDisplayed; i += 1) {
+    marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+  }
 }
-//get elements displayed 
-//node list length
-// assign marquee-elms and nodelist.length
 
+// =============================================
+// TYPING EFFECT
+// =============================================
+const typingPhrases = [
+  'Code. Eat. Sleep.',
+  'Full-Stack Developer.',
+  'Cloud Architect.',
+  'React Native Builder.',
+  'Problem Solver.',
+];
+
+const typingEl   = document.getElementById('typingText');
+let phraseIdx    = 0;
+let charIdx      = 0;
+let isDeleting   = false;
+
+function typeEffect() {
+  if (!typingEl) return;
+  const current = typingPhrases[phraseIdx];
+
+  if (isDeleting) {
+    typingEl.textContent = current.substring(0, charIdx - 1);
+    charIdx--;
+  } else {
+    typingEl.textContent = current.substring(0, charIdx + 1);
+    charIdx++;
+  }
+
+  let delay = isDeleting ? 40 : 80;
+
+  if (!isDeleting && charIdx === current.length) {
+    delay = 2000;
+    isDeleting = true;
+  } else if (isDeleting && charIdx === 0) {
+    isDeleting = false;
+    phraseIdx  = (phraseIdx + 1) % typingPhrases.length;
+    delay = 400;
+  }
+
+  setTimeout(typeEffect, delay);
+}
+
+typeEffect();
+
+// =============================================
+// HERO STATS COUNTER
+// =============================================
+const animateCounter = (el, target) => {
+  let current = 0;
+  const step  = Math.ceil(target / 50);
+  const interval = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current + '+';
+    if (current >= target) clearInterval(interval);
+  }, 30);
+};
+
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) {
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.stat-number').forEach(num => {
+          animateCounter(num, parseInt(num.dataset.target, 10));
+        });
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statsObserver.observe(heroStats);
+}
+
+// =============================================
+// SKILL BAR ANIMATION
+// =============================================
+const skillBarsContainer = document.querySelector('.skill-bars');
+if (skillBarsContainer) {
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.level + '%';
+        });
+        skillObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  skillObserver.observe(skillBarsContainer);
+}
+
+// =============================================
+// RORK CODE SNIPPET EXPAND / COLLAPSE
+// =============================================
+document.querySelectorAll('.expand-trigger').forEach(btn => {
+  btn.addEventListener('click', function () {
+    const targetId = this.dataset.target;
+    const content  = document.getElementById(targetId);
+    const arrow    = this.querySelector('.expand-arrow');
+    const isOpen   = content.classList.contains('open');
+
+    // close all
+    document.querySelectorAll('.code-collapse.open').forEach(el => {
+      el.classList.remove('open');
+    });
+    document.querySelectorAll('.expand-arrow.rotated').forEach(el => {
+      el.classList.remove('rotated');
+    });
+
+    // open clicked if it was closed
+    if (!isOpen) {
+      content.classList.add('open');
+      if (arrow) arrow.classList.add('rotated');
+    }
+  });
+});
+
+// =============================================
+// HERO PARTICLE CANVAS
+// =============================================
+(function initParticles() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  const resize = () => {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  };
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x      = Math.random() * canvas.width;
+      this.y      = Math.random() * canvas.height;
+      this.vx     = (Math.random() - 0.5) * 0.4;
+      this.vy     = (Math.random() - 0.5) * 0.4;
+      this.radius = Math.random() * 1.8 + 0.4;
+      this.alpha  = Math.random() * 0.45 + 0.1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(73, 95, 239, ${this.alpha})`;
+      ctx.fill();
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width)  this.vx *= -1;
+      if (this.y < 0 || this.y > canvas.height)  this.vy *= -1;
+    }
+  }
+
+  for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+  const drawLines = () => {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx   = particles[i].x - particles[j].x;
+        const dy   = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(73, 95, 239, ${0.12 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  };
+
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(animate);
+  };
+
+  animate();
+})();

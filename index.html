@@ -8,13 +8,15 @@
   <link rel="stylesheet" href="./css/base.css">
   <link rel="stylesheet" href="./css/styles.css">
   <link rel="stylesheet" href="./css/pages.css">
-  <title>Folio</title>
+  <link rel="stylesheet" href="./css/chat.css">
+  <title>Daniel Ryland | Developer</title>
 </head>
 <body>
-  <!--Page Theme-->
+
+  <!-- Page Theme -->
   <div class="theme-panel">
     <div class="theme-body">
-      <span>Change Theme</span>
+      <span>Theme</span>
       <div class="btn-group">
         <button data-toggle="light" class="switcher-btn active">Light</button>
         <button data-toggle="dark" class="switcher-btn">Dark</button>
@@ -24,11 +26,54 @@
       </button>
     </div>
   </div>
-  
-  <!--Main Site Wrapper-->
+
+  <!-- Side Navigation -->
+  <nav class="side-nav" id="sideNav" aria-label="Side navigation">
+    <div class="side-nav-inner">
+      <button class="side-nav-close" id="sideNavClose" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="side-nav-brand">
+        <span class="brand-initials">DR</span>
+        <span class="brand-full">Daniel Ryland</span>
+      </div>
+      <ul class="side-nav-links ul-defaults-none">
+        <li><a href="#hero" class="side-link" data-sidenav-close>Home</a></li>
+        <li><a href="#rork" class="side-link" data-sidenav-close>Rork Apps</a></li>
+        <li><a href="#projects" class="side-link" data-sidenav-close>Projects</a></li>
+        <li><a href="#skills" class="side-link" data-sidenav-close>Skills</a></li>
+        <li><a href="#" class="side-link" data-open="about" data-sidenav-close>About</a></li>
+        <li><a href="#" class="side-link" data-open="contact" data-sidenav-close>Contact</a></li>
+      </ul>
+      <div class="side-nav-socials">
+        <a href="https://github.com/Daryland" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/daniel-ryland-1b233a68/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://codepen.io/daryland" target="_blank" rel="noopener" aria-label="CodePen">
+          <i class="fab fa-codepen"></i>
+        </a>
+      </div>
+      <div class="side-nav-cert">
+        <i class="fab fa-aws"></i>
+        <span>AWS Certified Cloud Practitioner</span>
+      </div>
+    </div>
+  </nav>
+  <div class="side-nav-overlay" id="sideNavOverlay"></div>
+
+  <!-- Main Site Wrapper -->
   <main class="site-wrapper">
+
     <header class="site-header">
       <nav class="navbar">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+        </button>
         <div class="brand-logo">
           <a href="/"><h2>folio.</h2></a>
         </div>
@@ -42,424 +87,790 @@
       </nav>
     </header>
 
-  <!--Hero Section-->
-  <section class="hero-bg">
-    <div class="container">
-      <div class="hero-content">
-        <div class="code-icon">
-          <i class="fas fa-code"></i>
-        </div>
-        <h2 class="header-lg">Code. Eat. Sleep.</h2>
-        <div class="sub-header">I create meaningful solutions for your brands and products.
-          <br>
-          Give your customers the best experience possible.
-        </div>
-        <div class="btn btn-primary round-pill">
-          <a href="#" data-open="contact">Let's talk now</a>
-        </div>
-      </div>
+    <!-- Chat Widget -->
+    <div id="chatOpenButton" class="chat-open-btn" onclick="showChatBox()">
+      <i class="fas fa-comment-dots"></i> Portfolio Chat
     </div>
-  </section>
-
-  <!--Portfolio section-->
-  <section class="portfolio-section">
-    <div class="container search-container">
-      <label for="search">
-        <input autocomplete="off" id="search" type="text" class="search-input" placeholder="Search...">
-        <i class="fas fa-search"></i>
-      </label>
-      <ul class="portfolio-filter-nav ul-defaults-none">
-        <li data-filter="all"class="filter-link active">All Work</li>
-        <li data-filter="web"class="filter-link">Web Development</li>
-        <li data-filter="app"class="filter-link">App Development</li>
-        <li data-filter="ui"class="filter-link">UI Design</li>
-      </ul>
-    </div>
-
-    <div class="portfolio-grid">
-
-      <div class="portfolio-card" data-item="web" data-open="web-1"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-1.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>Web Development</div>
-            <h3>Food Website</h3>
+    <div id="chatContainer" class="chat-wrapper">
+      <div id="chatWindow" class="chat-window">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <span class="chat-status-dot"></span>
+            Portfolio Assistant
+          </div>
+          <div id="chatControls">
+            <button onclick="minimizeChat()" title="Minimize"><i class="fas fa-minus"></i></button>
+            <button onclick="hideChatBox()" title="Close"><i class="fas fa-times"></i></button>
           </div>
         </div>
-      </div>
-      <div class="portfolio-card" data-item="web" data-open="web-2"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-2.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>Web Development</div>
-            <h3>Food Website</h3>
-          </div>
+        <div class="chat-body" id="chatMessages">
+          <div class="message assistant">Hi! Ask me about Daniel's projects, skills, or experience.</div>
         </div>
-      </div>
-      <div class="portfolio-card" data-item="web" data-open="web-3"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-3.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>Web Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card" data-item="web" data-open="web-4"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-4.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>Web Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card" data-item="app" data-open="app-1"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-5.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>App Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card" data-item="app" data-open="app-2"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-6.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>App Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card" data-item="ui" data-open="ui-1"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-7.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>UI Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-      <div class="portfolio-card" data-item="ui" data-open="ui-2"> 
-        <div class="card-body">
-          <img src="./assests/images/portfolio-8.jpg" alt="portfolio-icon">
-          <div class="card-popup-box">
-            <div>UI Development</div>
-            <h3>Food Website</h3>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!--Carousel for reviews-->
-
-  <section class="reviews">
-    <div class="review-title">What People Say</div>
-    <h2 class="header-md">Trusted by Clients</h2>
-    <div class="review-preview">
-      <img src="./assests/images/cube.png" alt="cube">
-    </div>
-
-    <div class="review-carousel">
-
-      <div class="review-item">
-        <div class="review-text">
-          #1 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </div>
-        <div class="review-author">
-          <div class="avatar">
-            <img src="./assests/images/ava-1.jpg" alt="avatar">
-          </div>
-          <div class="details">
-            <div class="name">Daniel Ryland</div>
-            <div class="company">CCS</div>
-          </div>
-        </div>
-      </div>
-      <div class="review-item">
-        <div class="review-text">
-          #2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </div>
-        <div class="review-author">
-          <div class="avatar">
-            <img src="./assests/images/ava-1.jpg" alt="avatar">
-          </div>
-          <div class="details">
-            <div class="name">John Doe</div>
-            <div class="company">Meta</div>
-          </div>
-        </div>
-      </div>
-      <div class="review-item">
-        <div class="review-text">
-          #3 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </div>
-        <div class="review-author">
-          <div class="avatar">
-            <img src="./assests/images/ava-1.jpg" alt="avatar">
-          </div>
-          <div class="details">
-            <div class="name">Jane Doe</div>
-            <div class="company">NetFlix</div>
-          </div>
-        </div>
-      </div>
-      <div class="review-item">
-        <div class="review-text">
-          #4 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </div>
-        <div class="review-author">
-          <div class="avatar">
-            <img src="./assests/images/ava-1.jpg" alt="avatar">
-          </div>
-          <div class="details">
-            <div class="name">Dallas Niles</div>
-            <div class="company">NetFlix</div>
-          </div>
+        <div class="chat-footer">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask about my work..."
+            onkeypress="if(event.key === 'Enter') sendMessage()"
+          />
+          <button onclick="sendMessage()">Send</button>
         </div>
       </div>
     </div>
 
-    <div class="slide-ctrl-container">
-      <button>
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <button>
-        <i class="fas fa-arrow-right"></i>
-      </button>
-    </div>
-
-
-
-
-  </section>
-
-   <!--Modals-->
-  <!--About Page Modal-->
-  <div id="about" class="full-site-modal page-block" data-animation="zoomInOut">
-    <div class="container-fluid">
-      <header class="modal-header">
-        <h3>About Page</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="/assests/images/DALL·E 2023-04-26 11.44.48 -Shinto god of wisdom and intelligence.png" alt="head shot">
-        </div>
-        <div class="about-text">
-          <h2 class="header-md">Daniel Ryland</h2>
-          <p>IT professional with expertise in HTML, CSS, GIT, JavaScript, SQL, Python, Typscript, UX, Figma and React. 
-            Skilled in building robust infrastructures for businesses, 
-            troubleshooting complex technical issues, and setting up networks 
-            and workstations for clients. Adept at project management and consulting, 
-            with proven abilities in plan reading, takeoffs, and forging long-term business 
-            relationships. A strong sales background with proficiency in building and 
-            maintaining client relationships, delivering customized products to meet 
-            their unique needs, and utilizing the "feel, felt, found" approach to customer engagement.</p>
-          <p>• Skills: HTML5; CSS; JavaScript; Git; MongoDB; TailWind; Splunk; Python; React; AI; Figma; BootStrap; NET+; Adobe Photoshop;
-            SQL; TypeScript LINUX; WINDOWS; MAC; Project Management; Networking; IT; Troubleshooting
-            <br>
-            • Interests: Jiu Jitsu; Nutrition; Health & Science; Gaming; Climbing; Classical Guitar; Longevity</p>
-          <div class="contact-me-block">
-            <div>Email Me:</div>
-            <a href="mailto:Daniel.Ryland@pm.me">Daniel.Ryland@pm.me</a>
+    <!-- Hero Section -->
+    <section class="hero-bg" id="hero">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <i class="fab fa-aws"></i>
+            AWS Certified Cloud Practitioner
+          </div>
+          <h2 class="header-lg">
+            <span id="typingText" class="typing-cursor"></span>
+          </h2>
+          <div class="sub-header">
+            Full-Stack Developer based in Oklahoma.<br>
+            Building scalable cloud solutions and intuitive mobile experiences.
+          </div>
+          <div class="hero-cta">
+            <div class="btn btn-primary round-pill">
+              <a href="#" data-open="contact">Let's work together</a>
+            </div>
+            <a href="#rork" class="btn-ghost">View Projects ↓</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <span class="stat-number" data-target="111">0</span>
+              <span class="stat-label">GitHub Repos</span>
+            </div>
+            <div class="hero-stat">
+              <span class="stat-number" data-target="3">0</span>
+              <span class="stat-label">Published Apps</span>
+            </div>
+            <div class="hero-stat">
+              <span class="stat-number" data-target="10">0</span>
+              <span class="stat-label">Core Technologies</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="marquee">
-        <ul class="marquee-content">
-          <li><i class="fab fa-github"></i></li>
-          <li><i class="fab fa-codepen"></i></li>
-          <li><i class="fab fa-dev"></i></li>
-          <li><i class="fab fa-react"></i></li>
-          <li><i class="fab fa-vuejs"></i></li>
-          <li><i class="fab fa-angular"></i></li>
-          <li><i class="fab fa-node"></i></li>
-          <li><i class="fab fa-aws"></i></li>
-          <li><i class="fab fa-docker"></i></li>
-          <li><i class="fab fa-android"></i></li>
+    </section>
+
+    <!-- Rork Apps Section -->
+    <section class="rork-section" id="rork">
+      <div class="container">
+        <div class="section-label">
+          <span class="section-tag">Mobile Apps</span>
+          <h2 class="header-md">Built with Rork</h2>
+          <p class="section-desc">Cross-platform React Native applications deployed via the Rork platform</p>
+        </div>
+
+        <div class="rork-grid">
+
+          <!-- SchedulerX -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">📅</div>
+              <div class="rork-meta">
+                <div class="rork-category">Productivity · React Native</div>
+                <h3 class="rork-title">SchedulerX</h3>
+              </div>
+              <a href="https://schedulerx.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open SchedulerX">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A smart scheduling utility app for managing appointments, time blocks, and recurring events. Built with React Native and Expo via the Rork platform, available on iOS and Android.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Expo</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Rork</span>
+            </div>
+            <button class="expand-trigger" data-target="snippet-schedulerx">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-schedulerx">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> scheduler.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface ScheduleEvent {
+  id: string;
+  title: string;
+  startTime: Date;
+  endTime: Date;
+  recurring?: 'daily' | 'weekly' | 'monthly';
+  participants: string[];
+}
+
+const createEvent = async (
+  event: Omit&lt;ScheduleEvent, 'id'&gt;
+): Promise&lt;ScheduleEvent&gt; =&gt; {
+  const newEvent = {
+    ...event,
+    id: crypto.randomUUID(),
+  };
+  await AsyncStorage.setItem(
+    `event:${newEvent.id}`,
+    JSON.stringify(newEvent)
+  );
+  return newEvent;
+};
+
+const getAvailability = async (
+  userId: string,
+  date: Date
+): Promise&lt;TimeSlot[]&gt; =&gt; {
+  const events = await fetchUserEvents(userId);
+  return buildTimeSlots(date, events);
+};</code></pre>
+            </div>
+          </div>
+
+          <!-- Recipe Vault -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🍳</div>
+              <div class="rork-meta">
+                <div class="rork-category">Food &amp; Lifestyle · React Native</div>
+                <h3 class="rork-title">Recipe Vault</h3>
+              </div>
+              <a href="https://recipe-vault-t5shvji.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open Recipe Vault">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A mobile recipe management app to save, organize, and discover recipes. Features smart search, ingredient tracking, and custom collections for the health-conscious cook.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Expo</span>
+              <span class="tech-tag">AsyncStorage</span>
+              <span class="tech-tag">Rork</span>
+            </div>
+            <button class="expand-trigger" data-target="snippet-recipe">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-recipe">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> recipeStore.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface Recipe {
+  id: string;
+  title: string;
+  ingredients: Ingredient[];
+  instructions: string[];
+  prepTime: number;
+  servings: number;
+  tags: string[];
+  imageUri?: string;
+}
+
+const RecipeStore = {
+  save: async (recipe: Recipe): Promise&lt;void&gt; =&gt; {
+    const existing = await AsyncStorage
+      .getItem('recipes');
+    const recipes: Recipe[] = JSON.parse(
+      existing ?? '[]'
+    );
+    const idx = recipes.findIndex(
+      r =&gt; r.id === recipe.id
+    );
+    if (idx &gt;= 0) recipes[idx] = recipe;
+    else recipes.push(recipe);
+    await AsyncStorage.setItem(
+      'recipes', JSON.stringify(recipes)
+    );
+  },
+
+  search: async (query: string): Promise&lt;Recipe[]&gt; =&gt; {
+    const all = await RecipeStore.getAll();
+    const q = query.toLowerCase();
+    return all.filter(r =&gt;
+      r.title.toLowerCase().includes(q) ||
+      r.tags.some(t =&gt; t.toLowerCase().includes(q))
+    );
+  },
+};</code></pre>
+            </div>
+          </div>
+
+          <!-- Framework Coaching -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🎯</div>
+              <div class="rork-meta">
+                <div class="rork-category">Productivity · React Native</div>
+                <h3 class="rork-title">Framework Coaching</h3>
+              </div>
+              <a href="https://framework-coaching-app-ke7rr14.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open Framework Coaching App">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A structured coaching application guiding users through proven performance frameworks. Track goals, milestones, and personal progress with interactive coaching modules.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Expo</span>
+              <span class="tech-tag">Context API</span>
+              <span class="tech-tag">Rork</span>
+            </div>
+            <button class="expand-trigger" data-target="snippet-coaching">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-coaching">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> coachingEngine.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface Goal {
+  id: string;
+  title: string;
+  milestones: Milestone[];
+  targetDate: Date;
+  progress: number; // 0–100
+}
+
+interface Milestone {
+  id: string;
+  title: string;
+  completed: boolean;
+  completedAt?: Date;
+}
+
+const trackProgress = (goal: Goal): Goal =&gt; {
+  const completed = goal.milestones
+    .filter(m =&gt; m.completed).length;
+  return {
+    ...goal,
+    progress: goal.milestones.length
+      ? Math.round(
+          (completed / goal.milestones.length) * 100
+        )
+      : 0,
+  };
+};
+
+const getNextMilestone = (goal: Goal) =&gt;
+  goal.milestones.find(m =&gt; !m.completed) ?? null;</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio / Projects Section -->
+    <section class="portfolio-section" id="projects">
+      <div class="container">
+        <div class="section-label">
+          <span class="section-tag">Work</span>
+          <h2 class="header-md">All Projects</h2>
+        </div>
+      </div>
+      <div class="container search-container">
+        <label for="search">
+          <input autocomplete="off" id="search" type="text" class="search-input" placeholder="Search projects...">
+          <i class="fas fa-search"></i>
+        </label>
+        <ul class="portfolio-filter-nav ul-defaults-none">
+          <li data-filter="all" class="filter-link active">All</li>
+          <li data-filter="web" class="filter-link">Web</li>
+          <li data-filter="app" class="filter-link">Mobile</li>
+          <li data-filter="cloud" class="filter-link">Cloud / AI</li>
+          <li data-filter="ui" class="filter-link">UI / Design</li>
         </ul>
       </div>
-    </div>
-  </div>
-  <!--Contact Page Modal-->
-  <div id="contact" class="full-site-modal page-block" data-animation="zoomInOut">
-    <div class="container-fluid">
-      <header class="modal-header">
-        <h3>Contact Page</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="contact-text">
-          <h2 class="header-md">Daniel Ryland</h2>
-          <div>Have a project or question? Send me a message!</div>
-          <div>I will reply in 48 hours.</div>
-        </div>
-        <form class="folio-form">
-          <input class="form-control"  type="name" name="Name" placeholder="Name">
-          <input class="form-control" type="email" name="email" placeholder="Email">
-          <input class="form-control" type="text" name="subject" placeholder="Subject">
-          <textarea class="form-control" name="message"cols="30" rows="3" placeholder="Write your message..."></textarea>
-          <input class="btn btn-primary round-pill" type="submit" value="Send">
-        </form>
-      </div>
-    </div>
-  </div>
 
-  <!--PopUp Modals-->
-  <div id="web-1" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>Web Project 1</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-1.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="web-2" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>Web Project 2</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-2.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="web-3" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>Web Project 3</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-3.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="web-4" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>Web Project 4</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-4.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="app-1" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>App Project 1</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-5.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="app-2" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>App Project 2</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-6.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="ui-1" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>UI Project 1</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-7.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="ui-2" class="modal" data-animation="slideInOutTop">
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h3>UI Project 2</h3>
-        <i class="fas fa-times" data-close></i>
-      </header>
-      <div class="modal-body">
-        <div class="img-wrapper">
-          <img src="./assests/images/portfolio-8.jpg" alt="portfolio image">
-        </div>
-        <div class="text-wrapper">
-          <p><strong>My first Website</strong></p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+      <div class="portfolio-grid">
 
+        <div class="portfolio-card" data-item="web" data-name="portfolio site daryland" data-open="proj-portfolio">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-1.jpg" alt="Portfolio site">
+            <div class="card-popup-box">
+              <div>Web Development</div>
+              <h3>This Portfolio</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="cloud" data-name="aws cloud infrastructure lambda" data-open="proj-cloud">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-2.jpg" alt="AWS Cloud">
+            <div class="card-popup-box">
+              <div>Cloud / AWS</div>
+              <h3>AWS Infrastructure</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="web" data-name="curriculo resume builder" data-open="proj-curriculo">
+          <div class="card-body">
+            <img src="./assests/images/Curriculo.jpg" alt="Curriculo">
+            <div class="card-popup-box">
+              <div>Web Development</div>
+              <h3>Curriculo</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="web" data-name="cool peptides nutrition health science" data-open="proj-peptides">
+          <div class="card-body">
+            <img src="./assests/images/coolpeptides.jpg.jpg" alt="Cool Peptides">
+            <div class="card-popup-box">
+              <div>Web Development</div>
+              <h3>Cool Peptides</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="app" data-name="schedulerx scheduling mobile app rork" data-open="proj-schedulerx">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-5.jpg" alt="SchedulerX">
+            <div class="card-popup-box">
+              <div>Mobile App</div>
+              <h3>SchedulerX</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="app" data-name="recipe vault food mobile rork" data-open="proj-recipe">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-6.jpg" alt="Recipe Vault">
+            <div class="card-popup-box">
+              <div>Mobile App</div>
+              <h3>Recipe Vault</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="ui" data-name="ui design system figma" data-open="proj-ui">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-7.jpg" alt="UI Design">
+            <div class="card-popup-box">
+              <div>UI / Design</div>
+              <h3>Design System</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="ui" data-name="codepen experiments css javascript creative" data-open="proj-codepen">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-8.jpg" alt="CodePen">
+            <div class="card-popup-box">
+              <div>UI / Creative</div>
+              <h3>CodePen Experiments</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section" id="skills">
+      <div class="container">
+        <div class="section-label">
+          <span class="section-tag">Expertise</span>
+          <h2 class="header-md">Skills &amp; Stack</h2>
+        </div>
+        <div class="skills-layout">
+          <div class="skill-bars">
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>TypeScript / JavaScript</span>
+                <span class="skill-pct">92%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="92"></div>
+              </div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>React / React Native</span>
+                <span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="90"></div>
+              </div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>Node.js / Express</span>
+                <span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="88"></div>
+              </div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>AWS / Cloud</span>
+                <span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="85"></div>
+              </div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>SQL / MongoDB</span>
+                <span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="80"></div>
+              </div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-label">
+                <span>Python</span>
+                <span class="skill-pct">75%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" data-level="75"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tech-cloud">
+            <span class="tech-tag-cloud highlight">React</span>
+            <span class="tech-tag-cloud">HTML5</span>
+            <span class="tech-tag-cloud highlight">AWS</span>
+            <span class="tech-tag-cloud">Vue.js</span>
+            <span class="tech-tag-cloud highlight">Node.js</span>
+            <span class="tech-tag-cloud">CSS3</span>
+            <span class="tech-tag-cloud highlight">TypeScript</span>
+            <span class="tech-tag-cloud">Docker</span>
+            <span class="tech-tag-cloud">GraphQL</span>
+            <span class="tech-tag-cloud highlight">Git</span>
+            <span class="tech-tag-cloud">Figma</span>
+            <span class="tech-tag-cloud">Python</span>
+            <span class="tech-tag-cloud">MySQL</span>
+            <span class="tech-tag-cloud highlight">MongoDB</span>
+            <span class="tech-tag-cloud">Tailwind</span>
+            <span class="tech-tag-cloud">Linux</span>
+            <span class="tech-tag-cloud">Splunk</span>
+            <span class="tech-tag-cloud">Bootstrap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews">
+      <div class="review-title">What People Say</div>
+      <h2 class="header-md">Trusted by Clients</h2>
+      <div class="review-preview">
+        <img src="./assests/images/cube.png" alt="cube">
+      </div>
+      <div class="review-carousel">
+        <div class="review-item">
+          <div class="review-text">
+            Daniel delivered our AWS infrastructure on time and under budget. His cloud expertise and attention to security best practices was impressive throughout.
+          </div>
+          <div class="review-author">
+            <div class="avatar"><img src="./assests/images/ava-1.jpg" alt="avatar"></div>
+            <div class="details">
+              <div class="name">Alex M.</div>
+              <div class="company">Startup CTO</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-text">
+            The React Native app Daniel built for us was smooth, intuitive, and shipped on schedule. Great communicator and problem solver throughout the whole process.
+          </div>
+          <div class="review-author">
+            <div class="avatar"><img src="./assests/images/ava-1.jpg" alt="avatar"></div>
+            <div class="details">
+              <div class="name">Sarah L.</div>
+              <div class="company">Product Manager</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-text">
+            Daniel has a rare combination of solid engineering skills and strong client communication. He turned our vague concept into a polished, working product.
+          </div>
+          <div class="review-author">
+            <div class="avatar"><img src="./assests/images/ava-1.jpg" alt="avatar"></div>
+            <div class="details">
+              <div class="name">Mike T.</div>
+              <div class="company">Founder</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-item">
+          <div class="review-text">
+            Working with Daniel on our full-stack project was seamless. His TypeScript knowledge and React expertise helped us ship a robust, maintainable application.
+          </div>
+          <div class="review-author">
+            <div class="avatar"><img src="./assests/images/ava-1.jpg" alt="avatar"></div>
+            <div class="details">
+              <div class="name">Jordan K.</div>
+              <div class="company">Engineering Lead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-ctrl-container">
+        <button><i class="fas fa-arrow-left"></i></button>
+        <button><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- About Modal -->
+    <div id="about" class="full-site-modal page-block" data-animation="zoomInOut">
+      <div class="container-fluid">
+        <header class="modal-header">
+          <h3>About</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="/assests/images/DALL·E 2023-04-26 11.44.48 -Shinto god of wisdom and intelligence.png" alt="Daniel Ryland">
+          </div>
+          <div class="about-text">
+            <h2 class="header-md">Daniel Ryland</h2>
+            <div class="about-badges">
+              <span class="about-badge"><i class="fab fa-aws"></i> AWS Certified</span>
+              <span class="about-badge"><i class="fas fa-map-marker-alt"></i> Oklahoma</span>
+              <span class="about-badge"><i class="fas fa-code"></i> Full-Stack Dev</span>
+            </div>
+            <p>IT professional and Full-Stack Developer with expertise in cloud architecture, mobile development, and modern web technologies. AWS Certified Cloud Practitioner with hands-on experience building scalable infrastructure, React Native applications, and full-stack web services.</p>
+            <p>Skilled in building robust cloud infrastructures, troubleshooting complex technical systems, and delivering polished client-facing products. Strong background in project management and consulting with proven ability to build long-term client relationships.</p>
+            <div class="about-links">
+              <a href="https://github.com/Daryland" target="_blank" rel="noopener" class="about-social-link">
+                <i class="fab fa-github"></i> GitHub (111 repos)
+              </a>
+              <a href="https://www.linkedin.com/in/daniel-ryland-1b233a68/" target="_blank" rel="noopener" class="about-social-link">
+                <i class="fab fa-linkedin"></i> LinkedIn
+              </a>
+              <a href="https://codepen.io/daryland" target="_blank" rel="noopener" class="about-social-link">
+                <i class="fab fa-codepen"></i> CodePen
+              </a>
+            </div>
+            <p class="about-interests"><strong>Interests:</strong> Jiu Jitsu · Nutrition &amp; Longevity · Health Science · Gaming · Rock Climbing · Classical Guitar</p>
+            <div class="contact-me-block">
+              <div>Email:</div>
+              <a href="mailto:Daniel.Ryland@pm.me">Daniel.Ryland@pm.me</a>
+            </div>
+          </div>
+        </div>
+        <div class="marquee">
+          <ul class="marquee-content">
+            <li><i class="fab fa-github"></i></li>
+            <li><i class="fab fa-codepen"></i></li>
+            <li><i class="fab fa-react"></i></li>
+            <li><i class="fab fa-vuejs"></i></li>
+            <li><i class="fab fa-node"></i></li>
+            <li><i class="fab fa-aws"></i></li>
+            <li><i class="fab fa-docker"></i></li>
+            <li><i class="fab fa-python"></i></li>
+            <li><i class="fab fa-android"></i></li>
+            <li><i class="fab fa-figma"></i></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact" class="full-site-modal page-block" data-animation="zoomInOut">
+      <div class="container-fluid">
+        <header class="modal-header">
+          <h3>Contact</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="contact-text">
+            <h2 class="header-md">Let's Connect</h2>
+            <div>Have a project or question? I'd love to hear from you.</div>
+            <div>I typically reply within 48 hours.</div>
+            <div class="contact-social-row">
+              <a href="https://github.com/Daryland" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://www.linkedin.com/in/daniel-ryland-1b233a68/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+              <a href="mailto:Daniel.Ryland@pm.me" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <form class="folio-form">
+            <input class="form-control" type="text" name="Name" placeholder="Name">
+            <input class="form-control" type="email" name="email" placeholder="Email">
+            <input class="form-control" type="text" name="subject" placeholder="Subject">
+            <textarea class="form-control" name="message" cols="30" rows="3" placeholder="Write your message..."></textarea>
+            <input class="btn btn-primary round-pill" type="submit" value="Send Message">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Modals -->
+    <div id="proj-portfolio" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>This Portfolio</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-1.jpg" alt="Portfolio">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>daryland.github.io</strong></p>
+            <p>A personal portfolio built with vanilla HTML, CSS, and JavaScript. Features dynamic theme switching, filterable project grid, modal system, animated skill bars, and an AI-powered chat assistant backed by an Express/OpenAI backend.</p>
+            <p><strong>Stack:</strong> HTML5 · CSS3 · JavaScript · Node.js · Express · OpenAI API</p>
+            <a href="https://github.com/Daryland/daryland.github.io" target="_blank" rel="noopener" class="modal-link">View on GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-cloud" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>AWS Infrastructure</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-2.jpg" alt="AWS Cloud">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Cloud Architecture Projects</strong></p>
+            <p>AWS-certified cloud infrastructure design and deployment. Includes serverless architectures with Lambda, S3, API Gateway, and DynamoDB. Experience with IAM, VPC configuration, and cloud security best practices.</p>
+            <p><strong>Stack:</strong> AWS · Lambda · S3 · DynamoDB · API Gateway · CloudFormation · IAM</p>
+            <a href="https://github.com/Daryland" target="_blank" rel="noopener" class="modal-link">View GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-curriculo" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>Curriculo</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/Curriculo.jpg" alt="Curriculo">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Curriculo — Resume Builder</strong></p>
+            <p>A modern resume and CV builder application. Allows users to create professional resumes with customizable templates, dynamic content sections, and export functionality. Clean, intuitive UI for fast resume creation.</p>
+            <p><strong>Stack:</strong> React · TypeScript · CSS · Node.js</p>
+            <a href="https://github.com/Daryland" target="_blank" rel="noopener" class="modal-link">View GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-peptides" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>Cool Peptides</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/coolpeptides.jpg.jpg" alt="Cool Peptides">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Cool Peptides — Nutrition Science</strong></p>
+            <p>A health and nutrition-focused web application exploring peptide science, longevity research, and performance optimization. Reflects a deep personal interest in health science, biohacking, and evidence-based nutrition.</p>
+            <p><strong>Stack:</strong> React · JavaScript · CSS · API Integration</p>
+            <a href="https://github.com/Daryland" target="_blank" rel="noopener" class="modal-link">View GitHub →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-schedulerx" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>SchedulerX</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-5.jpg" alt="SchedulerX">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>SchedulerX — Smart Scheduling App</strong></p>
+            <p>A productivity mobile app for managing appointments, recurring events, and time blocks. Built with React Native via the Rork platform. Available on iOS and Android via Expo Go.</p>
+            <p><strong>Stack:</strong> React Native · Expo · TypeScript · AsyncStorage · Rork</p>
+            <a href="https://schedulerx.rork.app" target="_blank" rel="noopener" class="modal-link">Launch App →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-recipe" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>Recipe Vault</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-6.jpg" alt="Recipe Vault">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Recipe Vault — Mobile Recipe Manager</strong></p>
+            <p>A mobile app for saving, organizing, and discovering recipes. Features smart search, ingredient tracking, and custom collections. Built with React Native via the Rork platform for iOS and Android.</p>
+            <p><strong>Stack:</strong> React Native · Expo · AsyncStorage · TypeScript · Rork</p>
+            <a href="https://recipe-vault-t5shvji.rork.app" target="_blank" rel="noopener" class="modal-link">Launch App →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-ui" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>UI Design System</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-7.jpg" alt="UI Design">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>UI / UX Design Projects</strong></p>
+            <p>Figma-based design system work including component libraries, wireframes, and high-fidelity prototypes. Focused on creating clean, accessible interfaces that balance aesthetics with usability.</p>
+            <p><strong>Tools:</strong> Figma · Adobe Illustrator · Adobe Photoshop · CSS3 · Tailwind</p>
+            <a href="https://codepen.io/daryland" target="_blank" rel="noopener" class="modal-link">View CodePen →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-codepen" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>CodePen Experiments</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-8.jpg" alt="CodePen">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Creative CSS &amp; JS Experiments</strong></p>
+            <p>A collection of interactive UI experiments, CSS animations, and JavaScript micro-projects published on CodePen. Exploring creative frontend concepts from particle systems to generative art and interactive components.</p>
+            <p><strong>Stack:</strong> HTML · CSS · JavaScript · Canvas API</p>
+            <a href="https://codepen.io/daryland" target="_blank" rel="noopener" class="modal-link">View on CodePen →</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </main>
-  
+
   <script src="/js/main.js"></script>
   <script src="/js/carousel.js"></script>
+  <script src="/js/chat.js"></script>
 </body>
 </html>
