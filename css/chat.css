@@ -255,6 +255,21 @@
 }
 
 /* =============================================
+   LINKS INSIDE MESSAGES
+   ============================================= */
+.message.assistant a {
+  color: #495fef;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+  transition: color 0.15s;
+}
+
+.message.assistant a:hover {
+  color: #3a4fd6;
+}
+
+/* =============================================
    MOBILE
    ============================================= */
 @media (max-width: 480px) {

@@ -133,6 +133,34 @@ const OFF_TOPIC_KEYWORDS = [
 const GUARDRAIL_REPLY = "I can only answer questions about Daniel Ryland's portfolio and the projects on this website. Feel free to ask about his skills, apps, or how to get in touch!";
 const HOWTO_REPLY = "That's exactly what Daniel specializes in! He'd love to help — reach out at Daniel.Ryland@pm.me or connect on LinkedIn at linkedin.com/in/daniel-ryland-1b233a68 to discuss your project.";
 
+// =============================================
+// FAIL-RATE RESPONSES — jokes & poems (3x rule)
+// =============================================
+const FUN_REPLIES = [
+  // Dad jokes
+  "Why do programmers prefer dark mode?\nBecause light attracts bugs! 🐛\n\nAsk me something about Daniel's portfolio instead!",
+  "A SQL query walks into a bar and asks two tables:\n'Can I JOIN you?' 🍺\n\nI'm more of a portfolio-questions bar, though!",
+  "Why did the JavaScript developer wear glasses?\nBecause he couldn't C#! 🤓\n\nAsk about Daniel's projects or skills — I'm great at those!",
+  "I told my computer I needed a break.\nNow it won't stop sending me vacation ads. 💻\n\nBack on topic — what would you like to know about Daniel?",
+  "Why do Java developers wear glasses?\nBecause they don't C#! 👓\n\n(Yes, two glasses jokes. I contain multitudes. Ask about Daniel!)",
+  // Snarky poems
+  "Roses are red,\nCode compiles clean,\nI only know Daniel's portfolio —\nYou know what I mean! 📜",
+  "Violets are blue,\nMy scope is quite small,\nAsk about Daniel's work,\nOr don't ask at all! 🎭",
+  "There once was a bot on a site,\nWhose knowledge was narrow but bright.\nAsk about Daniel's apps,\nOr his coding perhaps,\nAnd I'll answer you perfectly right! ✨",
+  "I'm a portfolio bot, not a genie,\nMy magic is Daniel's work, you see.\nAsk about his tech stack,\nAnd I'll fire right back —\nBut off-topic? That answer's a fee! 🧞",
+];
+
+const CONTACT_PROMPT = `Alright, we keep drifting off-script! 🎡 Let me steer us back to what I actually know:
+
+📁 Ask about Daniel's projects — Curriculo, SchedulerX, Recipe Vault, and more
+🛠️ Ask about his skills — TypeScript, React Native, AWS, Node.js, and 15+ more
+📬 Ready to connect? Reach out directly:
+   → [LinkedIn](https://linkedin.com/in/daniel-ryland-1b233a68)
+   → [GitHub](https://github.com/Daryland)
+   → Email: Daniel.Ryland@pm.me
+
+What would you like to know?`;
+
 const HOW_TO_PATTERNS = [
   /how\s+(do\s+I|to|can\s+I|would\s+I)\s+(build|create|make|develop|code|program|start|set\s+up|design|architect)\s+(a|an|my|the|your)/i,
   /\b(teach\s+me|walk\s+me\s+through|show\s+me\s+how\s+to)\s+(build|create|make|develop|code|program|design)/i,
@@ -159,6 +187,7 @@ app.post("/api/chat", async (req, res) => {
   console.log("✅ POST /api/chat hit");
 
   const userMessage = req.body.message;
+  const failCount = parseInt(req.body.failCount, 10) || 0;
 
   if (!userMessage || !userMessage.trim()) {
     return res.status(400).json({ reply: "Please send a message." });
@@ -167,8 +196,16 @@ app.post("/api/chat", async (req, res) => {
   // Layer 1: server-side pre-check
   const blockedReply = getBlockedReply(userMessage);
   if (blockedReply) {
-    console.log("🚫 Blocked message:", userMessage);
-    return res.json({ reply: blockedReply });
+    console.log(`🚫 Blocked (fail #${failCount + 1}):`, userMessage);
+
+    // 3rd+ consecutive fail → contact/redirect prompt
+    if (failCount >= 2) {
+      return res.json({ reply: CONTACT_PROMPT, blocked: true });
+    }
+
+    // 1st or 2nd fail → random joke or snarky poem
+    const fun = FUN_REPLIES[Math.floor(Math.random() * FUN_REPLIES.length)];
+    return res.json({ reply: fun, blocked: true });
   }
 
   try {
@@ -184,7 +221,7 @@ app.post("/api/chat", async (req, res) => {
     });
 
     const reply = completion.choices[0].message.content;
-    res.json({ reply });
+    res.json({ reply, blocked: false });
   } catch (error) {
     console.error("❌ Groq API error:", error.message);
     res.status(500).json({ reply: "Something went wrong. Please try again." });
