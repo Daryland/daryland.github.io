@@ -6,7 +6,7 @@ require("dotenv").config({ path: "../.env" });
 const OpenAI = require("openai");
 
 const app = express();
-const PORT = 5551;
+const PORT = process.env.PORT || 5551;
 
 // =============================================
 // CHROME PRIVATE NETWORK ACCESS FIX

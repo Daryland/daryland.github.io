@@ -93,7 +93,7 @@ async function sendMessage() {
   currentController = new AbortController();
 
   try {
-    const res = await fetch("http://localhost:5551/api/chat", {
+    const res = await fetch("https://invigorating-acceptance-production-926c.up.railway.app/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: text }),
