@@ -221,6 +221,24 @@ app.post("/api/chat", async (req, res) => {
     });
 
     const reply = completion.choices[0].message.content;
+
+    // Layer 3: detect if the LLM fell back to a guardrail response.
+    // Messages like random letters pass the server-side regex checks but are
+    // off-topic, so the LLM returns the system-prompt guardrail text.
+    // Catch those here so the fail-count logic still fires.
+    const llmBlocked =
+      reply.includes("I can only answer questions about Daniel Ryland") ||
+      reply.includes("That's exactly what Daniel specializes in");
+
+    if (llmBlocked) {
+      console.log(`🤖 LLM guardrail triggered (fail #${failCount + 1})`);
+      if (failCount >= 2) {
+        return res.json({ reply: CONTACT_PROMPT, blocked: true });
+      }
+      const fun = FUN_REPLIES[Math.floor(Math.random() * FUN_REPLIES.length)];
+      return res.json({ reply: fun, blocked: true });
+    }
+
     res.json({ reply, blocked: false });
   } catch (error) {
     console.error("❌ Groq API error:", error.message);
