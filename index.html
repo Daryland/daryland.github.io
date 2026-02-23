@@ -113,7 +113,10 @@
             placeholder="Ask about my work..."
             onkeypress="if(event.key === 'Enter') sendMessage()"
           />
-          <button onclick="sendMessage()">Send</button>
+          <button id="sendBtn" onclick="sendMessage()">Send</button>
+          <button id="stopBtn" onclick="stopMessage()" style="display:none">
+            <i class="fas fa-stop"></i>
+          </button>
         </div>
       </div>
     </div>

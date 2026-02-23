@@ -244,6 +244,16 @@
   transform: translateY(-1px);
 }
 
+#stopBtn {
+  background: #ef4444;
+  padding: 0.6rem 0.85rem;
+  flex-shrink: 0;
+}
+
+#stopBtn:hover {
+  background: #dc2626;
+}
+
 /* =============================================
    MOBILE
    ============================================= */
