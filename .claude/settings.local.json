@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:schedulerx.rork.app)",
+      "WebFetch(domain:recipe-vault-t5shvji.rork.app)",
+      "WebFetch(domain:framework-coaching-app-ke7rr14.rork.app)",
+      "WebFetch(domain:codepen.io)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git pull:*)",
+      "Bash(git push:*)",
+      "Bash(git stash:*)",
+      "Bash(git rebase:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
+    ]
+  }
+}
