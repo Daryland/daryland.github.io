@@ -9,26 +9,20 @@ const app = express();
 const PORT = 5551;
 
 // =============================================
-// CORS + CHROME PRIVATE NETWORK ACCESS FIX
-// Chrome blocks public HTTPS sites (GitHub Pages) from calling localhost
-// unless the server explicitly grants Private Network Access permission.
+// CHROME PRIVATE NETWORK ACCESS FIX
+// When a public HTTPS site (GitHub Pages) calls http://localhost, Chrome's
+// "Private Network Access" policy fires a preflight OPTIONS request and
+// requires the server to respond with Access-Control-Allow-Private-Network: true.
+// This header MUST be set BEFORE the cors() middleware runs, because cors()
+// intercepts OPTIONS and sends its own response — if the header isn't already
+// on the res object by then, Chrome never sees it and shows the permission prompt.
 // =============================================
-app.use(cors({ origin: "*", methods: ["POST", "OPTIONS"], allowedHeaders: ["Content-Type"] }));
-
-// Respond to the PNA preflight OPTIONS request Chrome sends before the real POST
-app.options("*", (_req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Private-Network", "true");
-  res.sendStatus(204);
-});
-
-// Add the header to every response so Chrome doesn't block actual requests
 app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Private-Network", "true");
   next();
 });
+
+app.use(cors({ origin: "*", methods: ["POST", "OPTIONS"], allowedHeaders: ["Content-Type"] }));
 
 app.use(bodyParser.json());
 
