@@ -15,7 +15,16 @@
       "Bash(git rebase:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(npx railway:*)",
+      "Bash(npm install:*)",
+      "Bash(railway login:*)",
+      "Bash(railway status:*)",
+      "Bash(railway init:*)",
+      "Bash(railway up:*)",
+      "Bash(railway variables set:*)",
+      "Bash(railway service:*)",
+      "Bash(railway domain:*)"
     ]
   }
 }
