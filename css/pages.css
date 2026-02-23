@@ -59,6 +59,14 @@
   text-align: center;
 }
 
+/* Each field + its error message live in a wrapper */
+.form-field {
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
 .folio-form .form-control {
   display: block;
   border-top: 0;
@@ -69,10 +77,41 @@
   color: var(--color-text);
   padding: 0 0 5px 0;
   line-height: 26px;
-  margin-bottom: 40px;
+  margin-bottom: 4px;
   border-bottom: 1px solid var(--border);
   outline: none;
   background: transparent;
+  transition: border-color 0.2s;
+}
+
+/* Validation error state */
+.field-invalid {
+  border-bottom-color: #ef4444 !important;
+}
+
+.field-error {
+  color: #ef4444;
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.4;
+  min-height: 1.1em;
+}
+
+/* Success banner */
+.form-success {
+  max-width: 500px;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #16a34a;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.5rem;
+  letter-spacing: 0;
 }
 
 .marquee {

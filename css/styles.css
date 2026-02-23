@@ -286,6 +286,21 @@
 }
 
 /* =============================================
+   SITE HEADER — sticky
+   ============================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  /* Extend edge-to-edge by canceling body padding */
+  margin: -1.25rem -1rem 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* =============================================
    NAVBAR
    ============================================= */
 .navbar {

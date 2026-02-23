@@ -294,6 +294,90 @@ document.querySelectorAll('.expand-trigger').forEach(btn => {
 });
 
 // =============================================
+// CONTACT FORM VALIDATION
+// =============================================
+(function initContactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  // Clear error on field edit
+  form.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('input', () => {
+      const wrapper = input.closest('.form-field');
+      if (wrapper) {
+        const err = wrapper.querySelector('.field-error');
+        if (err) err.textContent = '';
+      }
+      input.classList.remove('field-invalid');
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nameEl    = form.querySelector('[name="Name"]');
+    const emailEl   = form.querySelector('[name="email"]');
+    const subjectEl = form.querySelector('[name="subject"]');
+    const msgEl     = form.querySelector('[name="message"]');
+
+    // Clear all errors
+    form.querySelectorAll('.field-error').forEach(el => (el.textContent = ''));
+    form.querySelectorAll('.field-invalid').forEach(el => el.classList.remove('field-invalid'));
+
+    let valid = true;
+
+    if (!nameEl.value.trim()) {
+      setFieldError(nameEl, 'Please enter your name.');
+      valid = false;
+    }
+    if (!emailEl.value.trim()) {
+      setFieldError(emailEl, 'Please enter your email address.');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      setFieldError(emailEl, 'Please enter a valid email address.');
+      valid = false;
+    }
+    if (!subjectEl.value.trim()) {
+      setFieldError(subjectEl, 'Please enter a subject.');
+      valid = false;
+    }
+    if (!msgEl.value.trim()) {
+      setFieldError(msgEl, 'Please enter your message.');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Open mailto with form data pre-filled
+    const body    = `Name: ${nameEl.value.trim()}\nEmail: ${emailEl.value.trim()}\n\n${msgEl.value.trim()}`;
+    const mailto  = `mailto:Daniel.Ryland@pm.me?subject=${encodeURIComponent(subjectEl.value.trim())}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+
+    // Success banner
+    const prev = form.querySelector('.form-success');
+    if (prev) prev.remove();
+    const banner = document.createElement('div');
+    banner.className   = 'form-success';
+    banner.textContent = '✓ Your email client should open with the message ready to send!';
+    form.appendChild(banner);
+    form.reset();
+    setTimeout(() => { if (banner.parentNode) banner.remove(); }, 6000);
+  });
+
+  function setFieldError(input, msg) {
+    const wrapper = input.closest('.form-field');
+    let errEl = wrapper ? wrapper.querySelector('.field-error') : null;
+    if (!errEl) {
+      errEl = document.createElement('div');
+      errEl.className = 'field-error';
+      (wrapper || input.parentNode).appendChild(errEl);
+    }
+    errEl.textContent = msg;
+    input.classList.add('field-invalid');
+  }
+})();
+
+// =============================================
 // HERO PARTICLE CANVAS
 // =============================================
 (function initParticles() {

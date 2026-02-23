@@ -698,12 +698,20 @@ const getNextMilestone = (goal: Goal) =&gt;
               <a href="mailto:Daniel.Ryland@pm.me" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
           </div>
-          <form class="folio-form">
-            <input class="form-control" type="text" name="Name" placeholder="Name">
-            <input class="form-control" type="email" name="email" placeholder="Email">
-            <input class="form-control" type="text" name="subject" placeholder="Subject">
-            <textarea class="form-control" name="message" cols="30" rows="3" placeholder="Write your message..."></textarea>
-            <input class="btn btn-primary round-pill" type="submit" value="Send Message">
+          <form id="contactForm" class="folio-form" novalidate>
+            <div class="form-field">
+              <input class="form-control" type="text" name="Name" placeholder="Name" autocomplete="name">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="email" name="email" placeholder="Email" autocomplete="email">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="text" name="subject" placeholder="Subject">
+            </div>
+            <div class="form-field">
+              <textarea class="form-control" name="message" cols="30" rows="3" placeholder="Write your message..."></textarea>
+            </div>
+            <button class="btn btn-primary round-pill" type="submit">Send Message</button>
           </form>
         </div>
       </div>
