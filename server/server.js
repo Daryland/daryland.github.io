@@ -1,21 +1,163 @@
 // server.js
-const express = require("express");
-const cors = require("cors");
+const express    = require("express");
+const cors       = require("cors");
 const bodyParser = require("body-parser");
+const crypto     = require("crypto");
+const fs         = require("fs");
+const path       = require("path");
 require("dotenv").config({ path: "../.env" });
 const OpenAI = require("openai");
 
-const app = express();
+const app  = express();
 const PORT = process.env.PORT || 5551;
 
 // =============================================
+// LOGGING — structured JSON to stdout + local file
+// Railway captures stdout; local file for dev convenience.
+// =============================================
+const LOG_SALT = process.env.LOG_SALT || "dr-portfolio-salt-2025";
+const LOG_FILE = path.join(__dirname, "logs", "chat.log");
+
+// Ensure logs/ dir exists (local dev only — Railway fs is ephemeral)
+try {
+  fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
+} catch (_) {}
+
+function writeLog(obj) {
+  const line = JSON.stringify({ ts: new Date().toISOString(), ...obj });
+  process.stdout.write(line + "\n");
+  try { fs.appendFileSync(LOG_FILE, line + "\n"); } catch (_) {}
+}
+
+// Hash an IP address — one-way, non-reversible, consistent per session
+function hashIP(ip) {
+  return crypto
+    .createHmac("sha256", LOG_SALT)
+    .update(String(ip))
+    .digest("hex")
+    .slice(0, 16);
+}
+
+// PII redaction — strip before any logging so raw user data never hits disk/stdout
+const PII_PATTERNS = [
+  [/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g,          "[EMAIL]"],
+  [/(\+?1[\s\-.]?)?\(?\d{3}\)?[\s\-.]?\d{3}[\s\-.]?\d{4}/g,       "[PHONE]"],
+  [/\b\d{3}[- ]?\d{2}[- ]?\d{4}\b/g,                               "[SSN]"],
+  [/\b(?:\d[ \-]?){13,16}\b/g,                                     "[CARD]"],
+  // Long alphanumeric tokens (API keys, JWTs, etc.)
+  [/\b[A-Za-z0-9_\-]{32,}\b/g,                                     "[TOKEN]"],
+];
+
+function redactPII(text) {
+  if (typeof text !== "string") return text;
+  let out = text;
+  for (const [pattern, label] of PII_PATTERNS) {
+    out = out.replace(pattern, label);
+  }
+  return out;
+}
+
+// =============================================
+// SECURITY — rate limiting, auto-block, scraper detection
+// =============================================
+
+// Rate limit: 20 requests per IP per 60-second window
+const RATE_LIMIT     = 20;
+const RATE_WINDOW_MS = 60_000;
+const rateMap        = new Map(); // ip → { count, resetAt }
+
+function checkRateLimit(ip) {
+  const now  = Date.now();
+  const entry = rateMap.get(ip) || { count: 0, resetAt: now + RATE_WINDOW_MS };
+
+  if (now > entry.resetAt) {
+    entry.count   = 0;
+    entry.resetAt = now + RATE_WINDOW_MS;
+  }
+
+  entry.count++;
+  rateMap.set(ip, entry);
+
+  return entry.count > RATE_LIMIT;
+}
+
+// Jailbreak auto-block: 5+ jailbreak triggers → blocked for 24 h
+const JAILBREAK_THRESHOLD = 5;
+const BLOCK_DURATION_MS   = 24 * 60 * 60_000;
+const jailbreakMap = new Map(); // ip → trigger count
+const blockList    = new Map(); // ip → unblockAt timestamp
+
+function isBlocked(ip) {
+  const unblockAt = blockList.get(ip);
+  if (!unblockAt) return false;
+  if (Date.now() < unblockAt) return true;
+  blockList.delete(ip);
+  jailbreakMap.delete(ip);
+  return false;
+}
+
+function recordJailbreak(ip, ipHash) {
+  const count = (jailbreakMap.get(ip) || 0) + 1;
+  jailbreakMap.set(ip, count);
+
+  if (count >= JAILBREAK_THRESHOLD) {
+    blockList.set(ip, Date.now() + BLOCK_DURATION_MS);
+    writeLog({ event: "ip_auto_blocked", ip_hash: ipHash, jailbreak_count: count });
+    return true;
+  }
+  return false;
+}
+
+// Known scraper / bot user-agents
+const SCRAPER_UA_RE = /python-requests|curl\/|wget\/|scrapy|go-http-client|libwww-perl|java\/|jakarta|okhttp|httpie|axios\//i;
+
+function isScraperUA(ua) {
+  if (!ua || ua.trim() === "") return true;      // empty UA = likely bot
+  return SCRAPER_UA_RE.test(ua);
+}
+
+// Real client IP (Railway proxies via x-forwarded-for)
+function getClientIP(req) {
+  const fwd = req.headers["x-forwarded-for"];
+  if (fwd) return fwd.split(",")[0].trim();
+  return req.socket?.remoteAddress || "unknown";
+}
+
+// =============================================
+// SECURITY MIDDLEWARE — applied to /api/chat
+// =============================================
+function securityCheck(req, res, next) {
+  const ip     = getClientIP(req);
+  const ipHash = hashIP(ip);
+  const ua     = req.headers["user-agent"] || "";
+
+  // 1. Scraper / bot UA check
+  if (isScraperUA(ua)) {
+    writeLog({ event: "blocked_scraper_ua", ip_hash: ipHash, ua });
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  // 2. Blocklist check (jailbreak auto-block)
+  if (isBlocked(ip)) {
+    writeLog({ event: "blocked_listed_ip", ip_hash: ipHash });
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  // 3. Rate limit check
+  if (checkRateLimit(ip)) {
+    writeLog({ event: "rate_limited", ip_hash: ipHash });
+    return res.status(429).json({ error: "Too many requests. Please slow down." });
+  }
+
+  // Attach ip + ipHash for downstream use
+  req._ip     = ip;
+  req._ipHash = ipHash;
+  next();
+}
+
+// =============================================
 // CHROME PRIVATE NETWORK ACCESS FIX
-// When a public HTTPS site (GitHub Pages) calls http://localhost, Chrome's
-// "Private Network Access" policy fires a preflight OPTIONS request and
-// requires the server to respond with Access-Control-Allow-Private-Network: true.
-// This header MUST be set BEFORE the cors() middleware runs, because cors()
-// intercepts OPTIONS and sends its own response — if the header isn't already
-// on the res object by then, Chrome never sees it and shows the permission prompt.
+// Access-Control-Allow-Private-Network header MUST be set before cors() runs.
 // =============================================
 app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Private-Network", "true");
@@ -23,7 +165,6 @@ app.use((_req, res, next) => {
 });
 
 app.use(cors({ origin: "*", methods: ["POST", "OPTIONS"], allowedHeaders: ["Content-Type"] }));
-
 app.use(bodyParser.json());
 
 // Groq via OpenAI-compatible SDK
@@ -110,19 +251,12 @@ const JAILBREAK_PATTERNS = [
 ];
 
 const OFF_TOPIC_KEYWORDS = [
-  // Social platforms not on the site
   /\b(twitter|instagram|facebook|tiktok|snapchat|reddit|youtube|pinterest|discord|whatsapp|telegram)\b/i,
-  // General world topics
   /\b(weather|forecast|temperature|news|politics|election|president|government|war|sports|nfl|nba|nhl|mlb|soccer)\b/i,
-  // Creative writing / off-topic generation
   /\b(write\s+me\s+a|generate\s+a|create\s+a|build\s+me\s+a|make\s+me\s+a)\s+(story|poem|essay|joke|game(?!\s+project))/i,
-  // Finance
   /\b(stock\s+market|crypto|bitcoin|ethereum|trading|forex)\b/i,
-  // Entertainment
   /\b(celebrity|actor|actress|musician|band|movie|film|tv\s+show|netflix)\b/i,
-  // "Who is X" for anyone other than Daniel
   /\bwho\s+is\s+(?!daniel|ryland)/i,
-  // How-to / tutorial requests — redirect to Daniel instead
   /how\s+(do\s+I|to|can\s+I|would\s+I)\s+(build|create|make|develop|code|program|start|set\s+up|design|architect)\s+(a|an|my|the|your)/i,
   /\b(teach\s+me|walk\s+me\s+through|show\s+me\s+how\s+to)\s+(build|create|make|develop|code|program|design)/i,
   /step[- ]by[- ]step\s+(guide|tutorial|instructions?|process|to\s+build|to\s+create|to\s+make)/i,
@@ -131,19 +265,17 @@ const OFF_TOPIC_KEYWORDS = [
 ];
 
 const GUARDRAIL_REPLY = "I can only answer questions about Daniel Ryland's portfolio and the projects on this website. Feel free to ask about his skills, apps, or how to get in touch!";
-const HOWTO_REPLY = "That's exactly what Daniel specializes in! He'd love to help — reach out at Daniel.Ryland@pm.me or connect on LinkedIn at linkedin.com/in/daniel-ryland-1b233a68 to discuss your project.";
+const HOWTO_REPLY     = "That's exactly what Daniel specializes in! He'd love to help — reach out at Daniel.Ryland@pm.me or connect on LinkedIn at linkedin.com/in/daniel-ryland-1b233a68 to discuss your project.";
 
 // =============================================
 // FAIL-RATE RESPONSES — jokes & poems (3x rule)
 // =============================================
 const FUN_REPLIES = [
-  // Dad jokes
   "Why do programmers prefer dark mode?\nBecause light attracts bugs! 🐛\n\nAsk me something about Daniel's portfolio instead!",
   "A SQL query walks into a bar and asks two tables:\n'Can I JOIN you?' 🍺\n\nI'm more of a portfolio-questions bar, though!",
   "Why did the JavaScript developer wear glasses?\nBecause he couldn't C#! 🤓\n\nAsk about Daniel's projects or skills — I'm great at those!",
   "I told my computer I needed a break.\nNow it won't stop sending me vacation ads. 💻\n\nBack on topic — what would you like to know about Daniel?",
   "Why do Java developers wear glasses?\nBecause they don't C#! 👓\n\n(Yes, two glasses jokes. I contain multitudes. Ask about Daniel!)",
-  // Snarky poems
   "Roses are red,\nCode compiles clean,\nI only know Daniel's portfolio —\nYou know what I mean! 📜",
   "Violets are blue,\nMy scope is quite small,\nAsk about Daniel's work,\nOr don't ask at all! 🎭",
   "There once was a bot on a site,\nWhose knowledge was narrow but bright.\nAsk about Daniel's apps,\nOr his coding perhaps,\nAnd I'll answer you perfectly right! ✨",
@@ -169,13 +301,13 @@ const HOW_TO_PATTERNS = [
 
 function getBlockedReply(message) {
   for (const pattern of JAILBREAK_PATTERNS) {
-    if (pattern.test(message)) return GUARDRAIL_REPLY;
+    if (pattern.test(message)) return { reply: GUARDRAIL_REPLY, isJailbreak: true };
   }
   for (const pattern of HOW_TO_PATTERNS) {
-    if (pattern.test(message)) return HOWTO_REPLY;
+    if (pattern.test(message)) return { reply: HOWTO_REPLY, isJailbreak: false };
   }
   for (const pattern of OFF_TOPIC_KEYWORDS) {
-    if (pattern.test(message)) return GUARDRAIL_REPLY;
+    if (pattern.test(message)) return { reply: GUARDRAIL_REPLY, isJailbreak: false };
   }
   return null;
 }
@@ -183,27 +315,46 @@ function getBlockedReply(message) {
 // =============================================
 // CHAT ENDPOINT
 // =============================================
-app.post("/api/chat", async (req, res) => {
-  console.log("✅ POST /api/chat hit");
-
+app.post("/api/chat", securityCheck, async (req, res) => {
+  const ipHash    = req._ipHash;
+  const ip        = req._ip;
   const userMessage = req.body.message;
-  const failCount = parseInt(req.body.failCount, 10) || 0;
+  const failCount   = parseInt(req.body.failCount, 10) || 0;
 
   if (!userMessage || !userMessage.trim()) {
     return res.status(400).json({ reply: "Please send a message." });
   }
 
-  // Layer 1: server-side pre-check
-  const blockedReply = getBlockedReply(userMessage);
-  if (blockedReply) {
-    console.log(`🚫 Blocked (fail #${failCount + 1}):`, userMessage);
+  const msgLen     = userMessage.length;
+  const redacted   = redactPII(userMessage);
 
-    // 3rd+ consecutive fail → contact/redirect prompt
+  // Layer 1: server-side pre-check
+  const blocked = getBlockedReply(userMessage);
+  if (blocked) {
+    // Track jailbreak attempts for auto-blocking
+    if (blocked.isJailbreak) {
+      const nowBlocked = recordJailbreak(ip, ipHash);
+      writeLog({
+        event: "jailbreak_attempt",
+        ip_hash: ipHash,
+        msg_len: msgLen,
+        redacted_msg: redacted,
+        fail_count: failCount + 1,
+        auto_blocked: nowBlocked,
+      });
+    } else {
+      writeLog({
+        event: "blocked_offtopic",
+        ip_hash: ipHash,
+        msg_len: msgLen,
+        redacted_msg: redacted,
+        fail_count: failCount + 1,
+      });
+    }
+
     if (failCount >= 2) {
       return res.json({ reply: CONTACT_PROMPT, blocked: true });
     }
-
-    // 1st or 2nd fail → random joke or snarky poem
     const fun = FUN_REPLIES[Math.floor(Math.random() * FUN_REPLIES.length)];
     return res.json({ reply: fun, blocked: true });
   }
@@ -214,7 +365,7 @@ app.post("/api/chat", async (req, res) => {
       model: "llama-3.3-70b-versatile",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userMessage },
+        { role: "user",   content: userMessage },
       ],
       max_tokens: 512,
       temperature: 0.5,
@@ -222,16 +373,20 @@ app.post("/api/chat", async (req, res) => {
 
     const reply = completion.choices[0].message.content;
 
-    // Layer 3: detect if the LLM fell back to a guardrail response.
-    // Messages like random letters pass the server-side regex checks but are
-    // off-topic, so the LLM returns the system-prompt guardrail text.
-    // Catch those here so the fail-count logic still fires.
+    // Layer 3: detect if the LLM fell back to a guardrail response
     const llmBlocked =
       reply.includes("I can only answer questions about Daniel Ryland") ||
       reply.includes("That's exactly what Daniel specializes in");
 
     if (llmBlocked) {
-      console.log(`🤖 LLM guardrail triggered (fail #${failCount + 1})`);
+      writeLog({
+        event: "llm_guardrail_triggered",
+        ip_hash: ipHash,
+        msg_len: msgLen,
+        redacted_msg: redacted,
+        fail_count: failCount + 1,
+      });
+
       if (failCount >= 2) {
         return res.json({ reply: CONTACT_PROMPT, blocked: true });
       }
@@ -239,8 +394,16 @@ app.post("/api/chat", async (req, res) => {
       return res.json({ reply: fun, blocked: true });
     }
 
+    writeLog({
+      event: "chat_ok",
+      ip_hash: ipHash,
+      msg_len: msgLen,
+      reply_len: reply.length,
+    });
+
     res.json({ reply, blocked: false });
   } catch (error) {
+    writeLog({ event: "groq_api_error", ip_hash: ipHash, error: error.message });
     console.error("❌ Groq API error:", error.message);
     res.status(500).json({ reply: "Something went wrong. Please try again." });
   }
