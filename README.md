@@ -28,7 +28,9 @@ Live at: [daryland.github.io](https://daryland.github.io)
 
 - **Portfolio Assistant** — right-side slide-in chat panel powered by [Groq](https://groq.com) (Llama 3.3 70B)
 - Knows Daniel's full portfolio: projects, skills, Rork apps, GitHub, LinkedIn, CodePen, and contact info
-- **Strict guardrails** — two-layer protection (server-side regex pre-check + system prompt) limits responses to portfolio content only; jailbreak and off-topic attempts are blocked
+- **Three-layer guardrail system** — server-side regex pre-check → strict system prompt → LLM response detection; jailbreak, off-topic, and how-to attempts are all blocked
+- **Fail-rate UX** — first two off-topic messages return random dad jokes or snarky poems; third triggers a contact/redirect prompt with clickable links
+- **Hyperlink rendering** — bot responses parse markdown `[text](url)` and bare URLs into clickable `<a>` tags (XSS-safe)
 - Minimize / close controls; matches site light/dark theme
 
 ---
@@ -42,11 +44,17 @@ Live at: [daryland.github.io](https://daryland.github.io)
 - Canvas API (particle animation)
 - IntersectionObserver API (skill bars, stat counters)
 
-### Backend (local chat server)
+### Backend (chat server — deployed on Railway)
 
 - Node.js + Express
 - [Groq](https://console.groq.com) via OpenAI-compatible API (Llama 3.3 70B)
 - dotenv for environment config
+- **Structured JSON logging** — every chat event written to stdout (Railway dashboard) and `server/logs/chat.log`
+- **PII redaction** — emails, phone numbers, SSNs, credit card numbers, and long tokens are stripped before any logging
+- **IP hashing** — client IPs stored as HMAC-SHA256 (truncated, salted); never logged in plain text
+- **Rate limiting** — 20 requests per IP per 60-second window; returns `429` when exceeded
+- **Jailbreak auto-block** — IPs that trigger 5+ jailbreak patterns are automatically blocked for 24 hours
+- **Scraper/bot detection** — empty or known non-browser user-agents (curl, python-requests, wget, scrapy, etc.) are blocked with `403 Forbidden`
 
 ---
 
@@ -67,7 +75,8 @@ daryland.github.io/
 │   ├── chat.js         # Chat open/close/minimize and message handling
 │   └── carousel.js     # Testimonial carousel
 ├── server/
-│   ├── server.js       # Express API with Groq integration and guardrails
+│   ├── server.js       # Express API, guardrails, logging, and security middleware
+│   ├── logs/           # Structured JSON chat logs (local dev; gitignored)
 │   └── package.json
 └── assests/images/     # Portfolio images and avatars
 ```
