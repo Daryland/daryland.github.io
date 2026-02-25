@@ -8,14 +8,21 @@
 
   const SIZE = 64; // canvas px
 
+  // --- localStorage helpers (throws in Firefox private mode, some CSP configs) ---
+  function lsGet(key) {
+    try { return localStorage.getItem(key); } catch (_) { return null; }
+  }
+  function lsSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (_) {}
+  }
+
   // --- Character assignment (fingerprint → localStorage) ---
   function pickCharType() {
-    const stored = localStorage.getItem('tama_char');
+    const stored = lsGet('tama_char');
     if (stored && ['bot', 'cat', 'ghost'].includes(stored)) return stored;
 
-    const seed = navigator.userAgent +
-      (Intl.DateTimeFormat().resolvedOptions().timeZone || '') +
-      navigator.language;
+    let seed = navigator.userAgent + navigator.language;
+    try { seed += Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (_) {}
 
     // DJB2 hash
     let h = 5381;
@@ -24,7 +31,7 @@
     }
     const types = ['bot', 'cat', 'ghost'];
     const picked = types[Math.abs(h) % 3];
-    localStorage.setItem('tama_char', picked);
+    lsSet('tama_char', picked);
     return picked;
   }
 
@@ -595,7 +602,7 @@
       setTimeout(() => { isBlinking = false; }, 110);
     }
 
-    draw();
+    try { draw(); } catch (_) {}
     requestAnimationFrame(loop);
   }
 
