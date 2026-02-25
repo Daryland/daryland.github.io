@@ -1,0 +1,87 @@
+/* =============================================
+   TAMAGOTCHI — site-wide virtual pet
+   ============================================= */
+
+#tama-wrapper {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+#tama-pet {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  pointer-events: all;
+  cursor: pointer;
+  user-select: none;
+}
+
+#tama-canvas {
+  display: block;
+  width: 64px;
+  height: 64px;
+  transition: transform 0.15s ease;
+}
+
+.tama-bubble {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg, #fff);
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  color: var(--color-text, #333);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tama-bubble-tip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+/* Tip pointing down (bubble above pet) */
+.tama-bubble.above .tama-bubble-tip {
+  top: 100%;
+  margin-top: -1px;
+}
+
+/* Tip pointing up (bubble below pet) */
+.tama-bubble.below .tama-bubble-tip {
+  bottom: 100%;
+  margin-bottom: -1px;
+}
+
+.tama-name {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  #tama-wrapper {
+    display: none;
+  }
+}
