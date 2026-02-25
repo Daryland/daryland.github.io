@@ -352,15 +352,10 @@ document.querySelectorAll('.expand-trigger').forEach(btn => {
     const submitBtn = form.querySelector('[type="submit"]');
     if (submitBtn) submitBtn.disabled = true;
 
-    fetch('https://formspree.io/f/xkovkaen', {
+    fetch(form.action, {
       method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name:    nameEl.value.trim(),
-        email:   emailEl.value.trim(),
-        subject: subjectEl.value.trim(),
-        message: msgEl.value.trim(),
-      }),
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
     })
       .then(res => {
         if (res.ok) {
