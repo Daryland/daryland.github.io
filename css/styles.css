@@ -1045,6 +1045,11 @@
   text-transform: lowercase;
 }
 
+.main-menu .nav-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* =============================================
    MODALS
    ============================================= */
