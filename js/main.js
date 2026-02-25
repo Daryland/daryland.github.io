@@ -348,20 +348,45 @@ document.querySelectorAll('.expand-trigger').forEach(btn => {
 
     if (!valid) return;
 
-    // Open mailto with form data pre-filled
-    const body    = `Name: ${nameEl.value.trim()}\nEmail: ${emailEl.value.trim()}\n\n${msgEl.value.trim()}`;
-    const mailto  = `mailto:Daniel.Ryland@pm.me?subject=${encodeURIComponent(subjectEl.value.trim())}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    // Disable submit while sending
+    const submitBtn = form.querySelector('[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
 
-    // Success banner
-    const prev = form.querySelector('.form-success');
-    if (prev) prev.remove();
-    const banner = document.createElement('div');
-    banner.className   = 'form-success';
-    banner.textContent = '✓ Your email client should open with the message ready to send!';
-    form.appendChild(banner);
-    form.reset();
-    setTimeout(() => { if (banner.parentNode) banner.remove(); }, 6000);
+    fetch('https://formspree.io/f/xkovkaen', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:    nameEl.value.trim(),
+        email:   emailEl.value.trim(),
+        subject: subjectEl.value.trim(),
+        message: msgEl.value.trim(),
+      }),
+    })
+      .then(res => {
+        if (res.ok) {
+          form.reset();
+          const prev = form.querySelector('.form-success, .form-error');
+          if (prev) prev.remove();
+          const banner = document.createElement('div');
+          banner.className   = 'form-success';
+          banner.textContent = '✓ Message sent! Daniel will get back to you soon.';
+          form.appendChild(banner);
+          setTimeout(() => { if (banner.parentNode) banner.remove(); }, 6000);
+        } else {
+          return res.json().then(data => { throw new Error(data.error || 'Submit failed'); });
+        }
+      })
+      .catch(() => {
+        const prev = form.querySelector('.form-success, .form-error');
+        if (prev) prev.remove();
+        const errBanner = document.createElement('div');
+        errBanner.className   = 'form-error';
+        errBanner.textContent = '✗ Something went wrong. Please try again or email Daniel.Ryland@pm.me directly.';
+        form.appendChild(errBanner);
+      })
+      .finally(() => {
+        if (submitBtn) submitBtn.disabled = false;
+      });
   });
 
   function setFieldError(input, msg) {

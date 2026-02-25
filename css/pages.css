@@ -98,20 +98,30 @@
   min-height: 1.1em;
 }
 
-/* Success banner */
-.form-success {
+/* Success / error banners */
+.form-success,
+.form-error {
   max-width: 500px;
   width: 100%;
   padding: 0.75rem 1.25rem;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
   border-radius: 8px;
-  color: #16a34a;
   font-size: 0.875rem;
   font-weight: 700;
   text-align: center;
   margin-top: 0.5rem;
   letter-spacing: 0;
+}
+
+.form-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #16a34a;
+}
+
+.form-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
 }
 
 .marquee {
