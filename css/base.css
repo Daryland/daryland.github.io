@@ -19,6 +19,12 @@ nav {
   box-sizing: border-box;
 }
 
+/* Browsers don't inherit font onto form elements by default — force it */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
