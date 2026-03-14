@@ -596,6 +596,21 @@
   gap: 0.5rem;
 }
 
+.rork-walkthrough-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #495fef;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+
+.rork-walkthrough-link:hover {
+  text-decoration: underline;
+}
+
 .tech-tag {
   font-size: 0.72rem;
   font-weight: 700;

@@ -173,6 +173,148 @@
 
         <div class="rork-grid">
 
+          <!-- MatIQ -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🥋</div>
+              <div class="rork-meta">
+                <div class="rork-category">Sports &amp; Fitness · React Native</div>
+                <h3 class="rork-title">MatIQ</h3>
+              </div>
+              <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View MatIQ Walkthrough">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A BJJ training tracker that turns every session into structured data. Log rolls, track techniques with spaced repetition, monitor streaks, and progress toward your next belt — fully offline, no account required.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Expo</span>
+              <span class="tech-tag">Zustand</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Rork</span>
+            </div>
+            <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Walkthrough →
+            </a>
+            <button class="expand-trigger" data-target="snippet-matiq">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-matiq">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> techniqueRecall.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface Technique {
+  id: string;
+  name: string;
+  position: 'Guard' | 'Mount'
+    | 'Back' | 'Side Control';
+  type: 'Submission' | 'Sweep' | 'Pass';
+  recallScore: number; // 0–100
+  lastReviewed?: Date;
+  nextReview?: Date;
+}
+
+const updateRecall = (
+  t: Technique,
+  rating: 0 | 1 | 2 | 3 | 4 | 5
+): Technique =&gt; {
+  const ease = 0.1 + (rating / 5) * 0.9;
+  const days = t.lastReviewed
+    ? Math.round(
+        (t.nextReview!.getTime() -
+          t.lastReviewed.getTime()) /
+          86400000 * ease
+      )
+    : 1;
+  const next = new Date();
+  next.setDate(next.getDate() + days);
+  return {
+    ...t,
+    recallScore: Math.min(100,
+      Math.round(
+        t.recallScore + (rating - 2.5) * 10
+      )
+    ),
+    lastReviewed: new Date(),
+    nextReview: next,
+  };
+};</code></pre>
+            </div>
+          </div>
+
+          <!-- LockForge -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🔒</div>
+              <div class="rork-meta">
+                <div class="rork-category">Productivity · React Native</div>
+                <h3 class="rork-title">LockForge</h3>
+              </div>
+              <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View LockForge Walkthrough">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">Habit tracking with enforced app blocking — you're locked in until the habit is done. Features streak tracking, heat map calendar, Apple Health sync, and AI insights. Local-first, no account required.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Expo</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">HealthKit</span>
+              <span class="tech-tag">Rork</span>
+            </div>
+            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Walkthrough →
+            </a>
+            <button class="expand-trigger" data-target="snippet-lockforge">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-lockforge">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> lockSession.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface LockSession {
+  habitId: string;
+  startedAt: Date;
+  durationMs: number;
+  blockedApps: string[];
+  completed: boolean;
+  abandonedAt?: Date;
+}
+
+const startLock = async (
+  habit: Habit
+): Promise&lt;LockSession&gt; =&gt; {
+  await BlockingManager
+    .activate(habit.appsToBlock);
+  const session: LockSession = {
+    habitId: habit.id,
+    startedAt: new Date(),
+    durationMs: habit.durationMs,
+    blockedApps: habit.appsToBlock,
+    completed: false,
+  };
+  await SessionStore.save(session);
+  return session;
+};
+
+const completeLock = async (
+  session: LockSession
+): Promise&lt;void&gt; =&gt; {
+  await BlockingManager.deactivate();
+  await StreakTracker.record(
+    session.habitId
+  );
+  await SessionStore.update({
+    ...session, completed: true,
+  });
+};</code></pre>
+            </div>
+          </div>
+
           <!-- SchedulerX -->
           <div class="rork-card">
             <div class="rork-card-header">
@@ -231,135 +373,6 @@ const getAvailability = async (
   const events = await fetchUserEvents(userId);
   return buildTimeSlots(date, events);
 };</code></pre>
-            </div>
-          </div>
-
-          <!-- Recipe Vault -->
-          <div class="rork-card">
-            <div class="rork-card-header">
-              <div class="rork-icon">🍳</div>
-              <div class="rork-meta">
-                <div class="rork-category">Food &amp; Lifestyle · React Native</div>
-                <h3 class="rork-title">Recipe Vault</h3>
-              </div>
-              <a href="https://recipe-vault-t5shvji.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open Recipe Vault">
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-            <p class="rork-desc">A mobile recipe management app to save, organize, and discover recipes. Features smart search, ingredient tracking, and custom collections for the health-conscious cook.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">React Native</span>
-              <span class="tech-tag">Expo</span>
-              <span class="tech-tag">AsyncStorage</span>
-              <span class="tech-tag">Rork</span>
-            </div>
-            <button class="expand-trigger" data-target="snippet-recipe">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-recipe">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> recipeStore.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface Recipe {
-  id: string;
-  title: string;
-  ingredients: Ingredient[];
-  instructions: string[];
-  prepTime: number;
-  servings: number;
-  tags: string[];
-  imageUri?: string;
-}
-
-const RecipeStore = {
-  save: async (recipe: Recipe): Promise&lt;void&gt; =&gt; {
-    const existing = await AsyncStorage
-      .getItem('recipes');
-    const recipes: Recipe[] = JSON.parse(
-      existing ?? '[]'
-    );
-    const idx = recipes.findIndex(
-      r =&gt; r.id === recipe.id
-    );
-    if (idx &gt;= 0) recipes[idx] = recipe;
-    else recipes.push(recipe);
-    await AsyncStorage.setItem(
-      'recipes', JSON.stringify(recipes)
-    );
-  },
-
-  search: async (query: string): Promise&lt;Recipe[]&gt; =&gt; {
-    const all = await RecipeStore.getAll();
-    const q = query.toLowerCase();
-    return all.filter(r =&gt;
-      r.title.toLowerCase().includes(q) ||
-      r.tags.some(t =&gt; t.toLowerCase().includes(q))
-    );
-  },
-};</code></pre>
-            </div>
-          </div>
-
-          <!-- Framework Coaching -->
-          <div class="rork-card">
-            <div class="rork-card-header">
-              <div class="rork-icon">🎯</div>
-              <div class="rork-meta">
-                <div class="rork-category">Productivity · React Native</div>
-                <h3 class="rork-title">Framework Coaching</h3>
-              </div>
-              <a href="https://framework-coaching-app-ke7rr14.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open Framework Coaching App">
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-            <p class="rork-desc">A structured coaching application guiding users through proven performance frameworks. Track goals, milestones, and personal progress with interactive coaching modules.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">React Native</span>
-              <span class="tech-tag">Expo</span>
-              <span class="tech-tag">Context API</span>
-              <span class="tech-tag">Rork</span>
-            </div>
-            <button class="expand-trigger" data-target="snippet-coaching">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-coaching">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> coachingEngine.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface Goal {
-  id: string;
-  title: string;
-  milestones: Milestone[];
-  targetDate: Date;
-  progress: number; // 0–100
-}
-
-interface Milestone {
-  id: string;
-  title: string;
-  completed: boolean;
-  completedAt?: Date;
-}
-
-const trackProgress = (goal: Goal): Goal =&gt; {
-  const completed = goal.milestones
-    .filter(m =&gt; m.completed).length;
-  return {
-    ...goal,
-    progress: goal.milestones.length
-      ? Math.round(
-          (completed / goal.milestones.length) * 100
-        )
-      : 0,
-  };
-};
-
-const getNextMilestone = (goal: Goal) =&gt;
-  goal.milestones.find(m =&gt; !m.completed) ?? null;</code></pre>
             </div>
           </div>
 
@@ -441,12 +454,22 @@ const getNextMilestone = (goal: Goal) =&gt;
           </div>
         </div>
 
-        <div class="portfolio-card" data-item="app" data-name="recipe vault food mobile rork" data-open="proj-recipe">
+        <div class="portfolio-card" data-item="app" data-name="matiq bjj jiu-jitsu training tracker mobile rork" data-open="proj-matiq">
           <div class="card-body">
-            <img src="./assests/images/portfolio-6.jpg" alt="Recipe Vault">
+            <img src="./assests/images/portfolio-6.jpg" alt="MatIQ">
             <div class="card-popup-box">
               <div>Mobile App</div>
-              <h3>Recipe Vault</h3>
+              <h3>MatIQ</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-item="app" data-name="lockforge habit tracker app blocking mobile rork" data-open="proj-lockforge">
+          <div class="card-body">
+            <img src="./assests/images/portfolio-5.jpg" alt="LockForge">
+            <div class="card-popup-box">
+              <div>Mobile App</div>
+              <h3>LockForge</h3>
             </div>
           </div>
         </div>
@@ -819,21 +842,43 @@ const getNextMilestone = (goal: Goal) =&gt;
       </div>
     </div>
 
-    <div id="proj-recipe" class="modal" data-animation="slideInOutTop">
+    <div id="proj-matiq" class="modal" data-animation="slideInOutTop">
       <div class="modal-dialog">
         <header class="modal-header">
-          <h3>Recipe Vault</h3>
+          <h3>MatIQ</h3>
           <i class="fas fa-times" data-close></i>
         </header>
         <div class="modal-body">
           <div class="img-wrapper">
-            <img src="./assests/images/portfolio-6.jpg" alt="Recipe Vault">
+            <img src="./assests/images/portfolio-6.jpg" alt="MatIQ">
           </div>
           <div class="text-wrapper">
-            <p><strong>Recipe Vault — Mobile Recipe Manager</strong></p>
-            <p>A mobile app for saving, organizing, and discovering recipes. Features smart search, ingredient tracking, and custom collections. Built with React Native via the Rork platform for iOS and Android.</p>
-            <p><strong>Stack:</strong> React Native · Expo · AsyncStorage · TypeScript · Rork</p>
-            <a href="https://recipe-vault-t5shvji.rork.app" target="_blank" rel="noopener" class="modal-link">Launch App →</a>
+            <p><strong>MatIQ — BJJ Training Tracker</strong></p>
+            <p>A Brazilian Jiu-Jitsu training tracker that turns every session into structured data. Log rolls, track techniques with spaced repetition, monitor streaks and belt progress, and compete on a friends leaderboard — fully offline, no account required. Built with React Native via the Rork platform.</p>
+            <p><strong>Stack:</strong> React Native · Expo · Expo Router · Zustand · TypeScript · AsyncStorage · Rork</p>
+            <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="modal-link">View Walkthrough →</a>
+            <a href="https://daryland.github.io/rollwise-by-frameworks/privacy" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-lockforge" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>LockForge</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-5.jpg" alt="LockForge">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>LockForge — Habit Tracker with App Blocking</strong></p>
+            <p>Habit tracking with enforced app blocking — you're locked in until the habit is done. Features a four-step habit wizard, full-screen focus sessions, streak tracking, heat map calendar, Apple Health sync (read-only), and AI insights. Local-first, no account required, free up to 3 habits. Built with React Native via the Rork platform.</p>
+            <p><strong>Stack:</strong> React Native · Expo · TypeScript · HealthKit · Rork</p>
+            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="modal-link">View Walkthrough →</a>
+            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/privacy" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
           </div>
         </div>
       </div>
