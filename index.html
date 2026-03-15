@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noai, noimageai">
+  <meta name="CCBot" content="noindex">
+  <meta name="GPTBot" content="noindex">
+  <meta name="Google-Extended" content="noindex">
+  <meta name="anthropic-ai" content="noindex">
+  <meta name="PerplexityBot" content="noindex">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="./css/themes.css">
   <link rel="stylesheet" href="./css/base.css">
@@ -905,7 +911,7 @@ const scanFile = async (
             <p class="about-interests"><strong>Interests:</strong> Jiu Jitsu · Nutrition &amp; Longevity · Health Science · Gaming · Rock Climbing · Classical Guitar</p>
             <div class="contact-me-block">
               <div>Email:</div>
-              <a href="mailto:Daniel.Ryland@pm.me">Daniel.Ryland@pm.me</a>
+              <a id="about-email-link" href="#">[loading]</a>
             </div>
           </div>
         </div>
@@ -941,7 +947,7 @@ const scanFile = async (
             <div class="contact-social-row">
               <a href="https://github.com/Daryland" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
               <a href="https://www.linkedin.com/in/daniel-ryland-1b233a68/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-              <a href="mailto:Daniel.Ryland@pm.me" title="Email"><i class="fas fa-envelope"></i></a>
+              <a id="contact-email-link" href="#" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
           </div>
           <form id="contactForm" class="folio-form" action="https://formspree.io/f/xkovkaen" method="POST" novalidate>
@@ -1222,5 +1228,21 @@ const scanFile = async (
   <script src="/js/carousel.js"></script>
   <script src="/js/chat.js"></script>
   <script src="/js/tamagotchi.js"></script>
+  <script>
+    // Email assembled at runtime — not present in static HTML
+    (function () {
+      var u = 'Daniel.Ryland';
+      var d = 'pm' + '.' + 'me';
+      var addr = u + '\u0040' + d;
+      var href = 'mai' + 'lto:' + addr;
+      var links = ['about-email-link', 'contact-email-link'];
+      links.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.href = href;
+        if (el.textContent.trim() === '[loading]') el.textContent = addr;
+      });
+    })();
+  </script>
 </body>
 </html>
