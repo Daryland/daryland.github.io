@@ -347,6 +347,7 @@
 .hero-badges {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.6rem;
   margin-bottom: 1.75rem;
 }
