@@ -41,6 +41,7 @@
       <ul class="side-nav-links ul-defaults-none">
         <li><a href="#hero" class="side-link" data-sidenav-close>Home</a></li>
         <li><a href="#rork" class="side-link" data-sidenav-close>Rork Apps</a></li>
+        <li><a href="#apps" class="side-link" data-sidenav-close>Applications</a></li>
         <li><a href="#projects" class="side-link" data-sidenav-close>Projects</a></li>
         <li><a href="#skills" class="side-link" data-sidenav-close>Skills</a></li>
         <li><a href="#" class="side-link" data-open="about" data-sidenav-close>About</a></li>
@@ -181,7 +182,7 @@
                 <div class="rork-category">Sports &amp; Fitness · React Native</div>
                 <h3 class="rork-title">MatIQ</h3>
               </div>
-              <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View MatIQ Walkthrough">
+              <a href="./projects/Mobile_Apps/matiq-by-frameworks/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View MatIQ Walkthrough">
                 <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
@@ -193,8 +194,8 @@
               <span class="tech-tag">TypeScript</span>
               <span class="tech-tag">Rork</span>
             </div>
-            <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="rork-walkthrough-link">
-              <i class="fas fa-book-open"></i> View Walkthrough →
+            <a href="./projects/Mobile_Apps/matiq-by-frameworks/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
             <button class="expand-trigger" data-target="snippet-matiq">
               <i class="fas fa-code"></i> View Code Snippet
@@ -252,7 +253,7 @@ const updateRecall = (
                 <div class="rork-category">Productivity · React Native</div>
                 <h3 class="rork-title">LockForge</h3>
               </div>
-              <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View LockForge Walkthrough">
+              <a href="./projects/Mobile_Apps/rork-lockforge-habit-tracker/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View LockForge Walkthrough">
                 <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
@@ -264,8 +265,8 @@ const updateRecall = (
               <span class="tech-tag">HealthKit</span>
               <span class="tech-tag">Rork</span>
             </div>
-            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="rork-walkthrough-link">
-              <i class="fas fa-book-open"></i> View Walkthrough →
+            <a href="./projects/Mobile_Apps/rork-lockforge-habit-tracker/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
             <button class="expand-trigger" data-target="snippet-lockforge">
               <i class="fas fa-code"></i> View Code Snippet
@@ -318,22 +319,26 @@ const completeLock = async (
           <!-- SchedulerX -->
           <div class="rork-card">
             <div class="rork-card-header">
-              <div class="rork-icon">📅</div>
+              <div class="rork-icon">💊</div>
               <div class="rork-meta">
-                <div class="rork-category">Productivity · React Native</div>
+                <div class="rork-category">Health &amp; Wellness · React Native</div>
                 <h3 class="rork-title">SchedulerX</h3>
               </div>
-              <a href="https://schedulerx.rork.app" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open SchedulerX">
+              <a href="./projects/Mobile_Apps/rork-schedule-rx/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View SchedulerX Walkthrough">
                 <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
-            <p class="rork-desc">A smart scheduling utility app for managing appointments, time blocks, and recurring events. Built with React Native and Expo via the Rork platform, available on iOS and Android.</p>
+            <p class="rork-desc">A privacy-first supplement and peptide cycle scheduler. Log 40+ pre-loaded compounds, track dosage schedules, visualize cycles on a monthly calendar, and calculate injection volumes — fully offline, no account required.</p>
             <div class="tech-tags">
               <span class="tech-tag">React Native</span>
               <span class="tech-tag">Expo</span>
               <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">AsyncStorage</span>
               <span class="tech-tag">Rork</span>
             </div>
+            <a href="./projects/Mobile_Apps/rork-schedule-rx/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
+            </a>
             <button class="expand-trigger" data-target="snippet-schedulerx">
               <i class="fas fa-code"></i> View Code Snippet
               <i class="fas fa-chevron-down expand-arrow"></i>
@@ -372,6 +377,213 @@ const getAvailability = async (
 ): Promise&lt;TimeSlot[]&gt; =&gt; {
   const events = await fetchUserEvents(userId);
   return buildTimeSlots(date, events);
+};</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Desktop Applications Section -->
+    <section class="apps-section" id="apps">
+      <div class="container">
+        <div class="section-label">
+          <span class="section-tag">Applications</span>
+          <h2 class="header-md">Desktop Applications</h2>
+          <p class="section-desc">Cross-platform desktop tools built for security, education, and developer workflows</p>
+        </div>
+
+        <div class="rork-grid">
+
+          <!-- EduShield -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🎓</div>
+              <div class="rork-meta">
+                <div class="rork-category">Education · Desktop</div>
+                <h3 class="rork-title">EduShield</h3>
+              </div>
+              <a href="./projects/Applications/Edushield/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View EduShield Walkthrough">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">An AI detection platform for identifying AI-generated student submissions. Uses 6+ on-device signals — perplexity, burstiness, hedging patterns, vocabulary richness — with optional Anthropic-powered Socratic Verification. Role-based access, batch uploads, and PDF reports. Windows · macOS · Linux.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Electron</span>
+              <span class="tech-tag">SQLite</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">bcrypt</span>
+              <span class="tech-tag">Anthropic API</span>
+            </div>
+            <a href="./projects/Applications/Edushield/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
+            </a>
+            <button class="expand-trigger" data-target="snippet-edushield">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-edushield">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> detectionEngine.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface DetectionResult {
+  score: number; // 0–100
+  signals: Signal[];
+  verdict: 'human' | 'ai' | 'uncertain';
+}
+
+interface Signal {
+  name: 'perplexity' | 'burstiness'
+    | 'hedging' | 'vocabulary'
+    | 'structural' | 'personal_voice';
+  score: number;
+  weight: number;
+}
+
+const analyzeSubmission = (
+  text: string
+): DetectionResult =&gt; {
+  const signals = runSignals(text);
+  const score = signals.reduce(
+    (acc, s) =&gt; acc + s.score * s.weight, 0
+  );
+  return {
+    score,
+    signals,
+    verdict:
+      score &gt; 70 ? 'ai' :
+      score &lt; 30 ? 'human' : 'uncertain',
+  };
+};</code></pre>
+            </div>
+          </div>
+
+          <!-- SecurAIty EDR -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🔍</div>
+              <div class="rork-meta">
+                <div class="rork-category">Security · Desktop</div>
+                <h3 class="rork-title">SecurAIty EDR</h3>
+              </div>
+              <a href="./projects/Applications/SecurAIty/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View SecurAIty Walkthrough">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A privacy-first Endpoint Detection &amp; Response tool with a local ML threat detection engine, AES-256-GCM encrypted event logging, and Ollama integration for local AI-powered explanations. No telemetry on the free tier. Windows · macOS · Linux.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Rust</span>
+              <span class="tech-tag">AES-256-GCM</span>
+              <span class="tech-tag">SQLite</span>
+              <span class="tech-tag">Ollama</span>
+              <span class="tech-tag">ML</span>
+            </div>
+            <a href="./projects/Applications/SecurAIty/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
+            </a>
+            <button class="expand-trigger" data-target="snippet-securaity">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-securaity">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> threatEvaluator.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface ThreatEvent {
+  id: string;
+  timestamp: Date;
+  type: 'process' | 'file'
+    | 'network' | 'registry';
+  severity: 'low' | 'medium'
+    | 'high' | 'critical';
+  threatScore: number; // 0.0–1.0
+  action: 'log' | 'alert'
+    | 'block' | 'quarantine';
+  hash?: string; // SHA-256
+}
+
+const evaluateThreat = async (
+  event: RawEvent
+): Promise&lt;ThreatEvent&gt; =&gt; {
+  const score = await mlModel
+    .predict(event);
+  const action =
+    score &gt; 0.9 ? 'quarantine' :
+    score &gt; 0.7 ? 'block' :
+    score &gt; 0.4 ? 'alert' : 'log';
+  return {
+    ...event,
+    threatScore: score,
+    action,
+  };
+};</code></pre>
+            </div>
+          </div>
+
+          <!-- Sentinel AV -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">🛡️</div>
+              <div class="rork-meta">
+                <div class="rork-category">Security · Desktop</div>
+                <h3 class="rork-title">Sentinel AV</h3>
+              </div>
+              <a href="./projects/Applications/Sentinal_AV/walkthrough.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="View Sentinel AV Walkthrough">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A local-first antivirus with SHA-256 file scanning, real-time file watching, AES-256-CBC encrypted quarantine, and heuristic on-device analysis. Optional VirusTotal and Anthropic Claude integration for intelligent threat assessment. API keys stored in the OS keychain. Windows · macOS · Linux.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Electron</span>
+              <span class="tech-tag">SQLite</span>
+              <span class="tech-tag">AES-256-CBC</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">VirusTotal API</span>
+            </div>
+            <a href="./projects/Applications/Sentinal_AV/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-book-open"></i> View Product Walkthrough →
+            </a>
+            <button class="expand-trigger" data-target="snippet-sentinel">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-sentinel">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> fileScan.ts</span>
+                <span class="code-lang">TypeScript</span>
+              </div>
+              <pre class="code-block"><code>interface ScanResult {
+  path: string;
+  sha256: string;
+  threat?: ThreatInfo;
+  quarantined: boolean;
+  scannedAt: Date;
+  source: 'local' | 'virustotal'
+    | 'claude';
+}
+
+const scanFile = async (
+  filePath: string
+): Promise&lt;ScanResult&gt; =&gt; {
+  const hash = await computeSHA256(filePath);
+  const local = await db.signatures
+    .find(hash);
+  if (local) return quarantine(filePath, local);
+  if (settings.virusTotalEnabled) {
+    const vt = await VirusTotal.check(hash);
+    if (vt.malicious &gt; 0)
+      return quarantine(filePath, vt);
+  }
+  return {
+    path: filePath,
+    sha256: hash,
+    quarantined: false,
+    scannedAt: new Date(),
+    source: 'local',
+  };
 };</code></pre>
             </div>
           </div>
@@ -822,6 +1034,69 @@ const getAvailability = async (
       </div>
     </div>
 
+    <div id="proj-edushield" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>EduShield</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-5.jpg" alt="EduShield">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>EduShield — Academic Integrity Platform</strong></p>
+            <p>An AI detection platform that identifies AI-generated student submissions using 6+ on-device signals (perplexity, burstiness, hedging patterns, vocabulary richness, structural templates, personal voice). Features Anthropic-powered Socratic Verification, role-based access (Teacher/Admin/Super Admin), batch uploads, PDF reports, and three license tiers. All detection runs locally — no text is transmitted externally. Available for Windows, macOS, and Linux.</p>
+            <p><strong>Stack:</strong> Electron · SQLite · TypeScript · bcrypt · JWT · Anthropic API</p>
+            <a href="./projects/Applications/Edushield/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Applications/Edushield/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-securaity" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>SecurAIty EDR</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-5.jpg" alt="SecurAIty EDR">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>SecurAIty EDR — Endpoint Detection &amp; Response</strong></p>
+            <p>A privacy-first EDR tool with a local ML threat detection engine, AES-256-GCM encrypted event logging, and Ollama integration for on-device AI-powered threat explanations. Monitors process, file, network, and registry events. Optional Slack/Discord webhook notifications and URL threat checks via abuse.ch URLhaus. No telemetry on the free tier. Available for Windows, macOS, and Linux.</p>
+            <p><strong>Stack:</strong> Rust · AES-256-GCM · SQLite · Ollama · TypeScript</p>
+            <a href="./projects/Applications/SecurAIty/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Applications/SecurAIty/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="proj-sentinel" class="modal" data-animation="slideInOutTop">
+      <div class="modal-dialog">
+        <header class="modal-header">
+          <h3>Sentinel AV</h3>
+          <i class="fas fa-times" data-close></i>
+        </header>
+        <div class="modal-body">
+          <div class="img-wrapper">
+            <img src="./assests/images/portfolio-5.jpg" alt="Sentinel AV">
+          </div>
+          <div class="text-wrapper">
+            <p><strong>Sentinel AV — Antivirus &amp; File Scanner</strong></p>
+            <p>A local-first antivirus with SHA-256 file scanning, real-time file watching, and AES-256-CBC encrypted quarantine. Heuristic analysis runs entirely on-device. Optional VirusTotal integration (hash-only, never file contents) and Anthropic Claude API for intelligent threat assessment. API keys stored securely in the OS keychain — never written to disk. Available for Windows, macOS, and Linux.</p>
+            <p><strong>Stack:</strong> Electron · SQLite · AES-256-CBC · TypeScript · keytar · VirusTotal API</p>
+            <a href="./projects/Applications/Sentinal_AV/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Applications/Sentinal_AV/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="proj-schedulerx" class="modal" data-animation="slideInOutTop">
       <div class="modal-dialog">
         <header class="modal-header">
@@ -837,6 +1112,8 @@ const getAvailability = async (
             <p>A productivity mobile app for managing appointments, recurring events, and time blocks. Built with React Native via the Rork platform. Available on iOS and Android via Expo Go.</p>
             <p><strong>Stack:</strong> React Native · Expo · TypeScript · AsyncStorage · Rork</p>
             <a href="https://schedulerx.rork.app" target="_blank" rel="noopener" class="modal-link">Launch App →</a>
+            <a href="./projects/Mobile_Apps/rork-schedule-rx/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Mobile_Apps/rork-schedule-rx/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
           </div>
         </div>
       </div>
@@ -856,8 +1133,8 @@ const getAvailability = async (
             <p><strong>MatIQ — BJJ Training Tracker</strong></p>
             <p>A Brazilian Jiu-Jitsu training tracker that turns every session into structured data. Log rolls, track techniques with spaced repetition, monitor streaks and belt progress, and compete on a friends leaderboard — fully offline, no account required. Built with React Native via the Rork platform.</p>
             <p><strong>Stack:</strong> React Native · Expo · Expo Router · Zustand · TypeScript · AsyncStorage · Rork</p>
-            <a href="https://daryland.github.io/rollwise-by-frameworks/walkthrough" target="_blank" rel="noopener" class="modal-link">View Walkthrough →</a>
-            <a href="https://daryland.github.io/rollwise-by-frameworks/privacy" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+            <a href="./projects/Mobile_Apps/matiq-by-frameworks/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Mobile_Apps/matiq-by-frameworks/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
           </div>
         </div>
       </div>
@@ -877,8 +1154,8 @@ const getAvailability = async (
             <p><strong>LockForge — Habit Tracker with App Blocking</strong></p>
             <p>Habit tracking with enforced app blocking — you're locked in until the habit is done. Features a four-step habit wizard, full-screen focus sessions, streak tracking, heat map calendar, Apple Health sync (read-only), and AI insights. Local-first, no account required, free up to 3 habits. Built with React Native via the Rork platform.</p>
             <p><strong>Stack:</strong> React Native · Expo · TypeScript · HealthKit · Rork</p>
-            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/walkthrough" target="_blank" rel="noopener" class="modal-link">View Walkthrough →</a>
-            <a href="https://daryland.github.io/rork-lockforge-habit-tracker/privacy" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
+            <a href="./projects/Mobile_Apps/rork-lockforge-habit-tracker/walkthrough.html" target="_blank" rel="noopener" class="modal-link">View Product Walkthrough →</a>
+            <a href="./projects/Mobile_Apps/rork-lockforge-habit-tracker/privacy.html" target="_blank" rel="noopener" class="modal-link">Privacy Policy →</a>
           </div>
         </div>
       </div>

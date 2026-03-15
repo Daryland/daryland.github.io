@@ -506,6 +506,11 @@
   background: var(--bg);
 }
 
+.apps-section {
+  padding: 5rem 0;
+  background: var(--bg-panel);
+}
+
 .rork-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
