@@ -24,7 +24,10 @@
       "Bash(railway up:*)",
       "Bash(railway variables set:*)",
       "Bash(railway service:*)",
-      "Bash(railway domain:*)"
+      "Bash(railway domain:*)",
+      "WebFetch(domain:formspree.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:daryland.github.io)"
     ]
   }
 }

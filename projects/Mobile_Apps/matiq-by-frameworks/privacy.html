@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — MatIQ</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0D1B2A;
+      --navy-mid:#132236;
+      --navy-lt: #1A2E45;
+      --gold:    #F4C430;
+      --gold-lt: #F9D96A;
+      --text:    #E8EDF2;
+      --muted:   #8899AA;
+      --border:  rgba(244,196,48,.18);
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--navy-mid);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: var(--gold);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 900; color: var(--navy);
+      letter-spacing: -1px; flex-shrink: 0;
+    }
+    .logo-text { font-size: 20px; font-weight: 700; color: var(--text); }
+    .logo-text span { color: var(--gold); }
+    .header-tag {
+      margin-left: auto;
+      font-size: 12px; font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .hero { margin-bottom: 48px; }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-meta {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .hero-intro {
+      margin-top: 20px;
+      font-size: 17px;
+      color: #B8C8D8;
+      max-width: 640px;
+    }
+
+    /* ── Table of contents ── */
+    .toc {
+      background: var(--navy-lt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc-title {
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .toc ol { padding-left: 20px; }
+    .toc li { margin: 6px 0; }
+    .toc a {
+      color: #B8C8D8;
+      text-decoration: none;
+      font-size: 15px;
+    }
+    .toc a:hover { color: var(--gold); }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 44px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    section:first-of-type { border-top: none; }
+
+    h2 {
+      font-size: 22px; font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    h2 .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--gold); color: var(--navy);
+      font-size: 13px; font-weight: 800; flex-shrink: 0;
+    }
+
+    p { margin-bottom: 14px; color: #C8D8E8; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+    li { color: #C8D8E8; margin-bottom: 6px; }
+
+    strong { color: var(--text); }
+
+    .highlight-box {
+      background: rgba(244,196,48,.08);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+    .highlight-box p { color: #D8E8F0; margin: 0; }
+
+    /* ── Contact card ── */
+    .contact-card {
+      background: var(--navy-lt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 24px;
+      text-align: center;
+    }
+    .contact-card h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
+    .contact-card p { font-size: 15px; color: var(--muted); margin: 0; }
+    .contact-card a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">M</div>
+  <div class="logo-text">Mat<span>IQ</span></div>
+  <span class="header-tag">Privacy Policy</span>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Privacy <span>Policy</span></h1>
+    <p class="hero-meta">Effective Date: March 13, 2026 &nbsp;·&nbsp; Last Updated: March 13, 2026 &nbsp;·&nbsp; by Frameworks</p>
+    <p class="hero-intro">
+      MatIQ is built for BJJ practitioners who want full control of their training data. This policy explains clearly what information we handle, how it stays on your device, and your rights as a user.
+    </p>
+  </div>
+
+  <div class="toc">
+    <p class="toc-title">Table of Contents</p>
+    <ol>
+      <li><a href="#s1">Information We Collect</a></li>
+      <li><a href="#s2">How Your Data Is Stored</a></li>
+      <li><a href="#s3">How We Use Your Information</a></li>
+      <li><a href="#s4">Data Sharing & Third Parties</a></li>
+      <li><a href="#s5">Data Retention & Deletion</a></li>
+      <li><a href="#s6">Children's Privacy</a></li>
+      <li><a href="#s7">Your Rights & Choices</a></li>
+      <li><a href="#s8">Changes to This Policy</a></li>
+      <li><a href="#s9">Contact Us</a></li>
+    </ol>
+  </div>
+
+  <section id="s1">
+    <h2><span class="num">1</span> Information We Collect</h2>
+    <p>MatIQ is an <strong>offline-first, on-device application</strong>. All data you enter is stored locally on your device using AsyncStorage and is never transmitted to external servers unless you explicitly enable a sync feature in a future release.</p>
+    <p>The types of information you may enter into MatIQ include:</p>
+    <ul>
+      <li><strong>Profile information:</strong> username, belt level, stripe count, gym or academy name</li>
+      <li><strong>Training sessions:</strong> date, session type, duration, mood, instructor, training partners, notes, sparring results</li>
+      <li><strong>Techniques:</strong> technique names, positions, types, recall scores, review history</li>
+      <li><strong>Friends list:</strong> usernames of training partners you add manually</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>We do not collect personal identifiers</strong> such as your legal name, email address, phone number, payment information, or government ID at any point during the current version of MatIQ.</p>
+    </div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">2</span> How Your Data Is Stored</h2>
+    <p>All data entered into MatIQ is stored <strong>locally on your device</strong> using the following keys in AsyncStorage:</p>
+    <ul>
+      <li><code>matiq_user</code> — your profile and onboarding information</li>
+      <li><code>matiq_sessions</code> — your logged training sessions</li>
+      <li><code>matiq_techniques</code> — your technique library</li>
+      <li><code>matiq_reviews</code> — your technique review history</li>
+    </ul>
+    <p>No data leaves your device through the app. If you use a cloud backup service (such as iCloud or Google Drive) that backs up your app data, those services' own privacy policies govern that backup.</p>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">3</span> How We Use Your Information</h2>
+    <p>Your information is used exclusively to power MatIQ's features on your device:</p>
+    <ul>
+      <li>Displaying your training statistics, streaks, and progress</li>
+      <li>Calculating belt advancement progress based on mat time</li>
+      <li>Generating badge achievements based on training milestones</li>
+      <li>Personalizing the home screen greeting and dashboard</li>
+      <li>Powering technique recall scoring and spaced-repetition reviews</li>
+      <li>Building leaderboards from locally-stored friend data</li>
+    </ul>
+    <p>We do not use your data for advertising, analytics profiling, or any commercial purpose beyond operating the app for you.</p>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">4</span> Data Sharing & Third Parties</h2>
+    <p>MatIQ does <strong>not sell, rent, trade, or share your personal information</strong> with any third party. There are no advertising SDKs, analytics trackers, or data brokers integrated into the current version of the app.</p>
+    <p>The app uses the following open-source and platform libraries, none of which collect user data:</p>
+    <ul>
+      <li>Expo SDK — cross-platform runtime (Expo, Inc.)</li>
+      <li>React Native — UI framework (Meta)</li>
+      <li>TanStack Query — local state management</li>
+      <li>Zustand — client-side state</li>
+      <li>Lucide React Native — icon library</li>
+    </ul>
+    <p>If future versions of MatIQ introduce cloud sync, social features, or analytics (including the upcoming <strong>MatIQ Pro</strong> subscription tier), this policy will be updated before those features ship and you will be notified in-app. Any Pro subscription billing will be handled entirely by Apple App Store and subject to Apple's own privacy policy — we will never directly process payment information.</p>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">5</span> Data Retention & Deletion</h2>
+    <p>Your data persists on your device for as long as the app is installed. You can delete all app data at any time by:</p>
+    <ul>
+      <li><strong>Uninstalling</strong> MatIQ from your device — this removes all locally stored data</li>
+      <li><strong>Clearing app storage</strong> via your device's Settings → Apps → MatIQ → Clear Storage (Android) or offloading the app (iOS)</li>
+      <li>Using any in-app data reset option in Profile settings, if available in your version</li>
+    </ul>
+    <p>Because we do not store your data on external servers, deletion is immediate and complete once local storage is cleared.</p>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">6</span> Children's Privacy</h2>
+    <p>MatIQ is not directed at children under the age of 13. We do not knowingly collect any information from children under 13. Because all data is stored locally and no account registration is required, the app does not have a sign-up mechanism that could be used by minors.</p>
+    <p>If you are a parent or guardian and believe your child has provided personal information through this app, please contact us so we can guide you through clearing that data from the device.</p>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">7</span> Your Rights & Choices</h2>
+    <p>Because MatIQ stores all data locally on your device and does not transmit it to us, you have full control at all times:</p>
+    <ul>
+      <li><strong>Access:</strong> All your data is visible within the app at any time</li>
+      <li><strong>Correction:</strong> Edit any session, technique, or profile detail directly in the app</li>
+      <li><strong>Deletion:</strong> Remove individual entries or all data as described in Section 5</li>
+      <li><strong>Portability:</strong> We plan to add export functionality in a future release</li>
+    </ul>
+    <p>If you reside in the EU, UK, California, or another jurisdiction with specific data protection rights, those rights are automatically satisfied because we do not collect or hold your data on external systems. You are, at all times, the sole controller of your data.</p>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">8</span> Changes to This Policy</h2>
+    <p>We may update this Privacy Policy as MatIQ evolves. Any material changes — particularly those involving new data collection or third-party sharing — will be communicated via an in-app notice before taking effect.</p>
+    <p>The "Last Updated" date at the top of this page reflects the most recent revision. Continued use of the app after changes indicates acceptance of the updated policy.</p>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">9</span> Contact Us</h2>
+    <p>Questions, concerns, or data requests? We're here to help.</p>
+    <div class="contact-card">
+      <h3>by Frameworks</h3>
+      <p>Developers of MatIQ</p>
+      <p style="margin-top:12px;">
+        For privacy inquiries, reach us at<br/>
+        <a href="mailto:privacy@byframeworks.com">privacy@byframeworks.com</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 Frameworks. All rights reserved. &nbsp;·&nbsp; <a href="walkthrough.html">App Walkthrough</a> &nbsp;·&nbsp; <a href="walkthrough.html#pro">MatIQ Pro</a></p>
+</footer>
+
+</body>
+</html>

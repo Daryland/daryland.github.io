@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy – Schedule RX</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A1628;--card1:#0F1F4D;--card2:#142254;
+  --orange:#F97316;--blue:#2563EB;--green:#22C55E;
+  --text:#F1F5F9;--muted:#94A3B8;--border:rgba(255,255,255,0.08);
+  --font:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,22,40,0.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-size:1.1rem;font-weight:700}
+.logo-icon{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:10px;font-size:.85rem;font-weight:600;text-decoration:none;border:1px solid var(--border);color:var(--text);transition:background .2s}
+.btn:hover{background:rgba(255,255,255,.05)}
+
+/* ── LAYOUT ── */
+.page{max-width:1100px;margin:0 auto;padding:64px 40px;display:grid;grid-template-columns:240px 1fr;gap:60px;align-items:start}
+
+/* ── TOC ── */
+.toc{position:sticky;top:80px}
+.toc h2{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:14px}
+.toc ol{list-style:none;counter-reset:toc;display:flex;flex-direction:column;gap:2px}
+.toc ol li{counter-increment:toc}
+.toc ol li a{
+  display:flex;align-items:center;gap:8px;
+  color:var(--muted);text-decoration:none;font-size:.82rem;
+  padding:6px 10px;border-radius:8px;transition:all .2s;
+}
+.toc ol li a::before{content:counter(toc);font-size:.7rem;font-weight:700;color:var(--orange);min-width:16px}
+.toc ol li a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+
+/* ── CONTENT ── */
+.content{min-width:0}
+.content .page-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.content .effective{font-size:.85rem;color:var(--muted);margin-bottom:48px}
+
+/* Highlight box */
+.highlight{
+  background:var(--card1);border:1px solid rgba(249,115,22,.3);
+  border-left:4px solid var(--orange);border-radius:16px;
+  padding:28px 32px;margin-bottom:56px;
+}
+.highlight h3{font-size:1rem;font-weight:700;color:var(--orange);margin-bottom:12px}
+.highlight ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.highlight ul li{display:flex;align-items:flex-start;gap:10px;font-size:.92rem}
+.highlight ul li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;background:rgba(34,197,94,.1);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:2px}
+
+/* Sections */
+.section{margin-bottom:56px;scroll-margin-top:88px}
+.section-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(249,115,22,.15);color:var(--orange);font-size:.8rem;font-weight:700;margin-right:10px;flex-shrink:0}
+.section h2{display:flex;align-items:center;font-size:1.3rem;font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.section p{color:var(--muted);font-size:.95rem;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+.section ul,.section ol{color:var(--muted);font-size:.95rem;padding-left:24px;margin-bottom:14px;display:flex;flex-direction:column;gap:6px}
+
+/* Sub-cards */
+.card{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:12px}
+.card h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.card p{font-size:.88rem;color:var(--muted);margin:0}
+
+/* Contact grid */
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:4px}
+.contact-card{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:20px 22px}
+.contact-card .cc-icon{font-size:1.4rem;margin-bottom:8px}
+.contact-card h4{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.contact-card p{font-size:.85rem;color:var(--muted);margin:0}
+.contact-card a{color:var(--orange);text-decoration:none}
+.contact-card a:hover{text-decoration:underline}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.83rem;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+footer p{font-size:.78rem;color:var(--muted)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .page{grid-template-columns:1fr;padding:40px 24px;gap:0}
+  .toc{position:static;background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:44px}
+  header{padding:0 20px}
+}
+@media(max-width:640px){
+  .page{padding:32px 16px}
+  .contact-grid{grid-template-columns:1fr}
+  footer{padding:24px 16px;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="walkthrough.html" class="logo">
+    <div class="logo-icon">⚗</div>
+    Schedule RX
+  </a>
+  <a href="walkthrough.html" class="btn">← Back to App</a>
+</header>
+
+<div class="page">
+
+  <!-- TABLE OF CONTENTS -->
+  <aside class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#collect">Information We Collect</a></li>
+      <li><a href="#use">How We Use Your Data</a></li>
+      <li><a href="#storage">Data Storage &amp; Security</a></li>
+      <li><a href="#third-party">Third-Party Services</a></li>
+      <li><a href="#notifications">Notifications</a></li>
+      <li><a href="#children">Children's Privacy</a></li>
+      <li><a href="#rights">Your Rights</a></li>
+      <li><a href="#changes">Policy Changes</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="effective">Effective date: March 14, 2026</p>
+
+    <!-- SHORT VERSION HIGHLIGHT -->
+    <div class="highlight">
+      <h3>The Short Version</h3>
+      <ul>
+        <li>Schedule RX stores all your data locally on your device — nothing is sent to any server.</li>
+        <li>We do not collect your name, email, or any personal identifying information.</li>
+        <li>We do not use analytics, tracking, or advertising SDKs.</li>
+        <li>Notifications are scheduled locally on-device — no push notification servers are used.</li>
+        <li>You can delete all app data at any time by uninstalling the app.</li>
+      </ul>
+    </div>
+
+    <!-- 1. OVERVIEW -->
+    <section class="section" id="overview">
+      <h2><span class="section-num">1</span>Overview</h2>
+      <p>Schedule RX ("the App," "we," "our") is a supplement and peptide scheduling tool for iOS, Android, and web. This Privacy Policy describes what information the App accesses, how it is used, and the choices available to you.</p>
+      <p>Schedule RX is designed as a fully offline, privacy-first application. Your supplement schedule, cycle history, dosage preferences, and all other user-generated data are stored exclusively on your own device using your device's local storage (AsyncStorage). No data is transmitted to Schedule RX servers, third-party analytics providers, or any cloud service.</p>
+      <p>By using the App you agree to the practices described in this policy. If you do not agree, please discontinue use and uninstall the App.</p>
+    </section>
+
+    <!-- 2. INFORMATION WE COLLECT -->
+    <section class="section" id="collect">
+      <h2><span class="section-num">2</span>Information We Collect</h2>
+      <p>Because Schedule RX operates entirely on-device, the distinction between "collected" and "stored" is important. We do not collect or receive any data. The App stores the following information <strong>locally on your device only</strong>:</p>
+
+      <div class="card">
+        <h4>Supplement &amp; Cycle Data</h4>
+        <p>Active cycles, completed cycles, daily dose schedules, dose completion status, custom supplement definitions, and any overridden dosage parameters you set.</p>
+      </div>
+      <div class="card">
+        <h4>App Preferences</h4>
+        <p>Whether you have been asked for notification permission (stored as a boolean flag). No other preference data is persisted.</p>
+      </div>
+      <div class="card">
+        <h4>What We Do NOT Collect</h4>
+        <p>We do not collect: names, email addresses, phone numbers, health metrics, biometric data, location data, photos, device identifiers, IP addresses, usage analytics, crash reports, or any other personal or sensitive information.</p>
+      </div>
+
+      <p>The App requests the following device permissions. These permissions are used solely for on-device functionality and no data derived from them leaves your device:</p>
+      <ul>
+        <li><strong>Notifications</strong> — to schedule local dose reminders at your chosen times.</li>
+        <li><strong>Location</strong> — declared in the app manifest but not actively used in any current feature.</li>
+        <li><strong>Camera / Photo Library</strong> — declared in the app manifest but not actively used in any current feature.</li>
+      </ul>
+      <p>You may deny any of these permissions without affecting core functionality. Denying notification permission will disable dose reminders.</p>
+    </section>
+
+    <!-- 3. HOW WE USE YOUR DATA -->
+    <section class="section" id="use">
+      <h2><span class="section-num">3</span>How We Use Your Data</h2>
+      <p>All data stored by the App is used solely to provide the features you see on screen:</p>
+      <ul>
+        <li>Displaying your daily dose schedule on the Today screen.</li>
+        <li>Rendering your supplement history on the Calendar screen.</li>
+        <li>Tracking which doses you have marked as taken.</li>
+        <li>Calculating and displaying on-cycle and off-cycle periods.</li>
+        <li>Scheduling local notification reminders for upcoming doses.</li>
+        <li>Persisting your custom supplement definitions and dosage overrides.</li>
+      </ul>
+      <p>We do not use your data for advertising, profiling, analytics, machine learning, or any purpose beyond the core scheduling functionality of the App.</p>
+    </section>
+
+    <!-- 4. STORAGE & SECURITY -->
+    <section class="section" id="storage">
+      <h2><span class="section-num">4</span>Data Storage &amp; Security</h2>
+      <p>All app data is written to <strong>AsyncStorage</strong>, the standard on-device key-value store provided by React Native. Data is stored in your device's application sandbox, isolated from other apps, and subject to your device's own encryption and access controls.</p>
+      <p>Because data never leaves your device, there is no network transmission to intercept, no server database to breach, and no cloud account to compromise. The security of your data is governed entirely by your device's security model (screen lock, biometric authentication, device encryption).</p>
+      <p><strong>Data retention:</strong> Data persists until you delete the App or clear its local storage. Uninstalling the App will permanently delete all stored data from your device.</p>
+      <p>We recommend enabling device-level encryption and using a screen lock to protect all locally stored app data.</p>
+    </section>
+
+    <!-- 5. THIRD-PARTY SERVICES -->
+    <section class="section" id="third-party">
+      <h2><span class="section-num">5</span>Third-Party Services</h2>
+      <p>Schedule RX does not integrate any third-party analytics, advertising, or tracking SDKs. The App was built using the following third-party frameworks whose privacy practices are governed by their own policies:</p>
+
+      <div class="card">
+        <h4>Expo / React Native (Meta &amp; Expo)</h4>
+        <p>The runtime framework powering the App. No data is sent to Expo or Meta servers during normal app usage. Expo's privacy policy applies to the development toolchain only.</p>
+      </div>
+      <div class="card">
+        <h4>External Links</h4>
+        <p>The How-To and Library tabs contain links to external websites (PubMed research articles, educational blogs, YouTube videos). Tapping these links opens them in your device's browser. Those sites have their own privacy policies; we have no control over their data practices.</p>
+      </div>
+      <div class="card">
+        <h4>Rork Platform</h4>
+        <p>The App was built and distributed via the Rork platform. Rork may collect standard app distribution metadata (device type, OS version, install events) as part of the build and delivery process. Refer to <a href="https://rork.com" style="color:var(--orange);">Rork's privacy policy</a> for details.</p>
+      </div>
+      <div class="card">
+        <h4>App Store / Google Play</h4>
+        <p>If installed via the Apple App Store or Google Play Store, Apple and Google collect standard installation and purchase data under their own privacy policies, independent of Schedule RX.</p>
+      </div>
+    </section>
+
+    <!-- 6. NOTIFICATIONS -->
+    <section class="section" id="notifications">
+      <h2><span class="section-num">6</span>Notifications</h2>
+      <p>Schedule RX uses <strong>local notifications only</strong>. When you add a supplement cycle, the App schedules reminders directly on your device using the operating system's notification APIs (Expo Notifications). No notification content, schedule data, or device tokens are sent to any remote server.</p>
+      <p>You can revoke notification permission at any time in your device's Settings app. Revoking permission will disable dose reminders but will not affect any other app functionality.</p>
+      <p>On Android, notifications are delivered via a dedicated notification channel labeled "Supplement Reminders," which you can independently manage in your device settings.</p>
+    </section>
+
+    <!-- 7. CHILDREN'S PRIVACY -->
+    <section class="section" id="children">
+      <h2><span class="section-num">7</span>Children's Privacy</h2>
+      <p>Schedule RX is not directed at or intended for use by children under the age of 13 (or 16 in the European Economic Area). The App contains information about peptides and supplements that is intended for adult audiences only.</p>
+      <p>We do not knowingly collect any personal information from children. Because the App collects no personal information from any user, this applies universally. If you believe a child under the applicable age has used the App, please contact us at the address below so we can take appropriate action.</p>
+    </section>
+
+    <!-- 8. YOUR RIGHTS -->
+    <section class="section" id="rights">
+      <h2><span class="section-num">8</span>Your Rights</h2>
+      <p>Because Schedule RX does not collect or store personal data on any server, most data rights (access, correction, portability, deletion) are exercised entirely by you through your device:</p>
+      <ul>
+        <li><strong>Access &amp; Portability:</strong> All your data exists locally on your device. You have complete access to it at all times through the App interface.</li>
+        <li><strong>Deletion:</strong> Uninstalling the App permanently deletes all stored data. You may also clear specific cycles or custom supplements within the App.</li>
+        <li><strong>Correction:</strong> You can edit any supplement parameter, dosage, or cycle date directly within the App.</li>
+      </ul>
+
+      <div class="card" style="border-color:rgba(37,99,235,.3);margin-top:18px;">
+        <h4 style="color:#60a5fa;">California Residents (CCPA)</h4>
+        <p>Under the California Consumer Privacy Act, California residents have rights regarding their personal information. Because Schedule RX does not sell, share, or transmit any personal information, there is no personal information to disclose, correct, or delete from our end. You retain complete control over your locally stored data as described above. To submit a CCPA request or inquiry, contact us using the details in Section 10.</p>
+      </div>
+
+      <div class="card" style="border-color:rgba(34,197,94,.3);margin-top:0;">
+        <h4 style="color:#22C55E;">EEA / UK Residents (GDPR / UK GDPR)</h4>
+        <p>Under the General Data Protection Regulation, residents of the European Economic Area and the United Kingdom have rights including access, rectification, erasure, restriction of processing, and data portability. Because Schedule RX processes no personal data on any server, we act solely as a tool that stores data on your own device. No data controller relationship is established by use of the App. If you have a question about your rights, contact us using the details in Section 10.</p>
+      </div>
+    </section>
+
+    <!-- 9. POLICY CHANGES -->
+    <section class="section" id="changes">
+      <h2><span class="section-num">9</span>Policy Changes</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will revise the "Effective date" at the top of this page and, for material changes, provide an in-app notice on the next App launch.</p>
+      <p>Continued use of the App after a policy update constitutes your acceptance of the revised terms. If you do not agree to the updated policy, please discontinue use of the App.</p>
+      <p>Previous versions of this policy are available on request.</p>
+    </section>
+
+    <!-- 10. CONTACT -->
+    <section class="section" id="contact">
+      <h2><span class="section-num">10</span>Contact</h2>
+      <p>If you have questions, concerns, or requests related to this Privacy Policy, please reach out through any of the channels below.</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="cc-icon">✉</div>
+          <h4>Email</h4>
+          <p><a href="mailto:privacy@schedulerx.app">privacy@schedulerx.app</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">🐛</div>
+          <h4>Bug Reports &amp; Feedback</h4>
+          <p>Open an issue on the project's GitHub repository or contact us by email.</p>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">📄</div>
+          <h4>Product Walkthrough</h4>
+          <p><a href="walkthrough.html">View the app walkthrough</a> to learn about features and how your data is used.</p>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">⚖</div>
+          <h4>Legal / GDPR Requests</h4>
+          <p>For formal legal or data subject access requests, email <a href="mailto:privacy@schedulerx.app">privacy@schedulerx.app</a> with subject line "Privacy Request."</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="walkthrough.html" class="logo" style="font-size:1rem;">
+    <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">⚗</div>
+    Schedule RX
+  </a>
+  <div class="footer-links">
+    <a href="walkthrough.html">App Walkthrough</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="mailto:privacy@schedulerx.app">Contact</a>
+  </div>
+  <p>© 2026 Schedule RX. For informational &amp; educational purposes only.</p>
+</footer>
+
+</body>
+</html>

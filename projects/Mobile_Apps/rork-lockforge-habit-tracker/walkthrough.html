@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LockForge – App Walkthrough</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A1628;
+      --surface: #0F1F4D;
+      --surface2: #142254;
+      --surface3: #1a2b5e;
+      --border: rgba(255,255,255,0.08);
+      --orange: #F97316;
+      --orange-dim: rgba(249,115,22,0.15);
+      --orange-glow: rgba(249,115,22,0.3);
+      --blue: #2563EB;
+      --blue-dim: rgba(37,99,235,0.15);
+      --green: #22C55E;
+      --green-dim: rgba(34,197,94,0.15);
+      --red: #EF4444;
+      --yellow: #EAB308;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Utils ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.3);
+      color: var(--orange); font-size: 12px; font-weight: 600;
+      padding: 4px 12px; border-radius: 100px; letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-blue {
+      background: var(--blue-dim); border-color: rgba(37,99,235,0.3);
+      color: #60A5FA;
+    }
+    .badge-green {
+      background: var(--green-dim); border-color: rgba(34,197,94,0.3);
+      color: var(--green);
+    }
+
+    /* ── Header ── */
+    header {
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      padding: 0 24px;
+    }
+    .header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--orange); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #fff;
+    }
+    .logo-text { font-size: 17px; font-weight: 700; }
+    .logo-text span { color: var(--orange); }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      color: var(--muted); font-size: 14px; text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    @media (max-width: 600px) { .nav-links { display: none; } }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 100px 24px 80px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(249,115,22,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 20% 100%, rgba(37,99,235,0.12) 0%, transparent 60%);
+      position: relative;
+    }
+    .hero-badge { margin-bottom: 24px; }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 .accent { color: var(--orange); }
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--orange); color: #fff;
+      font-size: 16px; font-weight: 700;
+      padding: 14px 28px; border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 0 32px rgba(249,115,22,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 48px rgba(249,115,22,0.5);
+    }
+
+    /* ── Section layout ── */
+    .section {
+      padding: 80px 24px;
+    }
+    .section-alt { background: rgba(15,31,77,0.4); }
+
+    .section-label {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 560px;
+      margin: 0 auto 60px;
+    }
+
+    /* ── Phone mockup ── */
+    .phone {
+      width: 280px;
+      min-height: 520px;
+      background: #060e1e;
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 40px;
+      padding: 20px 14px 24px;
+      position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      flex-shrink: 0;
+    }
+    .phone::before {
+      content: '';
+      display: block;
+      width: 80px; height: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 100px;
+      margin: 0 auto 14px;
+    }
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 28px;
+      padding: 16px 12px;
+      min-height: 440px;
+      overflow: hidden;
+    }
+
+    /* ── Feature row ── */
+    .feature-row {
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      max-width: 1000px;
+      margin: 0 auto 96px;
+    }
+    .feature-row:last-child { margin-bottom: 0; }
+    .feature-row.reverse { flex-direction: row-reverse; }
+    .feature-copy { flex: 1; }
+    .feature-copy .badge { margin-bottom: 16px; }
+    .feature-copy h3 {
+      font-size: 30px; font-weight: 800;
+      margin-bottom: 16px; letter-spacing: -0.5px;
+    }
+    .feature-copy p {
+      color: var(--muted); font-size: 16px;
+      margin-bottom: 24px; line-height: 1.7;
+    }
+    .feature-list { list-style: none; }
+    .feature-list li {
+      display: flex; gap: 10px;
+      font-size: 15px; color: var(--muted);
+      margin-bottom: 10px; align-items: flex-start;
+    }
+    .feature-list li .check {
+      width: 20px; height: 20px;
+      background: var(--green-dim);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: var(--green);
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    @media (max-width: 800px) {
+      .feature-row, .feature-row.reverse {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* ── Mock UI: Today screen ── */
+    .mock-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .mock-greeting { font-size: 11px; color: var(--muted); }
+    .mock-greeting strong { display: block; font-size: 14px; color: var(--text); font-weight: 700; }
+    .mock-bell {
+      width: 28px; height: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+
+    .progress-ring-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      margin: 12px 0;
+    }
+    .progress-ring {
+      width: 80px; height: 80px;
+      position: relative;
+    }
+    .progress-ring svg { transform: rotate(-90deg); }
+    .progress-ring-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .progress-pct { font-size: 16px; font-weight: 800; color: var(--orange); }
+    .progress-label { font-size: 8px; color: var(--muted); }
+
+    .stat-row {
+      display: flex; gap: 8px; margin-bottom: 12px;
+    }
+    .stat-card {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+    }
+    .stat-val { font-size: 16px; font-weight: 800; color: var(--orange); }
+    .stat-lbl { font-size: 8px; color: var(--muted); }
+
+    .habit-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .habit-emoji {
+      width: 32px; height: 32px;
+      background: var(--orange-dim);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .habit-info { flex: 1; }
+    .habit-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .habit-time { font-size: 9px; color: var(--muted); }
+    .habit-done {
+      background: var(--green-dim);
+      color: var(--green);
+      font-size: 9px; font-weight: 700;
+      padding: 3px 7px; border-radius: 6px;
+    }
+    .habit-start {
+      background: var(--orange);
+      color: #fff;
+      font-size: 9px; font-weight: 700;
+      padding: 4px 8px; border-radius: 6px;
+    }
+    .habit-item-blue .habit-emoji { background: var(--blue-dim); }
+    .habit-item-green .habit-emoji { background: var(--green-dim); }
+
+    /* ── Mock UI: Lock Screen ── */
+    .lock-screen-mock {
+      background: linear-gradient(160deg, #0c1c40 0%, #0a1628 50%, #1a1040 100%);
+      border-radius: 28px;
+      padding: 24px 16px;
+      min-height: 440px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      text-align: center;
+    }
+    .lock-icon {
+      width: 64px; height: 64px;
+      background: var(--orange-dim);
+      border-radius: 20px;
+      border: 2px solid rgba(249,115,22,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 0 32px rgba(249,115,22,0.3);
+      margin-bottom: 8px;
+    }
+    .lock-habit-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .lock-time-label { font-size: 9px; color: var(--muted); margin-bottom: 4px; }
+    .lock-timer { font-size: 40px; font-weight: 900; color: var(--text); letter-spacing: -2px; }
+    .lock-progress-ring {
+      width: 100px; height: 100px;
+      position: relative;
+      margin: 0 auto;
+    }
+    .lock-progress-ring svg { transform: rotate(-90deg); }
+    .lock-progress-inner {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .lock-pct { font-size: 20px; font-weight: 900; color: var(--orange); }
+    .lock-pct-label { font-size: 8px; color: var(--muted); }
+    .lock-buttons { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .lock-btn-complete {
+      background: var(--green);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 12px; border-radius: 12px; text-align: center;
+    }
+    .lock-btn-row { display: flex; gap: 6px; }
+    .lock-btn-sm {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 10px; font-weight: 600;
+      padding: 8px; border-radius: 10px; text-align: center;
+    }
+
+    /* ── Mock UI: Habit Creator ── */
+    .creator-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .creator-step-label {
+      font-size: 9px; color: var(--orange); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+    .creator-field {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 11px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .creator-field:last-child { margin-bottom: 0; }
+    .color-row { display: flex; gap: 5px; }
+    .color-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+    }
+    .day-row { display: flex; gap: 4px; }
+    .day-pill {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      font-size: 9px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .day-pill.active {
+      background: var(--orange-dim);
+      border-color: rgba(249,115,22,0.4);
+      color: var(--orange);
+    }
+    .app-block-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .app-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 9px; color: var(--muted);
+    }
+    .app-chip.blocked {
+      background: rgba(239,68,68,0.15);
+      border-color: rgba(239,68,68,0.3);
+      color: var(--red);
+    }
+    .steps-row {
+      display: flex; gap: 4px; margin-bottom: 12px;
+    }
+    .step-dot {
+      flex: 1; height: 3px; border-radius: 2px;
+      background: var(--border);
+    }
+    .step-dot.done { background: var(--orange); }
+    .step-dot.active { background: var(--orange); opacity: 0.6; }
+
+    /* ── Mock UI: Streaks ── */
+    .streak-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .streak-title { font-size: 14px; font-weight: 700; }
+    .streak-fire { font-size: 20px; }
+    .streak-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+    .streak-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+    .streak-stat-val { font-size: 18px; font-weight: 800; }
+    .streak-stat-lbl { font-size: 8px; color: var(--muted); }
+    .heat-map { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
+    .heat-cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: var(--surface);
+    }
+    .heat-cell.h1 { background: rgba(249,115,22,0.2); }
+    .heat-cell.h2 { background: rgba(249,115,22,0.45); }
+    .heat-cell.h3 { background: rgba(249,115,22,0.7); }
+    .heat-cell.h4 { background: #F97316; }
+
+    /* ── Mock UI: Analytics ── */
+    .analytics-bar-chart {
+      display: flex; align-items: flex-end; gap: 6px;
+      height: 80px; margin-bottom: 10px;
+    }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      background: var(--orange);
+      min-height: 4px;
+    }
+    .bar.dim { background: var(--surface2); }
+    .bar-label { font-size: 8px; color: var(--muted); }
+    .ai-insight {
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.25);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .ai-insight-label { font-size: 8px; font-weight: 700; color: var(--orange); margin-bottom: 3px; }
+    .ai-insight-text { font-size: 9px; color: var(--muted); line-height: 1.4; }
+
+    /* ── Feature grid (Pro) ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(249,115,22,0.3);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 14px;
+    }
+    .feature-icon-orange { background: var(--orange-dim); }
+    .feature-icon-blue { background: var(--blue-dim); }
+    .feature-icon-green { background: var(--green-dim); }
+    .feature-icon-purple { background: rgba(168,85,247,0.15); }
+    .feature-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Onboarding mockup ── */
+    .onboard-slide {
+      border-radius: 28px;
+      padding: 32px 20px;
+      min-height: 440px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      text-align: center;
+    }
+    .onboard-icon {
+      width: 80px; height: 80px;
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 24px auto;
+    }
+    .onboard-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .onboard-body { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .onboard-dots { display: flex; gap: 6px; justify-content: center; }
+    .onboard-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+    }
+    .onboard-dot.active { background: var(--orange); width: 20px; border-radius: 4px; }
+    .onboard-next {
+      background: var(--orange);
+      color: #fff; font-size: 12px; font-weight: 700;
+      padding: 12px 32px; border-radius: 12px;
+      width: 100%; margin-top: 16px;
+    }
+
+    /* ── Pro upgrade section ── */
+    .pro-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #1a2b5e 0%, #0F1F4D 100%);
+      border: 1px solid rgba(249,115,22,0.2);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(249,115,22,0.08);
+    }
+    .pro-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--orange);
+      color: #fff; font-size: 12px; font-weight: 800;
+      padding: 5px 14px; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .pro-card h2 { font-size: 36px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .pro-card p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+    .pro-price { font-size: 48px; font-weight: 900; color: var(--orange); }
+    .pro-price span { font-size: 20px; font-weight: 400; color: var(--muted); }
+    .pro-features {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin: 32px 0;
+    }
+    .pro-feature-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.2);
+      border-radius: 100px; padding: 6px 14px;
+      font-size: 13px; color: var(--text);
+    }
+    .pro-feature-pill span { font-size: 14px; }
+    .pro-cta {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff; font-size: 16px; font-weight: 700;
+      padding: 16px 40px; border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 0 40px rgba(249,115,22,0.3);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 16px; }
+    footer p { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    footer a { color: var(--orange); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Analytics dual-phone layout ── */
+    .phones-pair {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .analytics-copy {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .feature-list-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2px 32px;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── Responsive fixes ── */
+    @media (max-width: 640px) {
+      .pro-card { padding: 28px 20px; }
+      .pro-card h2 { font-size: 26px; }
+      .pro-price { font-size: 36px; }
+      .phones-pair { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-mark">LF</div>
+        <div class="logo-text">Lock<span>Forge</span></div>
+      </div>
+      <nav class="nav-links">
+        <a href="#today">Today</a>
+        <a href="#lock">Lock Mode</a>
+        <a href="#habits">Habits</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#pro">Pro</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <div class="badge">&#9889; Product Walkthrough</div>
+    </div>
+    <h1>Forge <span class="accent">Unbreakable</span><br/>Habits.</h1>
+    <p>LockForge pairs habit tracking with enforced app blocking — so instead of just logging what you did, you're locked in until you do it.</p>
+    <a class="hero-cta" href="#today">Explore the App &#8594;</a>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 1. Today Screen ── -->
+  <section class="section" id="today">
+    <div class="container">
+      <div class="feature-row">
+
+        <!-- Phone -->
+        <div class="phone">
+          <div class="phone-screen">
+            <!-- header -->
+            <div class="mock-header">
+              <div class="mock-greeting">
+                <span>Good morning</span>
+                <strong>Today</strong>
+              </div>
+              <div class="mock-bell">&#128276;</div>
+            </div>
+
+            <!-- progress ring -->
+            <div class="progress-ring-wrap">
+              <div class="progress-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="#F97316" stroke-width="6"
+                    stroke-dasharray="201" stroke-dashoffset="100" stroke-linecap="round"/>
+                </svg>
+                <div class="progress-ring-center">
+                  <div class="progress-pct">50%</div>
+                  <div class="progress-label">today</div>
+                </div>
+              </div>
+              <div style="font-size:10px; color:var(--muted); margin-top:6px;">2 of 4 habits done</div>
+            </div>
+
+            <!-- stats -->
+            <div class="stat-row">
+              <div class="stat-card">
+                <div class="stat-val">🔥 12</div>
+                <div class="stat-lbl">Best Streak</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-val">4</div>
+                <div class="stat-lbl">Active Habits</div>
+              </div>
+            </div>
+
+            <!-- habits -->
+            <div class="habit-item">
+              <div class="habit-emoji">💪</div>
+              <div class="habit-info">
+                <div class="habit-name">Morning Gym</div>
+                <div class="habit-time">06:00 – 07:00 · 60 min</div>
+              </div>
+              <div class="habit-done">✓ Done</div>
+            </div>
+            <div class="habit-item habit-item-blue">
+              <div class="habit-emoji" style="background:var(--blue-dim)">📖</div>
+              <div class="habit-info">
+                <div class="habit-name">Deep Reading</div>
+                <div class="habit-time">08:00 – 09:00 · 60 min</div>
+              </div>
+              <div class="habit-done">✓ Done</div>
+            </div>
+            <div class="habit-item habit-item-green">
+              <div class="habit-emoji" style="background:var(--green-dim)">🧘</div>
+              <div class="habit-info">
+                <div class="habit-name">Meditation</div>
+                <div class="habit-time">07:00 – 07:30 · 30 min</div>
+              </div>
+              <div class="habit-start">▶ Start</div>
+            </div>
+
+            <!-- FAB -->
+            <div style="display:flex;justify-content:flex-end;margin-top:12px">
+              <div style="width:36px;height:36px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;box-shadow:0 0 16px rgba(249,115,22,0.5);">+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="feature-copy">
+          <div class="badge">01 · Home Screen</div>
+          <h3>Your Day at a Glance</h3>
+          <p>The Today screen gives you an instant read on your progress. A live progress ring shows how many habits you've completed, with each habit card showing status, schedule, and a one-tap start button.</p>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Dynamic greeting based on time of day</li>
+            <li><span class="check">✓</span> Progress ring: habits completed vs. total</li>
+            <li><span class="check">✓</span> Best streak and active habit count</li>
+            <li><span class="check">✓</span> Color-coded habit cards with schedule and status</li>
+            <li><span class="check">✓</span> One-tap to start a focus lock session</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 2. Lock Screen ── -->
+  <section class="section section-alt" id="lock">
+    <div class="container">
+      <div class="feature-row reverse">
+
+        <!-- Phone -->
+        <div class="phone">
+          <div class="phone-screen" style="padding:0">
+            <div class="lock-screen-mock">
+              <div>
+                <div class="lock-icon">&#128274;</div>
+                <div class="lock-habit-name">Morning Gym</div>
+                <div style="font-size:9px;color:var(--muted);margin-top:2px;">Focus session active</div>
+              </div>
+
+              <div>
+                <div class="lock-time-label">TIME REMAINING</div>
+                <div class="lock-timer">38:22</div>
+              </div>
+
+              <div class="lock-progress-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#F97316" stroke-width="8"
+                    stroke-dasharray="264" stroke-dashoffset="105" stroke-linecap="round"/>
+                </svg>
+                <div class="lock-progress-inner">
+                  <div class="lock-pct">60%</div>
+                  <div class="lock-pct-label">elapsed</div>
+                </div>
+              </div>
+
+              <div style="font-size:9px;color:var(--muted);text-align:center;">
+                &#128683; Instagram, TikTok, YouTube<br/>blocked until complete
+              </div>
+
+              <div class="lock-buttons">
+                <div class="lock-btn-complete">&#10003; Complete Habit</div>
+                <div class="lock-btn-row">
+                  <div class="lock-btn-sm">+ Extend (Pro)</div>
+                  <div class="lock-btn-sm">&#10006; Abandon</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="feature-copy">
+          <div class="badge badge-blue">02 · Lock Mode</div>
+          <h3>Locked In. No Excuses.</h3>
+          <p>When you start a habit, LockForge launches a full-screen lock session. A countdown timer counts down, distracting apps are blocked, and you can't escape — until you're done or choose to abandon.</p>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Full-screen immersive focus mode</li>
+            <li><span class="check">✓</span> Live countdown timer and progress ring</li>
+            <li><span class="check">✓</span> Selected apps blocked for the entire session</li>
+            <li><span class="check">✓</span> One-tap complete when the habit is done</li>
+            <li><span class="check">✓</span> Session extend for Pro users</li>
+            <li><span class="check">✓</span> Haptic feedback throughout</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 3. Habit Creator ── -->
+  <section class="section" id="habits">
+    <div class="container">
+      <div class="feature-row">
+
+        <!-- Phone -->
+        <div class="phone">
+          <div class="phone-screen">
+            <div style="font-size:13px;font-weight:700;margin-bottom:8px;text-align:center;">Create Habit</div>
+
+            <!-- step progress -->
+            <div class="steps-row">
+              <div class="step-dot done"></div>
+              <div class="step-dot done"></div>
+              <div class="step-dot active"></div>
+              <div class="step-dot"></div>
+            </div>
+
+            <!-- Step 1: Basics -->
+            <div class="creator-step">
+              <div class="creator-step-label">Step 1 · Basics</div>
+              <div class="creator-field">💪  Morning Gym</div>
+              <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+                <div class="creator-field" style="flex:0.3;text-align:center;font-size:16px">💪</div>
+                <div style="font-size:9px;color:var(--muted);">Tap to pick emoji</div>
+              </div>
+              <div class="color-row">
+                <div class="color-dot" style="background:#F97316;outline:2px solid white;outline-offset:1px"></div>
+                <div class="color-dot" style="background:#2563EB"></div>
+                <div class="color-dot" style="background:#22C55E"></div>
+                <div class="color-dot" style="background:#A855F7"></div>
+                <div class="color-dot" style="background:#EF4444"></div>
+                <div class="color-dot" style="background:#EAB308"></div>
+              </div>
+            </div>
+
+            <!-- Step 2: Schedule -->
+            <div class="creator-step">
+              <div class="creator-step-label">Step 2 · Schedule</div>
+              <div style="display:flex;gap:6px;margin-bottom:6px;">
+                <div class="creator-field" style="flex:1;text-align:center">06:00 AM</div>
+                <div class="creator-field" style="flex:1;text-align:center">60 min</div>
+              </div>
+              <div class="day-row">
+                <div class="day-pill active">M</div>
+                <div class="day-pill active">T</div>
+                <div class="day-pill active">W</div>
+                <div class="day-pill active">T</div>
+                <div class="day-pill active">F</div>
+                <div class="day-pill">S</div>
+                <div class="day-pill">S</div>
+              </div>
+            </div>
+
+            <!-- Step 3: Locks -->
+            <div class="creator-step">
+              <div class="creator-step-label">Step 3 · Block Apps</div>
+              <div class="app-block-row">
+                <div class="app-chip blocked">📷 Instagram</div>
+                <div class="app-chip blocked">🎵 TikTok</div>
+                <div class="app-chip blocked">▶️ YouTube</div>
+                <div class="app-chip">🐦 Twitter</div>
+                <div class="app-chip">💬 Discord</div>
+              </div>
+            </div>
+
+            <!-- Continue button -->
+            <div style="background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:10px;border-radius:10px;text-align:center;margin-top:8px;">Continue →</div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="feature-copy">
+          <div class="badge badge-green">03 · Habit Creator</div>
+          <h3>Build Your Habit in 4 Steps</h3>
+          <p>The habit creation wizard guides you through everything: name and emoji, schedule, which apps to block, and a final review. Simple, fast, and visually satisfying.</p>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Step 1: Name, emoji, and color selection</li>
+            <li><span class="check">✓</span> Step 2: Start time, duration, and repeat days</li>
+            <li><span class="check">✓</span> Step 3: Pick apps to block during the habit</li>
+            <li><span class="check">✓</span> Step 4: Review and confirm before saving</li>
+            <li><span class="check">✓</span> Free plan supports up to 3 habits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 4. Streaks & Analytics ── -->
+  <section class="section section-alt" id="analytics">
+    <div class="container">
+
+      <div class="section-label"><div class="badge">04 · Insights</div></div>
+      <h2 class="section-title">Streaks &amp; Analytics</h2>
+      <p class="section-sub">See how your habits stack up over time. LockForge surfaces the patterns behind your behavior so you can course-correct early.</p>
+
+      <!-- Two phones side by side -->
+      <div class="phones-pair">
+
+        <!-- Streaks phone -->
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="streak-header">
+              <div class="streak-title">Streaks</div>
+              <div class="streak-fire">🔥 12</div>
+            </div>
+
+            <div class="streak-stat-grid">
+              <div class="streak-stat">
+                <div class="streak-stat-val" style="color:#F97316">12</div>
+                <div class="streak-stat-lbl">Current Streak</div>
+              </div>
+              <div class="streak-stat">
+                <div class="streak-stat-val" style="color:#F97316">21</div>
+                <div class="streak-stat-lbl">Best Streak</div>
+              </div>
+              <div class="streak-stat">
+                <div class="streak-stat-val" style="color:#22C55E">48</div>
+                <div class="streak-stat-lbl">Active Days</div>
+              </div>
+              <div class="streak-stat">
+                <div class="streak-stat-val" style="color:#60A5FA">83%</div>
+                <div class="streak-stat-lbl">Completion Rate</div>
+              </div>
+            </div>
+
+            <!-- Habit pills -->
+            <div style="display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;">
+              <div style="background:var(--orange-dim);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:4px 8px;font-size:9px;color:var(--orange);">💪 Gym</div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:9px;color:var(--muted);">📖 Reading</div>
+              <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:9px;color:var(--muted);">🧘 Meditate</div>
+            </div>
+
+            <!-- Heat map -->
+            <div style="font-size:9px;color:var(--muted);margin-bottom:5px;">Past 8 weeks · Morning Gym</div>
+            <div class="heat-map">
+              <div class="heat-cell h1"></div><div class="heat-cell h2"></div><div class="heat-cell h3"></div><div class="heat-cell h4"></div>
+              <div class="heat-cell h3"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h3"></div>
+              <div class="heat-cell h2"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div>
+              <div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h3"></div><div class="heat-cell h4"></div>
+              <div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h2"></div>
+              <div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div>
+              <div class="heat-cell h3"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div>
+              <div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell h4"></div><div class="heat-cell"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics phone -->
+        <div class="phone">
+          <div class="phone-screen">
+            <div style="font-size:13px;font-weight:700;margin-bottom:10px;">Analytics</div>
+
+            <!-- Bar chart -->
+            <div style="font-size:9px;color:var(--muted);margin-bottom:6px;">Weekly completions</div>
+            <div class="analytics-bar-chart">
+              <div class="bar-col"><div class="bar" style="height:40%"></div><div class="bar-label">M</div></div>
+              <div class="bar-col"><div class="bar" style="height:80%"></div><div class="bar-label">T</div></div>
+              <div class="bar-col"><div class="bar" style="height:100%"></div><div class="bar-label">W</div></div>
+              <div class="bar-col"><div class="bar" style="height:60%"></div><div class="bar-label">T</div></div>
+              <div class="bar-col"><div class="bar" style="height:90%"></div><div class="bar-label">F</div></div>
+              <div class="bar-col"><div class="bar dim" style="height:20%"></div><div class="bar-label">S</div></div>
+              <div class="bar-col"><div class="bar dim" style="height:10%"></div><div class="bar-label">S</div></div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stat-row" style="margin-bottom:10px;">
+              <div class="stat-card">
+                <div class="stat-val" style="color:#22C55E">83%</div>
+                <div class="stat-lbl">Week avg</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-val" style="color:#60A5FA">5/6</div>
+                <div class="stat-lbl">This week</div>
+              </div>
+            </div>
+
+            <!-- AI Insight -->
+            <div class="ai-insight">
+              <div class="ai-insight-label">&#9889; AI Insight (Pro)</div>
+              <div class="ai-insight-text">You complete Morning Gym 94% of the time on weekdays but only 31% on weekends. Consider scheduling it earlier on Saturdays.</div>
+            </div>
+
+            <!-- Mood row -->
+            <div style="margin-top:10px;">
+              <div style="font-size:9px;color:var(--muted);margin-bottom:5px;">Daily mood</div>
+              <div style="display:flex;gap:6px;">
+                <div style="text-align:center;font-size:13px;">😄</div>
+                <div style="text-align:center;font-size:13px;">😊</div>
+                <div style="text-align:center;font-size:13px;">😐</div>
+                <div style="text-align:center;font-size:13px;">😊</div>
+                <div style="text-align:center;font-size:13px;">😄</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /phones-pair -->
+
+      <!-- Feature list below phones -->
+      <div class="analytics-copy">
+        <ul class="feature-list feature-list-grid">
+          <li><span class="check">✓</span> Current, best, and all-time streaks</li>
+          <li><span class="check">✓</span> Heat map calendar per habit</li>
+          <li><span class="check">✓</span> Weekly bar chart of completions</li>
+          <li><span class="check">✓</span> Completion rate percentage</li>
+          <li><span class="check">✓</span> Daily mood tracking</li>
+          <li><span class="check">✓</span> AI-generated behavioral insights (Pro)</li>
+          <li><span class="check">✓</span> Apple Health integration (steps, sleep, calories, workouts)</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 5. Onboarding ── -->
+  <section class="section">
+    <div class="container">
+      <div class="feature-row reverse">
+
+        <!-- Phone -->
+        <div class="phone">
+          <div class="phone-screen" style="padding:0">
+            <div class="onboard-slide" style="background:linear-gradient(160deg,#1a2b5e,#0a1628)">
+              <div></div>
+              <div>
+                <div class="onboard-icon" style="background:var(--orange-dim);border:2px solid rgba(249,115,22,0.3);box-shadow:0 0 32px rgba(249,115,22,0.2);">&#128274;</div>
+                <div class="onboard-title">Forge Unbreakable Habits</div>
+                <div class="onboard-body">Track your habits, lock your phone, and build momentum that compounds.</div>
+              </div>
+              <div style="width:100%">
+                <div class="onboard-dots" style="margin-bottom:12px;">
+                  <div class="onboard-dot active"></div>
+                  <div class="onboard-dot"></div>
+                  <div class="onboard-dot"></div>
+                  <div class="onboard-dot"></div>
+                </div>
+                <div class="onboard-next">Next →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="feature-copy">
+          <div class="badge">05 · Onboarding</div>
+          <h3>Up and Running in 60 Seconds</h3>
+          <p>LockForge's onboarding is a four-slide carousel that explains the core concept and gets you creating your first habit immediately — no account required, no friction.</p>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Slide 1: Forge Unbreakable Habits</li>
+            <li><span class="check">✓</span> Slide 2: Lock Out Distraction</li>
+            <li><span class="check">✓</span> Slide 3: Track With Apple Health</li>
+            <li><span class="check">✓</span> Slide 4: Start Forging (call to action)</li>
+            <li><span class="check">✓</span> No account or sign-in required</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 6. Feature Grid ── -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-label"><div class="badge">06 · Features</div></div>
+      <h2 class="section-title">Everything You Need</h2>
+      <p class="section-sub">LockForge is packed with tools to make habit-building genuinely different from every other tracker you've tried.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">&#128274;</div>
+          <h4>App Blocking</h4>
+          <p>Block Instagram, TikTok, YouTube, and more during your habit window. No willpower required.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue">&#128200;</div>
+          <h4>Streak Tracking</h4>
+          <p>Watch your current and best streaks build. A single miss doesn't reset everything — we track best and current separately.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green">&#128154;</div>
+          <h4>Apple Health Sync</h4>
+          <p>Pull in steps, calories, sleep, and workouts to complement your habit data. All read locally — never uploaded.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-purple">&#9889;</div>
+          <h4>AI Insights (Pro)</h4>
+          <p>LockForge analyzes your patterns and surfaces actionable nudges — like when you consistently skip, and why.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">&#128149;</div>
+          <h4>Heat Map Calendar</h4>
+          <p>Visual grid of the past weeks for each habit. Spot gaps at a glance and build the habit of checking in.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue">&#128276;</div>
+          <h4>Smart Reminders</h4>
+          <p>Local push notifications that fire before your habit window starts — and AI-powered reminders for Pro users.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green">&#128196;</div>
+          <h4>Data Export (Pro)</h4>
+          <p>Export all your habit data as JSON any time. Your data is yours — no platform lock-in.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-orange">&#127759;</div>
+          <h4>No Account Needed</h4>
+          <p>Zero sign-up friction. Open the app, create a habit, and you're done. Data lives on your device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ── 7. Pro ── -->
+  <section class="section" id="pro">
+    <div class="container">
+      <div class="pro-card">
+        <div class="pro-badge">&#9889; LockForge Pro</div>
+        <h2>Go All In</h2>
+        <p>Unlock unlimited habits, AI insights, extended focus sessions, and data export — everything you need to build habits that stick.</p>
+        <div class="pro-price">$4.99<span>/month</span></div>
+        <div class="pro-features">
+          <div class="pro-feature-pill"><span>&#9889;</span> Unlimited Habits</div>
+          <div class="pro-feature-pill"><span>&#129504;</span> AI Insights</div>
+          <div class="pro-feature-pill"><span>&#9200;</span> Session Extend</div>
+          <div class="pro-feature-pill"><span>&#128196;</span> Data Export</div>
+          <div class="pro-feature-pill"><span>&#128276;</span> AI Reminders</div>
+          <div class="pro-feature-pill"><span>&#128200;</span> Advanced Analytics</div>
+        </div>
+        <a class="pro-cta" href="#">Start Free Trial</a>
+        <p style="margin-top:16px;font-size:13px;color:var(--muted)">Free plan: up to 3 habits, core features always included.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">
+      <div class="logo-mark" style="width:32px;height:32px;font-size:14px;">LF</div>
+      <div class="logo-text">Lock<span>Forge</span></div>
+    </div>
+    <p>&copy; 2026 LockForge Habit Tracker. All rights reserved.</p>
+    <p>
+      <a href="privacy.html">Privacy Policy</a>
+      &nbsp;&middot;&nbsp;
+      <a href="walkthrough.html">App Walkthrough</a>
+    </p>
+  </footer>
+
+</body>
+</html>

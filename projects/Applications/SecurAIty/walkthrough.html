@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Walkthrough — SecurAIty EDR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'gray-750': '#2d3748',
+            'gray-850': '#1a202c',
+            'gray-950': '#0d1117',
+          },
+          fontFamily: {
+            mono: ["'JetBrains Mono'", "'Fira Code'", 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background-color: #0d1117; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #1a202c; }
+    ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    .toc-link { transition: color 0.15s, padding-left 0.15s; }
+    .toc-link:hover { color: #60a5fa; padding-left: 4px; }
+    .section-anchor { scroll-margin-top: 80px; }
+    .step-badge { min-width: 1.75rem; height: 1.75rem; }
+    .kbd {
+      display: inline-flex; align-items: center; padding: 0 6px;
+      background: #2d3748; border: 1px solid #4b5563; border-radius: 4px;
+      font-size: 0.7rem; color: #e5e7eb; white-space: nowrap;
+    }
+    /* Fake UI screenshots */
+    .ui-mock { background: #1a202c; border: 1px solid #374151; border-radius: 8px; overflow: hidden; }
+    .ui-mock-bar { background: #111827; border-bottom: 1px solid #374151; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+    .ui-mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  </style>
+</head>
+<body class="text-gray-200 min-h-screen">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-gray-700 bg-gray-950/95 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.955 11.955 0 01.75 12c0 6.09 4.558 11.11 10.458 11.975L12 24l.792-.025C18.692 23.11 23.25 18.09 23.25 12A11.959 11.959 0 0120.4 6a11.98 11.98 0 01-8.4-3.036z" />
+          </svg>
+        </div>
+        <span class="text-sm font-semibold text-gray-200">SecurAIty EDR</span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-900/50 text-blue-400 border border-blue-700/50">v0.1.0</span>
+      </div>
+      <nav class="flex items-center gap-4 text-xs">
+        <a href="walkthrough.html" class="text-blue-400 border-b border-blue-400 pb-0.5">Walkthrough</a>
+        <a href="privacy.html" class="text-gray-400 hover:text-gray-200 transition-colors">Privacy</a>
+        <a href="https://github.com/yourusername/SecuirAIty/releases" class="text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://github.com/yourusername/SecuirAIty/releases/latest" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded text-xs transition-colors">
+          Download
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="relative overflow-hidden border-b border-gray-800">
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-950/30 via-transparent to-purple-950/20 pointer-events-none"></div>
+    <div class="max-w-6xl mx-auto px-6 py-16 relative">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 text-xs bg-blue-900/40 border border-blue-700/50 rounded-full px-3 py-1.5 text-blue-300 mb-6">
+          <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
+          Open Source · Local-first · AI-powered
+        </div>
+        <h1 class="text-4xl font-bold text-white mb-4 leading-tight">
+          SecurAIty EDR<br />
+          <span class="text-blue-400">Product Walkthrough</span>
+        </h1>
+        <p class="text-gray-400 text-lg mb-8 leading-relaxed">McAfee on steroids, built for the post-AI threat era. Real-time endpoint protection using ML, YARA rules, and behavioral heuristics — with automated blocking, quarantine, and an AI analyst built in.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#install" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+            Get Started →
+          </a>
+          <a href="https://github.com/yourusername/SecuirAIty/releases/latest" class="border border-gray-600 hover:border-gray-400 text-gray-300 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+            Download v0.1.0
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature pills -->
+  <div class="border-b border-gray-800 bg-gray-950/50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex flex-wrap gap-6 text-xs text-gray-400">
+      <div class="flex items-center gap-2"><span class="text-blue-400">◆</span> ML threat scoring (ONNX/LightGBM)</div>
+      <div class="flex items-center gap-2"><span class="text-purple-400">◆</span> YARA rule matching</div>
+      <div class="flex items-center gap-2"><span class="text-green-400">◆</span> Behavioral heuristics</div>
+      <div class="flex items-center gap-2"><span class="text-red-400">◆</span> IOC database matching</div>
+      <div class="flex items-center gap-2"><span class="text-orange-400">◆</span> Download protection</div>
+      <div class="flex items-center gap-2"><span class="text-indigo-400">◆</span> AI alert explanations</div>
+      <div class="flex items-center gap-2"><span class="text-cyan-400">◆</span> URL threat intelligence</div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-6 py-12 flex gap-10">
+
+    <!-- TOC sidebar -->
+    <aside class="hidden xl:block w-56 flex-shrink-0">
+      <div class="sticky top-24">
+        <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Contents</div>
+        <nav class="space-y-1.5 text-xs text-gray-500">
+          <a href="#install" class="toc-link block">1. Installation</a>
+          <a href="#dashboard" class="toc-link block">2. Dashboard</a>
+          <a href="#alerts" class="toc-link block">3. Alert Feed</a>
+          <a href="#ai-explain" class="toc-link block">4. AI Explanations</a>
+          <a href="#scan" class="toc-link block">5. Running Scans</a>
+          <a href="#download-guard" class="toc-link block">6. Download Protection</a>
+          <a href="#intel" class="toc-link block">7. URL Intel</a>
+          <a href="#quarantine" class="toc-link block">8. Quarantine Vault</a>
+          <a href="#settings" class="toc-link block">9. Settings</a>
+          <a href="#detection" class="toc-link block">10. How Detection Works</a>
+          <a href="#tiers" class="toc-link block">11. Tiers</a>
+          <a href="#faq" class="toc-link block">FAQ</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0 space-y-16 text-sm leading-relaxed">
+
+      <!-- ── 1. Installation ── -->
+      <section id="install" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">1</div>
+          <h2 class="text-xl font-bold text-white">Installation</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">Download the installer for your platform from the <a href="https://github.com/yourusername/SecuirAIty/releases/latest" class="text-blue-400 hover:text-blue-300 underline">GitHub Releases page</a>. All installers are signed and bundled — no separate runtime is required.</p>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-yellow-400 text-2xl mb-2">⊞</div>
+            <div class="font-semibold text-gray-200 mb-2">Windows 10/11</div>
+            <div class="space-y-1.5 text-xs text-gray-400">
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_x64-setup.exe</span>
+                <span class="text-gray-600">NSIS</span>
+              </div>
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_x64_en-US.msi</span>
+                <span class="text-gray-600">WiX</span>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">Run as Administrator. Agent registers as a Windows service automatically.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-gray-300 text-2xl mb-2"></div>
+            <div class="font-semibold text-gray-200 mb-2">macOS 12+</div>
+            <div class="space-y-1.5 text-xs text-gray-400">
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_x64.dmg</span>
+                <span class="text-gray-600">Intel</span>
+              </div>
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_aarch64.dmg</span>
+                <span class="text-gray-600">Apple Silicon</span>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">Drag to Applications. Right-click → Open on first launch to bypass Gatekeeper.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-green-400 text-2xl mb-2">🐧</div>
+            <div class="font-semibold text-gray-200 mb-2">Linux x64</div>
+            <div class="space-y-1.5 text-xs text-gray-400">
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_amd64.deb</span>
+                <span class="text-gray-600">Debian/Ubuntu</span>
+              </div>
+              <div class="flex items-center justify-between bg-gray-900/60 rounded px-2 py-1.5 font-mono">
+                <span>SecurAIty_0.1.0_amd64.AppImage</span>
+                <span class="text-gray-600">Universal</span>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">For .deb: <span class="font-mono">sudo dpkg -i SecurAIty*.deb</span></p>
+          </div>
+        </div>
+
+        <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+          <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">System Requirements</div>
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-1 text-xs text-gray-400">
+            <div class="flex justify-between"><span>RAM (idle)</span><span class="text-green-400">&lt; 2 MB</span></div>
+            <div class="flex justify-between"><span>CPU (monitoring)</span><span class="text-green-400">&lt; 0.5%</span></div>
+            <div class="flex justify-between"><span>RAM (monitoring)</span><span class="text-green-400">&lt; 15 MB</span></div>
+            <div class="flex justify-between"><span>CPU (scan burst)</span><span class="text-yellow-400">&lt; 10%</span></div>
+            <div class="flex justify-between"><span>Disk (base)</span><span class="text-green-400">~50 MB</span></div>
+            <div class="flex justify-between"><span>Disk (events DB)</span><span class="text-gray-400">grows with usage</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 2. Dashboard ── -->
+      <section id="dashboard" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">2</div>
+          <h2 class="text-xl font-bold text-white">Dashboard</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">The Dashboard tab is your at-a-glance security posture view. It opens on launch and auto-refreshes every 10 seconds.</p>
+
+        <!-- Mock dashboard -->
+        <div class="ui-mock mb-6">
+          <div class="ui-mock-bar">
+            <div class="ui-mock-dot bg-red-500"></div>
+            <div class="ui-mock-dot bg-yellow-500"></div>
+            <div class="ui-mock-dot bg-green-500"></div>
+            <span class="text-xs text-gray-500 ml-2">SecurAIty — Dashboard</span>
+          </div>
+          <div class="p-4">
+            <!-- Status banner -->
+            <div class="bg-red-900/40 border border-red-700/50 rounded-lg px-4 py-3 flex items-center gap-3 mb-4">
+              <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+              <span class="text-xs text-red-300 font-semibold">2 CRITICAL threats in the last 24 hours — review alerts immediately</span>
+            </div>
+            <!-- Stats grid -->
+            <div class="grid grid-cols-4 gap-3 mb-3">
+              <div class="bg-gray-900/60 border border-gray-700 rounded p-3">
+                <div class="text-xs text-gray-500 mb-1">Threats (24h)</div>
+                <div class="text-2xl font-bold font-mono text-red-400">7</div>
+              </div>
+              <div class="bg-gray-900/60 border border-gray-700 rounded p-3">
+                <div class="text-xs text-gray-500 mb-1">Blocked</div>
+                <div class="text-2xl font-bold font-mono text-orange-400">3</div>
+              </div>
+              <div class="bg-gray-900/60 border border-gray-700 rounded p-3">
+                <div class="text-xs text-gray-500 mb-1">RAM Usage</div>
+                <div class="text-2xl font-bold font-mono text-blue-400">11<span class="text-sm font-normal text-gray-500">MB</span></div>
+              </div>
+              <div class="bg-gray-900/60 border border-gray-700 rounded p-3">
+                <div class="text-xs text-gray-500 mb-1">CPU Usage</div>
+                <div class="text-2xl font-bold font-mono text-green-400">0.2<span class="text-sm font-normal text-gray-500">%</span></div>
+              </div>
+            </div>
+            <!-- Recent threats -->
+            <div class="bg-gray-900/60 border border-gray-700 rounded p-3">
+              <div class="text-xs text-gray-400 mb-2 font-semibold">Recent Threats</div>
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse flex-shrink-0"></span>
+                    <span class="text-gray-300 font-mono">ProcessHollowing</span>
+                    <span class="text-gray-500">svchost.exe</span>
+                  </div>
+                  <span class="text-red-400 font-mono font-bold">94%</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0"></span>
+                    <span class="text-gray-300 font-mono">C2Beacon</span>
+                    <span class="text-gray-500">185.220.101.42:443</span>
+                  </div>
+                  <span class="text-orange-400 font-mono font-bold">81%</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 flex-shrink-0"></span>
+                    <span class="text-gray-300 font-mono">SuspiciousScript</span>
+                    <span class="text-gray-500">powershell.exe</span>
+                  </div>
+                  <span class="text-yellow-400 font-mono font-bold">71%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 text-xs text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span> <span><strong class="text-gray-200">Status banner</strong> turns red when CRITICAL alerts exist, green when the system is clean.</span></div>
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span> <span><strong class="text-gray-200">Detection Coverage</strong> grid shows which monitors are active (processes, files, network, registry).</span></div>
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span> <span><strong class="text-gray-200">RAM/CPU</strong> reflect the agent process — goal is &lt;15MB and &lt;0.5% at rest.</span></div>
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span> <span><strong class="text-gray-200">Threat score</strong> uses a 0–100% additive model: ML (50%) + YARA (30%) + heuristics (25%) + IOC (40%).</span></div>
+        </div>
+      </section>
+
+      <!-- ── 3. Alert Feed ── -->
+      <section id="alerts" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">3</div>
+          <h2 class="text-xl font-bold text-white">Alert Feed</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">The <strong class="text-gray-200">Alerts</strong> tab shows every detection event in reverse chronological order. CRITICAL alerts pulse red to draw immediate attention.</p>
+
+        <div class="space-y-3 mb-6">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-2 text-xs uppercase tracking-widest text-gray-400">Severity Levels</div>
+            <div class="grid sm:grid-cols-2 gap-2 text-xs">
+              <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse flex-shrink-0"></span><span class="text-red-300 font-semibold w-16">CRITICAL</span><span class="text-gray-500">score ≥ 85% — auto-blocked</span></div>
+              <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0"></span><span class="text-orange-300 font-semibold w-16">HIGH</span><span class="text-gray-500">score 65–84% — alert + notify</span></div>
+              <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0"></span><span class="text-yellow-300 font-semibold w-16">MEDIUM</span><span class="text-gray-500">score 40–64% — watch/log</span></div>
+              <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></span><span class="text-blue-300 font-semibold w-16">LOW</span><span class="text-gray-500">score &lt; 40% — informational</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3 text-xs text-gray-400">
+          <div class="flex items-start gap-3">
+            <span class="step-badge flex items-center justify-center rounded-full bg-gray-700 text-gray-300 font-bold flex-shrink-0 text-xs">a</span>
+            <div><strong class="text-gray-200">Search and filter</strong> using the toolbar. Filter by ALL, CRITICAL, HIGH, MEDIUM, or LOW. The search box matches any field — try searching a process name, path, or IP address.</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="step-badge flex items-center justify-center rounded-full bg-gray-700 text-gray-300 font-bold flex-shrink-0 text-xs">b</span>
+            <div><strong class="text-gray-200">Click any alert</strong> to open the Detail panel on the right. It shows the full context: PID, process path, YARA rules matched, IOC hits, network destination, and the action taken.</div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="step-badge flex items-center justify-center rounded-full bg-gray-700 text-gray-300 font-bold flex-shrink-0 text-xs">c</span>
+            <div><strong class="text-gray-200">Actions</strong> in the detail panel — <span class="kbd">Quarantine File</span> moves the suspicious file to the encrypted vault; <span class="kbd">Kill Process</span> immediately terminates the flagged process (requires confirmation).</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 4. AI Explanations ── -->
+      <section id="ai-explain" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-xs">4</div>
+          <h2 class="text-xl font-bold text-white">AI Alert Explanations</h2>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-900/50 text-indigo-400 border border-indigo-700/50">Requires Ollama</span>
+        </div>
+
+        <p class="text-gray-400 mb-5">Every alert has an <strong class="text-gray-200">Explain with AI</strong> button that sends the alert context to a local Ollama model and returns a plain-English explanation — what happened, why it's dangerous, and what to do.</p>
+
+        <!-- Mock explanation box -->
+        <div class="ui-mock mb-6">
+          <div class="ui-mock-bar">
+            <div class="ui-mock-dot bg-red-500"></div>
+            <div class="ui-mock-dot bg-yellow-500"></div>
+            <div class="ui-mock-dot bg-green-500"></div>
+            <span class="text-xs text-gray-500 ml-2">Alert Detail — ProcessHollowing</span>
+          </div>
+          <div class="p-4 space-y-3">
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div><span class="text-gray-500 uppercase text-[10px] tracking-widest block">Severity</span><span class="text-red-400 font-semibold">CRITICAL</span></div>
+              <div><span class="text-gray-500 uppercase text-[10px] tracking-widest block">Score</span><span class="font-mono text-red-400 font-bold">94%</span></div>
+              <div><span class="text-gray-500 uppercase text-[10px] tracking-widest block">Process</span><span class="font-mono text-gray-300">svchost.exe</span></div>
+              <div><span class="text-gray-500 uppercase text-[10px] tracking-widest block">Action Taken</span><span class="text-orange-400">QUARANTINE</span></div>
+            </div>
+            <button class="w-full bg-indigo-800 text-white text-xs py-2 rounded font-medium">Explain with AI</button>
+            <div class="bg-indigo-950/50 border border-indigo-700 rounded p-3">
+              <span class="text-indigo-400 font-semibold text-[10px] uppercase tracking-wider">AI Analysis · Ollama</span>
+              <p class="mt-1 text-xs text-indigo-100 leading-relaxed">Process hollowing was detected in svchost.exe, a critical Windows system process. This technique injects malicious code into a legitimate process to hide it from standard process listings, making it appear as trusted Windows infrastructure. This is a hallmark of advanced persistent threats and ransomware loaders. The file has been quarantined — you should run a full system scan and check for persistence mechanisms like scheduled tasks or registry run keys.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 text-xs">
+          <div class="font-semibold text-gray-200 mb-3">Setup Ollama (one time)</div>
+          <div class="space-y-2">
+            <div class="flex items-start gap-3">
+              <span class="text-blue-400 font-mono font-bold flex-shrink-0">1.</span>
+              <div>Download and install Ollama from <a href="https://ollama.com" class="text-blue-400 hover:text-blue-300 underline" target="_blank">ollama.com</a></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-blue-400 font-mono font-bold flex-shrink-0">2.</span>
+              <div>Run <code class="kbd">ollama serve</code> in a terminal to start the local API server</div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-blue-400 font-mono font-bold flex-shrink-0">3.</span>
+              <div>Pull a model: <code class="kbd">ollama pull llama3.2</code> (3B, fast) or <code class="kbd">ollama pull llama3.2:8b</code> (8B, more detailed)</div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-blue-400 font-mono font-bold flex-shrink-0">4.</span>
+              <div>In SecurAIty → Settings → AI Assistant, confirm the model name matches what you pulled</div>
+            </div>
+          </div>
+          <div class="mt-3 text-gray-500">All AI processing happens locally — no data is sent to any cloud service.</div>
+        </div>
+      </section>
+
+      <!-- ── 5. Scans ── -->
+      <section id="scan" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">5</div>
+          <h2 class="text-xl font-bold text-white">Running Scans</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">The <strong class="text-gray-200">Scan</strong> tab lets you run on-demand checks of high-risk system locations. Continuous monitoring runs automatically in the background — scans are for explicit investigation.</p>
+
+        <div class="grid sm:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-blue-400 mb-2">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+            </div>
+            <div class="font-semibold text-gray-200 mb-1">Quick Scan</div>
+            <p class="text-xs text-gray-400">Checks common persistence/threat locations: startup folders, scheduled tasks, temp directories, and known rootkit indicators. Completes in seconds.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-orange-400 mb-2">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+            </div>
+            <div class="font-semibold text-gray-200 mb-1">Full Scan</div>
+            <p class="text-xs text-gray-400">Recursively walks the entire filesystem applying ML scoring, YARA rules, and heuristics to every executable. May take several minutes.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 hover:border-blue-600/50 transition-colors">
+            <div class="text-green-400 mb-2">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" /></svg>
+            </div>
+            <div class="font-semibold text-gray-200 mb-1">Custom Path</div>
+            <p class="text-xs text-gray-400">Paste any folder path and scan only that directory. Useful for investigating a specific download or suspicious USB drive.</p>
+          </div>
+        </div>
+
+        <p class="text-gray-400 text-xs">Scan results appear in a list with the file path, threat classification, and score. Any file scoring above 40% has a <span class="kbd">Quarantine</span> button.</p>
+      </section>
+
+      <!-- ── 6. Download Protection ── -->
+      <section id="download-guard" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-orange-600 text-white font-bold text-xs">6</div>
+          <h2 class="text-xl font-bold text-white">Download Protection</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">SecurAIty watches your Downloads folder in real time. When an executable file lands on disk, a full-screen alert appears before you can run it.</p>
+
+        <!-- Mock download alert -->
+        <div class="relative mb-6">
+          <div class="ui-mock">
+            <div class="ui-mock-bar">
+              <div class="ui-mock-dot bg-red-500"></div>
+              <div class="ui-mock-dot bg-yellow-500"></div>
+              <div class="ui-mock-dot bg-green-500"></div>
+            </div>
+            <div class="relative">
+              <!-- Blur background -->
+              <div class="p-4 opacity-20 blur-sm">
+                <div class="h-3 bg-gray-700 rounded w-3/4 mb-2"></div>
+                <div class="h-3 bg-gray-700 rounded w-1/2"></div>
+              </div>
+              <!-- Modal overlay -->
+              <div class="absolute inset-0 flex items-center justify-center bg-black/80">
+                <div class="bg-gray-800 border border-orange-600/60 rounded-xl p-5 max-w-xs w-full mx-4 shadow-2xl">
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="w-8 h-8 rounded-full bg-orange-900/60 flex items-center justify-center">
+                      <svg class="w-4 h-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                    </div>
+                    <div>
+                      <div class="text-sm font-semibold text-white">Risky Download Detected</div>
+                      <div class="text-xs text-gray-400">Executable file in Downloads</div>
+                    </div>
+                  </div>
+                  <div class="bg-gray-900/60 rounded p-3 mb-4">
+                    <div class="text-xs font-mono text-gray-300 mb-0.5">suspicious_tool.exe</div>
+                    <div class="text-xs text-gray-500">2.4 MB · .exe · Windows Executable</div>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 text-xs">
+                    <button class="bg-orange-700 hover:bg-orange-600 text-white py-2 rounded font-medium">Quarantine</button>
+                    <button class="bg-red-800 hover:bg-red-700 text-white py-2 rounded font-medium">Delete</button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-gray-300 py-2 rounded font-medium">Allow</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-3 text-xs">
+          <div class="bg-orange-950/30 border border-orange-700/40 rounded-lg p-3">
+            <div class="text-orange-400 font-semibold mb-1">Quarantine</div>
+            <p class="text-gray-400">Moves the file to the encrypted vault. You can review and restore it later if it turns out to be legitimate.</p>
+          </div>
+          <div class="bg-red-950/30 border border-red-700/40 rounded-lg p-3">
+            <div class="text-red-400 font-semibold mb-1">Delete</div>
+            <p class="text-gray-400">Permanently removes the file from disk. Use when you are certain it is malicious.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-3">
+            <div class="text-gray-300 font-semibold mb-1">Allow</div>
+            <p class="text-gray-400">Dismisses the alert and lets the file stay. Use for legitimate software downloads you trust.</p>
+          </div>
+        </div>
+
+        <p class="text-gray-500 text-xs mt-4">Monitored extensions: <code class="text-gray-400">.exe .msi .dll .bat .cmd .ps1 .vbs .jse .hta .sh .pkg .dmg .deb .rpm .AppImage</code>. On Windows, <code class="text-gray-400">.js</code> is also monitored (executable by Windows Script Host).</p>
+      </section>
+
+      <!-- ── 7. URL Intel ── -->
+      <section id="intel" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-cyan-700 text-white font-bold text-xs">7</div>
+          <h2 class="text-xl font-bold text-white">URL Threat Intelligence</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">The <strong class="text-gray-200">Intel</strong> tab lets you check any URL against the <a href="https://urlhaus.abuse.ch" class="text-blue-400 hover:text-blue-300 underline" target="_blank">URLhaus</a> threat database — a free, community-driven feed of active malware distribution URLs.</p>
+
+        <!-- Mock Intel UI -->
+        <div class="ui-mock mb-6">
+          <div class="ui-mock-bar">
+            <div class="ui-mock-dot bg-red-500"></div>
+            <div class="ui-mock-dot bg-yellow-500"></div>
+            <div class="ui-mock-dot bg-green-500"></div>
+            <span class="text-xs text-gray-500 ml-2">SecurAIty — Threat Intelligence</span>
+          </div>
+          <div class="p-4">
+            <div class="flex gap-2 mb-4">
+              <input type="text" value="https://example-malware.ru/payload.exe" readonly class="flex-1 bg-gray-900/60 border border-gray-600 rounded px-3 py-2 text-xs font-mono text-gray-300" />
+              <button class="bg-blue-600 text-white text-xs px-4 py-2 rounded font-medium">Check URL</button>
+            </div>
+            <div class="bg-red-900/40 border border-red-700/50 rounded-lg p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs px-2 py-0.5 rounded-full bg-red-800 text-red-300 font-semibold">MALICIOUS</span>
+                <span class="text-xs text-gray-400">malware_download · online</span>
+              </div>
+              <div class="text-xs text-gray-300 font-mono mb-3">https://example-malware.ru/payload.exe</div>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="flex items-center gap-2"><span class="text-red-400">✗</span><span class="text-gray-400">SURBL — listed</span></div>
+                <div class="flex items-center gap-2"><span class="text-red-400">✗</span><span class="text-gray-400">Spamhaus DBL — listed</span></div>
+              </div>
+              <a href="#" class="text-blue-400 text-xs mt-2 inline-block hover:text-blue-300">View URLhaus report →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-xs text-gray-400 space-y-2">
+          <div class="flex items-start gap-2"><span class="text-green-400 font-bold">CLEAN</span><span class="text-gray-500">·</span><span>URL not found in URLhaus database. Not definitively safe — just not known-malicious.</span></div>
+          <div class="flex items-start gap-2"><span class="text-yellow-400 font-bold">UNKNOWN</span><span class="text-gray-500">·</span><span>No data available from checked sources. Exercise caution.</span></div>
+          <div class="flex items-start gap-2"><span class="text-red-400 font-bold">MALICIOUS</span><span class="text-gray-500">·</span><span>URL is in the URLhaus active malware database. Do not visit or download from it.</span></div>
+        </div>
+      </section>
+
+      <!-- ── 8. Quarantine ── -->
+      <section id="quarantine" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">8</div>
+          <h2 class="text-xl font-bold text-white">Quarantine Vault</h2>
+        </div>
+
+        <p class="text-gray-400 mb-4">Files you quarantine are moved to a secure local vault directory. They cannot execute from there. You can review, restore, or permanently delete them from the Scan tab's Quarantine Vault section.</p>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-xs text-gray-400">
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span><div><strong class="text-gray-200">Location</strong><br/><span class="font-mono text-gray-500">%PROGRAMDATA%\SecurAIty\quarantine\</span> (Windows)</div></div>
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span><div><strong class="text-gray-200">Restore</strong><br/>Moves file back to its original location if you determine it was a false positive.</div></div>
+          <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">→</span><div><strong class="text-gray-200">Delete</strong><br/>Permanently removes the file from disk. Cannot be undone.</div></div>
+        </div>
+      </section>
+
+      <!-- ── 9. Settings ── -->
+      <section id="settings" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">9</div>
+          <h2 class="text-xl font-bold text-white">Settings</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg overflow-hidden">
+            <div class="bg-gray-900/60 border-b border-gray-700 px-4 py-2">
+              <span class="text-xs font-semibold text-gray-300">Detection Thresholds</span>
+            </div>
+            <div class="p-4 text-xs text-gray-400 space-y-1">
+              <div class="flex justify-between"><span>Alert threshold</span><span class="font-mono text-blue-400">65%</span></div>
+              <div class="flex justify-between"><span>Auto-block threshold</span><span class="font-mono text-red-400">85%</span></div>
+              <p class="text-gray-500 mt-2">Lowering the alert threshold produces more alerts (higher sensitivity). Raising it reduces noise but may miss subtle threats.</p>
+            </div>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg overflow-hidden">
+            <div class="bg-gray-900/60 border-b border-gray-700 px-4 py-2">
+              <span class="text-xs font-semibold text-gray-300">Notifications</span>
+            </div>
+            <div class="p-4 text-xs text-gray-400">
+              Paste a Slack or Discord webhook URL to receive alert notifications. The minimum notification score slider controls which severity level triggers a message.
+            </div>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg overflow-hidden">
+            <div class="bg-gray-900/60 border-b border-gray-700 px-4 py-2">
+              <span class="text-xs font-semibold text-indigo-300">AI Assistant (Ollama)</span>
+            </div>
+            <div class="p-4 text-xs text-gray-400">
+              Set the Ollama model name (default: <code class="text-indigo-300">llama3.2</code>) and endpoint (default: <code class="text-indigo-300">http://localhost:11434</code>). Changes take effect immediately on your next Explain click — no restart needed.
+            </div>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg overflow-hidden">
+            <div class="bg-gray-900/60 border-b border-gray-700 px-4 py-2">
+              <span class="text-xs font-semibold text-gray-300">Process Allowlist</span>
+            </div>
+            <div class="p-4 text-xs text-gray-400">
+              Add process names that should never be flagged or blocked. Useful for development tools (e.g. node.exe, python.exe) that exhibit script-execution behavior. Default includes <code class="text-gray-300">securaity-agent</code> and <code class="text-gray-300">securaity.exe</code>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 10. How Detection Works ── -->
+      <section id="detection" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-purple-600 text-white font-bold text-xs">10</div>
+          <h2 class="text-xl font-bold text-white">How Detection Works</h2>
+        </div>
+
+        <p class="text-gray-400 mb-5">SecurAIty's threat score is an additive model combining multiple independent detection layers. A threat must score above the configured threshold on the <em>combined</em> score, not any single layer.</p>
+
+        <div class="space-y-3 mb-6">
+          <div class="flex items-stretch gap-3">
+            <div class="w-32 flex-shrink-0 bg-blue-900/40 border border-blue-700/50 rounded p-3 text-center">
+              <div class="text-blue-400 font-bold text-lg font-mono">50%</div>
+              <div class="text-xs text-blue-300 mt-1">max weight</div>
+            </div>
+            <div class="flex-1 bg-gray-800/60 border border-gray-700 rounded p-3">
+              <div class="font-semibold text-gray-200 text-xs mb-1">ML Classifier (ONNX / LightGBM)</div>
+              <p class="text-xs text-gray-400">Trained on the EMBER dataset, a corpus of 1M+ labeled Windows PE files. Extracts 2,381 features from the binary's headers, imports, exports, section entropy, and byte histograms. Outputs a 0–0.5 maliciousness probability.</p>
+            </div>
+          </div>
+          <div class="flex items-stretch gap-3">
+            <div class="w-32 flex-shrink-0 bg-purple-900/40 border border-purple-700/50 rounded p-3 text-center">
+              <div class="text-purple-400 font-bold text-lg font-mono">30%</div>
+              <div class="text-xs text-purple-300 mt-1">max weight</div>
+            </div>
+            <div class="flex-1 bg-gray-800/60 border border-gray-700 rounded p-3">
+              <div class="font-semibold text-gray-200 text-xs mb-1">YARA Rule Matching</div>
+              <p class="text-xs text-gray-400">Includes rules for Pegasus spyware, ransomware families, rootkit signatures, and backdoor patterns. Each matching rule adds 0.10 to the score (capped at 0.30). Custom rules can be added in Enterprise tier.</p>
+            </div>
+          </div>
+          <div class="flex items-stretch gap-3">
+            <div class="w-32 flex-shrink-0 bg-green-900/40 border border-green-700/50 rounded p-3 text-center">
+              <div class="text-green-400 font-bold text-lg font-mono">25%</div>
+              <div class="text-xs text-green-300 mt-1">max weight</div>
+            </div>
+            <div class="flex-1 bg-gray-800/60 border border-gray-700 rounded p-3">
+              <div class="font-semibold text-gray-200 text-xs mb-1">Behavioral Heuristics</div>
+              <p class="text-xs text-gray-400">Pattern matching against known-malicious behaviors: process hollowing indicators, DLL injection markers, persistence installation, credential access patterns, network beaconing intervals, and privilege escalation sequences.</p>
+            </div>
+          </div>
+          <div class="flex items-stretch gap-3">
+            <div class="w-32 flex-shrink-0 bg-red-900/40 border border-red-700/50 rounded p-3 text-center">
+              <div class="text-red-400 font-bold text-lg font-mono">40%</div>
+              <div class="text-xs text-red-300 mt-1">max weight</div>
+            </div>
+            <div class="flex-1 bg-gray-800/60 border border-gray-700 rounded p-3">
+              <div class="font-semibold text-gray-200 text-xs mb-1">IOC Database Matching</div>
+              <p class="text-xs text-gray-400">Matches IPs, domains, and file hashes against a curated database of known-malicious indicators of compromise. Each IOC hit adds 0.20 to the score (capped at 0.40). Database updated in Pro/Enterprise tiers.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4 text-xs">
+          <div class="font-semibold text-gray-200 mb-2">Decision Thresholds</div>
+          <div class="space-y-1.5 font-mono">
+            <div class="flex items-center gap-3"><span class="text-red-400 w-16">≥ 85%</span><span class="text-gray-400">→</span><span class="text-gray-300">AUTO_BLOCK / QUARANTINE / ROLLBACK</span></div>
+            <div class="flex items-center gap-3"><span class="text-orange-400 w-16">≥ 65%</span><span class="text-gray-400">→</span><span class="text-gray-300">ALERT + notify (configurable)</span></div>
+            <div class="flex items-center gap-3"><span class="text-yellow-400 w-16">≥ 40%</span><span class="text-gray-400">→</span><span class="text-gray-300">WATCH (logged only)</span></div>
+            <div class="flex items-center gap-3"><span class="text-gray-500 w-16">&lt; 40%</span><span class="text-gray-400">→</span><span class="text-gray-300">IGNORE</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 11. Tiers ── -->
+      <section id="tiers" class="section-anchor">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="step-badge flex items-center justify-center rounded-full bg-blue-600 text-white font-bold text-xs">11</div>
+          <h2 class="text-xl font-bold text-white">Tiers</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-5">
+            <div class="text-xs text-gray-400 uppercase tracking-widest mb-1">Free</div>
+            <div class="text-2xl font-bold text-white mb-1">$0</div>
+            <div class="text-xs text-gray-500 mb-4">Always free · open source</div>
+            <ul class="text-xs text-gray-400 space-y-1.5">
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Real-time monitoring (all platforms)</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Local ML inference (ONNX)</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> YARA rule engine</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Behavioral heuristics</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> IOC matching</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Download protection</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> AI explanations (Ollama)</li>
+              <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Slack/Discord notifications</li>
+            </ul>
+          </div>
+          <div class="bg-blue-950/40 border border-blue-600/60 rounded-lg p-5 relative">
+            <div class="absolute -top-2.5 right-4 text-xs px-2 py-0.5 bg-blue-600 text-white rounded-full font-semibold">Popular</div>
+            <div class="text-xs text-blue-400 uppercase tracking-widest mb-1">Pro</div>
+            <div class="text-2xl font-bold text-white mb-1">$9.99<span class="text-sm font-normal text-gray-400">/mo</span></div>
+            <div class="text-xs text-gray-500 mb-4">All of Free, plus:</div>
+            <ul class="text-xs text-gray-400 space-y-1.5">
+              <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Cloud ML model updates</li>
+              <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> VPN killswitch</li>
+              <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Priority IOC feed updates</li>
+            </ul>
+          </div>
+          <div class="bg-purple-950/30 border border-purple-700/50 rounded-lg p-5">
+            <div class="text-xs text-purple-400 uppercase tracking-widest mb-1">Enterprise</div>
+            <div class="text-2xl font-bold text-white mb-1">$99<span class="text-sm font-normal text-gray-400">/user/mo</span></div>
+            <div class="text-xs text-gray-500 mb-4">All of Pro, plus:</div>
+            <ul class="text-xs text-gray-400 space-y-1.5">
+              <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> SIEM export (CEF/JSON/Syslog)</li>
+              <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> REST API access</li>
+              <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Custom YARA/Sigma rules</li>
+              <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Multi-tenant dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FAQ ── -->
+      <section id="faq" class="section-anchor">
+        <h2 class="text-xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-gray-800/60 border border-gray-700 rounded-lg group">
+            <summary class="px-4 py-3 cursor-pointer text-sm text-gray-200 font-medium flex items-center justify-between">
+              Does SecurAIty conflict with Windows Defender / other AV?
+              <svg class="w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-4 pb-4 text-xs text-gray-400 border-t border-gray-700 pt-3">
+              SecurAIty is complementary to traditional AV, not a replacement. It focuses on behavioral detection and ML scoring rather than signature databases. Most users run both. If you see performance issues, add <code class="text-gray-300">securaity-agent</code> to your AV's exclusion list.
+            </div>
+          </details>
+          <details class="bg-gray-800/60 border border-gray-700 rounded-lg group">
+            <summary class="px-4 py-3 cursor-pointer text-sm text-gray-200 font-medium flex items-center justify-between">
+              How do I update the YARA rules and ML model?
+              <svg class="w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-4 pb-4 text-xs text-gray-400 border-t border-gray-700 pt-3">
+              In the Free tier, updates come as new application releases. Download the latest version from the GitHub releases page. Pro/Enterprise tiers receive out-of-band rule and model updates automatically.
+            </div>
+          </details>
+          <details class="bg-gray-800/60 border border-gray-700 rounded-lg group">
+            <summary class="px-4 py-3 cursor-pointer text-sm text-gray-200 font-medium flex items-center justify-between">
+              Why does it show a demo mode / fake alerts?
+              <svg class="w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-4 pb-4 text-xs text-gray-400 border-t border-gray-700 pt-3">
+              If the background agent service cannot be reached, the UI falls back to a demo mode that generates simulated alerts so you can explore the interface. Ensure the agent is installed and running as a service. Check the Dashboard for the agent status indicator.
+            </div>
+          </details>
+          <details class="bg-gray-800/60 border border-gray-700 rounded-lg group">
+            <summary class="px-4 py-3 cursor-pointer text-sm text-gray-200 font-medium flex items-center justify-between">
+              I got a false positive on a legitimate program. What do I do?
+              <svg class="w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-4 pb-4 text-xs text-gray-400 border-t border-gray-700 pt-3">
+              Go to Settings → Process Allowlist and add the process name. For quarantined files, open the Quarantine Vault in the Scan tab and click Restore. Please also open a GitHub issue so we can tune the detection — false positive reports directly improve the model.
+            </div>
+          </details>
+          <details class="bg-gray-800/60 border border-gray-700 rounded-lg group">
+            <summary class="px-4 py-3 cursor-pointer text-sm text-gray-200 font-medium flex items-center justify-between">
+              How do I completely uninstall SecurAIty?
+              <svg class="w-4 h-4 text-gray-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-4 pb-4 text-xs text-gray-400 border-t border-gray-700 pt-3">
+              Use the system installer/uninstaller. On Windows: Settings → Apps → SecurAIty → Uninstall. Then manually delete <code class="text-gray-300">%PROGRAMDATA%\SecurAIty\</code> to remove all event data. On Linux: <code class="text-gray-300">sudo dpkg -r securaity</code> then <code class="text-gray-300">sudo rm -rf /var/lib/securaity /etc/securaity</code>.
+            </div>
+          </details>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800 mt-10">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+      <span>Copyright 2026 SecurAIty — MIT License — No warranties — For defensive use only</span>
+      <div class="flex items-center gap-4">
+        <a href="privacy.html" class="hover:text-gray-400 transition-colors">Privacy</a>
+        <a href="walkthrough.html" class="hover:text-gray-400 transition-colors">Walkthrough</a>
+        <a href="https://github.com/yourusername/SecuirAIty" class="hover:text-gray-400 transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

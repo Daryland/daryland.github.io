@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works — Sentinel AV</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0F1B2D;
+      --sidebar:  #0A1220;
+      --titlebar: #060E1A;
+      --slate:    #1E2D40;
+      --divider:  #2D3F56;
+      --blue:     #1A56DB;
+      --teal:     #0EA5E9;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --red:      #EF4444;
+      --gray:     #6B7280;
+      --text-xs:  #4B5563;
+      --text-sm:  #64748B;
+      --text-md:  #94A3B8;
+      --text-lg:  #CBD5E1;
+      --text-xl:  #E2E8F0;
+      --text-2xl: #F1F5F9;
+      --white:    #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text-lg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--titlebar);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-2xl);
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
+      background: rgba(26,86,219,0.15);
+      border: 1px solid rgba(26,86,219,0.3);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.4px;
+    }
+
+    .topbar-link {
+      font-size: 13px;
+      color: var(--text-sm);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .topbar-link:hover { color: var(--text-xl); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(180deg, rgba(14,165,233,0.06) 0%, rgba(26,86,219,0.04) 60%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 80px 40px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(26,86,219,0.12), transparent);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      background: rgba(14,165,233,0.1);
+      border: 1px solid rgba(14,165,233,0.25);
+      border-radius: 999px;
+      padding: 5px 14px;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 16px;
+      line-height: 1.15;
+      position: relative;
+    }
+
+    .hero-title span { color: var(--teal); }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text-md);
+      max-width: 540px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-md);
+    }
+
+    .hero-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    /* ── Steps nav ── */
+    .steps-nav {
+      background: var(--sidebar);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .steps-nav::-webkit-scrollbar { display: none; }
+
+    .step-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-sm);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .step-tab:hover {
+      color: var(--text-xl);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .step-tab.active {
+      color: var(--teal);
+      border-bottom-color: var(--teal);
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-sm);
+    }
+
+    /* ── Sections ── */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 72px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .section:last-of-type { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .section-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-icon-wrap.blue { background: rgba(26,86,219,0.15); border: 1px solid rgba(26,86,219,0.25); }
+    .section-icon-wrap.teal { background: rgba(14,165,233,0.12); border: 1px solid rgba(14,165,233,0.25); }
+    .section-icon-wrap.green { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); }
+    .section-icon-wrap.amber { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); }
+    .section-icon-wrap.red   { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.25); }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .section-label.blue  { color: var(--blue); }
+    .section-label.teal  { color: var(--teal); }
+    .section-label.green { color: var(--green); }
+    .section-label.amber { color: var(--amber); }
+    .section-label.red   { color: var(--red); }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-md);
+      max-width: 540px;
+      line-height: 1.6;
+    }
+
+    /* ── Feature grid ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .feature-card {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 20px;
+      transition: border-color 0.15s;
+    }
+
+    .feature-card:hover { border-color: rgba(255,255,255,0.12); }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .feature-icon.blue  { background: rgba(26,86,219,0.15);  }
+    .feature-icon.teal  { background: rgba(14,165,233,0.12);  }
+    .feature-icon.green { background: rgba(16,185,129,0.12); }
+    .feature-icon.amber { background: rgba(245,158,11,0.12); }
+    .feature-icon.red   { background: rgba(239,68,68,0.12);  }
+
+    .feature-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-2xl);
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-md);
+      line-height: 1.5;
+    }
+
+    /* ── Process flow ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 32px;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 44px;
+      bottom: -12px;
+      width: 2px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .flow-col {
+      padding-bottom: 32px;
+    }
+
+    .flow-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flow-num.blue  { background: rgba(26,86,219,0.2); border-color: rgba(26,86,219,0.4); color: #93C5FD; }
+    .flow-num.teal  { background: rgba(14,165,233,0.15); border-color: rgba(14,165,233,0.3); color: var(--teal); }
+    .flow-num.green { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.3); color: var(--green); }
+    .flow-num.amber { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); color: var(--amber); }
+    .flow-num.red   { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.3);  color: #F87171; }
+
+    .flow-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-2xl);
+      margin-bottom: 6px;
+      padding-top: 8px;
+    }
+
+    .flow-body {
+      font-size: 13px;
+      color: var(--text-md);
+      line-height: 1.6;
+    }
+
+    .flow-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .flow-tag.blue  { background: rgba(26,86,219,0.15); color: #93C5FD; border: 1px solid rgba(26,86,219,0.3); }
+    .flow-tag.teal  { background: rgba(14,165,233,0.12); color: var(--teal); border: 1px solid rgba(14,165,233,0.25); }
+    .flow-tag.green { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+    .flow-tag.amber { background: rgba(245,158,11,0.1);  color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+    .flow-tag.red   { background: rgba(239,68,68,0.1);   color: #F87171; border: 1px solid rgba(239,68,68,0.25); }
+
+    /* ── Stats band ── */
+    .stats-band {
+      background: var(--slate);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 40px;
+    }
+
+    .stats-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .stat-value span { color: var(--teal); }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    /* ── UI mockup ── */
+    .ui-mockup {
+      background: var(--sidebar);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 32px;
+    }
+
+    .mockup-titlebar {
+      background: var(--titlebar);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      height: 34px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 6px;
+    }
+
+    .mockup-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .mockup-dot.red    { background: #EF4444; }
+    .mockup-dot.amber  { background: #F59E0B; }
+    .mockup-dot.green  { background: #10B981; }
+
+    .mockup-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sm);
+      margin-left: auto;
+      margin-right: auto;
+      padding-right: 60px;
+    }
+
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      min-height: 280px;
+    }
+
+    .mockup-sidebar {
+      background: var(--sidebar);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 10px;
+    }
+
+    .mockup-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-md);
+      margin-bottom: 2px;
+    }
+
+    .mockup-nav-item.active {
+      background: rgba(26,86,219,0.15);
+      color: #60A5FA;
+    }
+
+    .mockup-nav-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .mockup-content {
+      padding: 20px;
+    }
+
+    .mockup-status-bar {
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .mockup-shield {
+      width: 28px; height: 28px;
+      background: rgba(16,185,129,0.15);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mockup-status-text { flex: 1; }
+
+    .mockup-status-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 1px;
+    }
+
+    .mockup-status-sub {
+      font-size: 11px;
+      color: var(--text-sm);
+    }
+
+    .mockup-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(16,185,129,0.15);
+      color: var(--green);
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mockup-stat {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .mockup-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 2px;
+    }
+
+    .mockup-stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(26,86,219,0.1) 0%, rgba(14,165,233,0.06) 100%);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 14px;
+    }
+
+    .cta-sub {
+      font-size: 15px;
+      color: var(--text-md);
+      margin-bottom: 32px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: var(--white);
+      padding: 11px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover { background: #1D4ED8; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-md);
+      padding: 11px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.15s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-xl);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--titlebar);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    footer .foot-brand span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sm);
+    }
+
+    footer nav { display: flex; gap: 24px; }
+
+    footer nav a {
+      font-size: 13px;
+      color: var(--text-sm);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer nav a:hover { color: var(--text-xl); }
+    footer .foot-copy { font-size: 12px; color: var(--text-xs); }
+
+    @media (max-width: 800px) {
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .hero-title { font-size: 32px; }
+      .section { padding: 48px 20px; }
+      .mockup-body { grid-template-columns: 1fr; }
+      .mockup-sidebar { display: none; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    @media (max-width: 540px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .topbar { padding: 0 20px; }
+      .steps-nav { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+  <a class="brand" href="#">
+    <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="#1A56DB" fill-opacity="0.3" stroke="#1A56DB" stroke-width="1.5"/>
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="none" stroke="#0EA5E9" stroke-width="0.75" stroke-dasharray="2 2"/>
+      <path d="M10 14l3 3 5-5" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="brand-name">Sentinel AV</span>
+    <span class="brand-tag">v1.0</span>
+  </a>
+  <a class="topbar-link" href="privacy.html">Privacy Policy →</a>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <circle cx="6" cy="6" r="5" stroke="#0EA5E9" stroke-width="1.2"/>
+      <path d="M4 6l1.5 1.5L8 4" stroke="#0EA5E9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Product Walkthrough
+  </div>
+  <h1 class="hero-title">AI-Powered Protection,<br><span>Built for the Real World</span></h1>
+  <p class="hero-subtitle">Sentinel AV combines real-time file monitoring, multi-engine signature scanning, behavioral heuristics, and Claude AI analysis — all running locally on your machine.</p>
+  <div class="hero-pills">
+    <span class="hero-pill"><span class="dot" style="background:#10B981"></span>Real-time Watcher</span>
+    <span class="hero-pill"><span class="dot" style="background:#1A56DB"></span>Signature Scanning</span>
+    <span class="hero-pill"><span class="dot" style="background:#0EA5E9"></span>AI Heuristics</span>
+    <span class="hero-pill"><span class="dot" style="background:#F59E0B"></span>Ransomware Guard</span>
+    <span class="hero-pill"><span class="dot" style="background:#6B7280"></span>AES-256 Quarantine</span>
+  </div>
+</div>
+
+<!-- Steps nav -->
+<nav class="steps-nav">
+  <a class="step-tab active" href="#detection"><span class="step-num">1</span>Detection</a>
+  <a class="step-tab" href="#ai"><span class="step-num">2</span>AI Analysis</a>
+  <a class="step-tab" href="#realtime"><span class="step-num">3</span>Real-time Guard</a>
+  <a class="step-tab" href="#quarantine"><span class="step-num">4</span>Quarantine</a>
+  <a class="step-tab" href="#dashboard"><span class="step-num">5</span>Dashboard</a>
+  <a class="step-tab" href="#setup"><span class="step-num">6</span>Setup</a>
+</nav>
+
+<!-- Stats band -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-value">3<span>×</span></div>
+      <div class="stat-label">Detection Layers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">500<span>ms</span></div>
+      <div class="stat-label">Watcher Debounce</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">AES<span>-256</span></div>
+      <div class="stat-label">Quarantine Encryption</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">100<span>%</span></div>
+      <div class="stat-label">Local-first Core</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 1: Detection -->
+<div class="section" id="detection">
+  <div class="section-header">
+    <div class="section-icon-wrap blue">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="11" cy="11" r="7" stroke="#1A56DB" stroke-width="1.8"/>
+        <path d="M16.5 16.5l4 4" stroke="#1A56DB" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M8.5 11h5M11 8.5v5" stroke="#1A56DB" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label blue">Step 1 — Detection Engine</p>
+      <h2 class="section-title">Multi-Layer Threat Detection</h2>
+      <p class="section-desc">Sentinel stacks three independent detection methods to maximize coverage while minimizing false positives.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num blue">1</div>
+      <div class="flow-col">
+        <div class="flow-title">SHA-256 Signature Lookup</div>
+        <div class="flow-body">Every file is hashed and cross-referenced against the local signature database — a SQLite store fed by MalwareBazaar feeds. Lookups are instant, entirely offline, and require no API key.</div>
+        <span class="flow-tag blue">Local — no internet required</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num teal">2</div>
+      <div class="flow-col">
+        <div class="flow-title">VirusTotal Cross-Check (Optional)</div>
+        <div class="flow-body">When a VirusTotal API key is configured, the file's hash is submitted for multi-engine consensus. Only the hash is transmitted — file contents never leave your machine. Results are cached to respect the free-tier rate limit.</div>
+        <span class="flow-tag teal">Hash-only — content stays local</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num amber">3</div>
+      <div class="flow-col">
+        <div class="flow-title">Heuristic Scoring (0–100)</div>
+        <div class="flow-body">The heuristics engine computes a behavioral risk score by examining file structure, entropy, extension mismatches, embedded strings, and file-type characteristics. Scores ≥ 60 trigger AI analysis; scores ≥ 80 auto-quarantine.</div>
+        <span class="flow-tag amber">Score ≥80 → auto-quarantine</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-grid" style="margin-top: 16px;">
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M2 9a7 7 0 1014 0A7 7 0 002 9z" stroke="#60A5FA" stroke-width="1.4"/>
+          <path d="M6 9l2 2 4-4" stroke="#60A5FA" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Signature DB Updates</div>
+      <div class="feature-desc">Run <code style="font-size:11px; background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:3px; font-family:monospace;">npm run update-signatures</code> to pull the latest MalwareBazaar feeds into your local DB.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon amber">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2l1.8 5.4H17l-4.9 3.6 1.8 5.4L9 13 5.1 16.4l1.8-5.4L2 7.4h6.2L9 2Z" stroke="#F59E0B" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Entropy Analysis</div>
+      <div class="feature-desc">High-entropy sections within files flag potential packed or encrypted payloads — a common malware evasion technique.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon teal">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="3" y="3" width="5" height="5" rx="1.5" stroke="#0EA5E9" stroke-width="1.4"/>
+          <rect x="10" y="3" width="5" height="5" rx="1.5" stroke="#0EA5E9" stroke-width="1.4"/>
+          <rect x="3" y="10" width="5" height="5" rx="1.5" stroke="#0EA5E9" stroke-width="1.4"/>
+          <rect x="10" y="10" width="5" height="5" rx="1.5" stroke="#0EA5E9" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="feature-title">Extension Mismatch Detection</div>
+      <div class="feature-desc">Files claiming to be images or documents but containing executable code are flagged immediately — regardless of their file extension.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: AI -->
+<div class="section" id="ai">
+  <div class="section-header">
+    <div class="section-icon-wrap teal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9" stroke="#0EA5E9" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M16 3c1.7 1.3 3 3.2 3 5.5" stroke="#0EA5E9" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M9 12h6M12 9v6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label teal">Step 2 — Intelligence Layer</p>
+      <h2 class="section-title">Claude AI Threat Analysis</h2>
+      <p class="section-desc">When heuristic scores are borderline, Sentinel consults Claude (claude-opus-4-6) for a structured threat assessment — turning ambiguous signals into actionable verdicts.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num teal">1</div>
+      <div class="flow-col">
+        <div class="flow-title">Heuristic Escalation</div>
+        <div class="flow-body">Files with a heuristic score between 60–79 are escalated to the AI layer. The engine packages behavioral signals, metadata, and file attributes into a structured prompt.</div>
+        <span class="flow-tag amber">Trigger: score ≥ 60</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num teal">2</div>
+      <div class="flow-col">
+        <div class="flow-title">Claude API Call</div>
+        <div class="flow-body">Sentinel sends the heuristic feature payload to Anthropic's Claude API. Raw file contents are never included — only derived metadata and behavioral signals.</div>
+        <span class="flow-tag teal">Model: claude-opus-4-6</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num green">3</div>
+      <div class="flow-col">
+        <div class="flow-title">Structured JSON Response</div>
+        <div class="flow-body">Claude returns a structured JSON verdict including: threat classification, confidence level, reasoning, recommended action (quarantine / monitor / clean), and a plain-language explanation shown in the Threat Detail panel.</div>
+        <span class="flow-tag green">Returns: JSON verdict</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI panel mockup -->
+  <div style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.2); border-radius: 12px; padding: 20px 24px; margin-top: 24px;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 1.5C4.86 1.5 1.5 4.86 1.5 9S4.86 16.5 9 16.5 16.5 13.14 16.5 9" stroke="#0EA5E9" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M12 1.5c1.3 1 2.3 2.4 2.3 4.1" stroke="#0EA5E9" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M6.75 9h4.5M9 6.75v4.5" stroke="#0EA5E9" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span style="font-size:13px; font-weight:600; color:#0EA5E9;">AI Analysis — Sample Output</span>
+    </div>
+    <div style="font-size:13px; color:var(--text-md); line-height:1.6;">
+      <strong style="color:var(--text-xl);">Verdict:</strong> High-confidence trojan dropper — executable masquerading as PDF.<br>
+      <strong style="color:var(--text-xl);">Confidence:</strong> 94%<br>
+      <strong style="color:var(--text-xl);">Action:</strong> Quarantine immediately.<br>
+      <strong style="color:var(--text-xl);">Reasoning:</strong> File entropy (7.82) indicates packed payload. MZ header detected despite .pdf extension. String table contains network socket API references atypical for document files.
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Real-time -->
+<div class="section" id="realtime">
+  <div class="section-header">
+    <div class="section-icon-wrap green">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L5 5.5V11c0 4.9 3.9 9.4 7 10.5 3.1-1.1 7-5.6 7-10.5V5.5L12 2Z" stroke="#10B981" stroke-width="1.8"/>
+        <path d="M9 12l2 2 4-4" stroke="#10B981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label green">Step 3 — Always-on Protection</p>
+      <h2 class="section-title">Real-time File Watcher &amp; Ransomware Guard</h2>
+      <p class="section-desc">Sentinel monitors your file system in real time using an efficient event-driven watcher — catching threats the moment they appear, not after the damage is done.</p>
+    </div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.5" stroke="#10B981" stroke-width="1.4"/>
+          <path d="M9 5v4l3 3" stroke="#10B981" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">500ms Debounce</div>
+      <div class="feature-desc">File events are debounced over 500ms to prevent redundant scans during rapid writes, keeping CPU usage minimal during large copy operations.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon red">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2l-7 13h14L9 2Z" stroke="#EF4444" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M9 8v3M9 13h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Ransomware Guard</div>
+      <div class="feature-desc">Process event monitoring detects ransomware-style behavior — more than 50 file modification events within 10 seconds in the same directory triggers an immediate alert and protection lockdown.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon teal">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="3" y="6" width="12" height="8" rx="2" stroke="#0EA5E9" stroke-width="1.4"/>
+          <path d="M6 6V5a3 3 0 016 0v1" stroke="#0EA5E9" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="feature-title">Configurable Watch Paths</div>
+      <div class="feature-desc">Add and remove directories from the Settings panel. The watcher activates instantly on new paths, with no restart required.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M4 9h10M4 5h10M4 13h7" stroke="#60A5FA" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Activity Feed</div>
+      <div class="feature-desc">Every scan event, detection, and system action is logged in the live activity feed with file path, severity, and timestamp — searchable and filterable by type.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon amber">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2l1.6 4.9H16l-4.3 3.1 1.6 4.9L9 11.9l-4.3 3.1 1.6-4.9L2 6.9h5.4L9 2Z" stroke="#F59E0B" stroke-width="1.3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Desktop Notifications</div>
+      <div class="feature-desc">Critical and high-severity detections surface as native OS notifications so you're alerted immediately — even when the Sentinel window is minimized.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M5 9l3 3 5-5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="9" r="7" stroke="#10B981" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div class="feature-title">System Tray</div>
+      <div class="feature-desc">Sentinel runs quietly in the system tray. Protection status, quick-scan shortcut, and toggle controls are one click away without opening the full UI.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: Quarantine -->
+<div class="section" id="quarantine">
+  <div class="section-header">
+    <div class="section-icon-wrap amber">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect x="5" y="8" width="14" height="12" rx="2" stroke="#F59E0B" stroke-width="1.8"/>
+        <path d="M8 8V7a4 4 0 018 0v1" stroke="#F59E0B" stroke-width="1.8"/>
+        <path d="M12 13v3M10 14l2-1 2 1" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label amber">Step 4 — Threat Containment</p>
+      <h2 class="section-title">AES-256 Quarantine</h2>
+      <p class="section-desc">Quarantine doesn't delete — it isolates. Files are encrypted and locked away so you can investigate, restore, or permanently remove them on your terms.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num amber">1</div>
+      <div class="flow-col">
+        <div class="flow-title">File Isolation</div>
+        <div class="flow-body">When a file is quarantined, Sentinel immediately moves it out of its original location, preventing execution. The original path and all metadata are preserved in the database.</div>
+        <span class="flow-tag amber">File cannot execute in quarantine</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num amber">2</div>
+      <div class="flow-col">
+        <div class="flow-title">AES-256-CBC Encryption</div>
+        <div class="flow-body">The file is encrypted using AES-256-CBC. The encryption key is derived via PBKDF2 from a fixed seed, ensuring the file is unreadable outside of Sentinel's quarantine manager.</div>
+        <span class="flow-tag blue">AES-256-CBC + PBKDF2 key derivation</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num green">3</div>
+      <div class="flow-col">
+        <div class="flow-title">Restore or Delete</div>
+        <div class="flow-body">From the Quarantine panel you can review each file's threat report, restore it to its original location if it was a false positive, or permanently delete it. Bulk actions supported.</div>
+        <span class="flow-tag green">Full control — restore or delete</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: Dashboard -->
+<div class="section" id="dashboard">
+  <div class="section-header">
+    <div class="section-icon-wrap blue">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="3" width="7" height="7" rx="2" stroke="#1A56DB" stroke-width="1.8"/>
+        <rect x="14" y="3" width="7" height="7" rx="2" stroke="#1A56DB" stroke-width="1.8"/>
+        <rect x="3" y="14" width="7" height="7" rx="2" stroke="#1A56DB" stroke-width="1.8"/>
+        <rect x="14" y="14" width="7" height="7" rx="2" stroke="#1A56DB" stroke-width="1.8"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label blue">Step 5 — Command Center</p>
+      <h2 class="section-title">Dashboard &amp; UI</h2>
+      <p class="section-desc">The Sentinel dashboard gives you a live overview of protection status, scan history, active modules, and threat activity — all in one place.</p>
+    </div>
+  </div>
+
+  <!-- UI mockup -->
+  <div class="ui-mockup">
+    <div class="mockup-titlebar">
+      <span class="mockup-dot red"></span>
+      <span class="mockup-dot amber"></span>
+      <span class="mockup-dot green"></span>
+      <span class="mockup-title">Sentinel AV — Dashboard</span>
+    </div>
+    <div class="mockup-body">
+      <div class="mockup-sidebar">
+        <div style="display:flex; align-items:center; gap:6px; padding:0 4px 14px; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:10px;">
+          <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="#1A56DB" fill-opacity="0.3" stroke="#1A56DB" stroke-width="1.5"/>
+            <path d="M10 14l3 3 5-5" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span style="font-size:12px; font-weight:700; color:var(--text-2xl);">Sentinel AV</span>
+        </div>
+        <div class="mockup-nav-item active"><span class="mockup-nav-dot"></span>Dashboard</div>
+        <div class="mockup-nav-item"><span class="mockup-nav-dot"></span>Quarantine</div>
+        <div class="mockup-nav-item"><span class="mockup-nav-dot"></span>Activity</div>
+        <div class="mockup-nav-item"><span class="mockup-nav-dot"></span>Settings</div>
+      </div>
+      <div class="mockup-content">
+        <div class="mockup-status-bar">
+          <div class="mockup-shield">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 1L2 3.75V7c0 3 2.5 5.8 6 6.5 3.5-.7 6-3.5 6-6.5V3.75L8 1Z" fill="rgba(16,185,129,0.2)" stroke="#10B981" stroke-width="1.2"/>
+              <path d="M5.5 8l2 2 3-3" stroke="#10B981" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="mockup-status-text">
+            <div class="mockup-status-title">Protected</div>
+            <div class="mockup-status-sub">All systems active · Last scan: 2 minutes ago</div>
+          </div>
+          <span class="mockup-pill">Active</span>
+        </div>
+        <div class="mockup-stats">
+          <div class="mockup-stat">
+            <div class="mockup-stat-value">2,481</div>
+            <div class="mockup-stat-label">Files Scanned</div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-value" style="color:#F87171;">3</div>
+            <div class="mockup-stat-label">Threats Found</div>
+          </div>
+          <div class="mockup-stat">
+            <div class="mockup-stat-value" style="color:#F59E0B;">1</div>
+            <div class="mockup-stat-label">Quarantined</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-grid" style="margin-top: 12px;">
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 13l4-4 3 3 5-7" stroke="#60A5FA" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Live Stats</div>
+      <div class="feature-desc">Files scanned, threats detected, quarantined count, and uptime — updated in real time as Sentinel works.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon teal">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2L3 5.25V9c0 3.5 2.6 6.7 6 7.5 3.4-.8 6-4 6-7.5V5.25L9 2Z" stroke="#0EA5E9" stroke-width="1.4"/>
+        </svg>
+      </div>
+      <div class="feature-title">Module Status</div>
+      <div class="feature-desc">Quick-glance status for all protection modules — Real-time Watcher, Heuristics, AI Analysis, and Ransomware Guard.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="3" stroke="#10B981" stroke-width="1.4"/>
+          <path d="M9 2v2M9 14v2M2 9h2M14 9h2M4.1 4.1l1.4 1.4M12.5 12.5l1.4 1.4M4.1 13.9l1.4-1.4M12.5 5.5l1.4-1.4" stroke="#10B981" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="feature-title">Quick Scan</div>
+      <div class="feature-desc">Launch a targeted scan of any directory from the dashboard with a single click. Progress is shown with a circular ring and file-level status.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 6: Setup -->
+<div class="section" id="setup">
+  <div class="section-header">
+    <div class="section-icon-wrap teal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="3" stroke="#0EA5E9" stroke-width="1.8"/>
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M16.9 16.9l2.1 2.1M4.9 19.1l2.1-2.1M16.9 7.1l2.1-2.1" stroke="#0EA5E9" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <p class="section-label teal">Step 6 — Getting Started</p>
+      <h2 class="section-title">Setup &amp; Configuration</h2>
+      <p class="section-desc">Sentinel is ready to protect with zero configuration. API keys are optional and unlock cloud-assisted detection layers.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num blue">1</div>
+      <div class="flow-col">
+        <div class="flow-title">Install &amp; Launch</div>
+        <div class="flow-body">Download the installer for your platform (Windows, macOS, or Linux). Run the installer and Sentinel starts protecting immediately — no configuration required. The signature database is bundled and ready.</div>
+        <span class="flow-tag blue">Zero config required</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num teal">2</div>
+      <div class="flow-col">
+        <div class="flow-title">Add Watch Paths (Optional)</div>
+        <div class="flow-body">Head to Settings → Watch Paths to add the directories you want monitored in real time. By default, Sentinel watches your Desktop and Downloads folders.</div>
+        <span class="flow-tag teal">Settings → Watch Paths</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num teal">3</div>
+      <div class="flow-col">
+        <div class="flow-title">Add API Keys (Optional)</div>
+        <div class="flow-body">To unlock VirusTotal multi-engine scanning and Claude AI analysis, enter your API keys in Settings → API Keys. Keys are stored securely in your OS keychain — never in plaintext.</div>
+        <span class="flow-tag teal">Settings → API Keys</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num green">4</div>
+      <div class="flow-col">
+        <div class="flow-title">Keep Signatures Fresh</div>
+        <div class="flow-body">Run <code style="font-size:12px; background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:3px;">npm run update-signatures</code> periodically to pull the latest threat intelligence from MalwareBazaar into your local signature database.</div>
+        <span class="flow-tag green">Recommended: weekly updates</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title">Ready to stay protected?</h2>
+  <p class="cta-sub">Sentinel AV is open-source, privacy-first, and free to use.</p>
+  <div class="cta-buttons">
+    <a class="btn-primary" href="https://github.com/sentinel-av" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      View on GitHub
+    </a>
+    <a class="btn-ghost" href="privacy.html">
+      Privacy Policy
+    </a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-brand">
+    <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="#1A56DB" fill-opacity="0.3" stroke="#1A56DB" stroke-width="1.5"/>
+      <path d="M10 14l3 3 5-5" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Sentinel AV by Sentinel Security, Inc.</span>
+  </div>
+  <nav>
+    <a href="walkthrough.html">Walkthrough</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </nav>
+  <span class="foot-copy">&copy; 2026 Sentinel Security, Inc. All rights reserved.</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule RX – Smart Peptide & Supplement Scheduler</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A1628;--card1:#0F1F4D;--card2:#142254;
+  --orange:#F97316;--blue:#0EA5E9;--green:#22C55E;
+  --text:#F1F5F9;--muted:#94A3B8;--border:rgba(255,255,255,0.08);
+  --r-card:20px;--r-phone:44px;
+  --font:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,22,40,0.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-size:1.15rem;font-weight:700}
+.logo-icon{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+nav a{color:var(--muted);text-decoration:none;font-size:.875rem;margin-left:28px;transition:color .2s}
+nav a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:10px;font-size:.875rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#0284c7;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{background:rgba(255,255,255,.05)}
+
+/* ── HERO ── */
+.hero{padding:110px 40px 90px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(14,165,233,.14) 0%,transparent 68%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.3);color:var(--blue);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:24px}
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;max-width:820px;margin:0 auto 22px}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:1.1rem;color:var(--muted);max-width:540px;margin:0 auto 38px}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ── FEATURE STRIP ── */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border);gap:1px}
+.strip-item{background:var(--bg);padding:28px 20px;text-align:center}
+.strip-icon{font-size:1.4rem;margin-bottom:8px}
+.strip-item h3{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.strip-item p{font-size:.8rem;color:var(--muted)}
+
+/* ── SCREEN SECTIONS ── */
+.section{padding:96px 40px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.section.flip{direction:rtl}
+.section.flip>*{direction:ltr}
+.s-label{display:inline-flex;align-items:center;gap:6px;color:var(--blue);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.section h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;line-height:1.2;letter-spacing:-.02em;margin-bottom:14px}
+.section .desc{color:var(--muted);font-size:1rem;margin-bottom:28px;line-height:1.75}
+.flist{list-style:none;display:flex;flex-direction:column;gap:11px}
+.flist li{display:flex;align-items:flex-start;gap:10px;font-size:.92rem}
+.flist li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;background:rgba(34,197,94,.1);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:1px}
+
+/* ── PHONE FRAME ── */
+/* The phone is a pure frame — the screenshot fills it edge-to-edge */
+.phone{
+  width:260px;
+  /* 9:19.5 aspect ratio approximating iPhone screenshot proportions */
+  aspect-ratio:9/19.5;
+  border-radius:var(--r-phone);
+  border:3px solid rgba(255,255,255,.15);
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06),
+    0 40px 80px rgba(0,0,0,.6),
+    0 8px 24px rgba(0,0,0,.4);
+  flex-shrink:0;
+  margin:0 auto;
+  background:#1a1a1a; /* fallback if screenshot missing */
+}
+.phone img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  border-radius:calc(var(--r-phone) - 3px);
+}
+/* subtle inner glow so white screenshot blends with dark frame */
+.phone::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:calc(var(--r-phone) - 3px);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
+  pointer-events:none;
+}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
+
+/* ── HOW-TO SECTION ── */
+.howto-disclaimer{
+  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);
+  border-radius:12px;padding:14px 16px;margin-bottom:24px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.howto-disclaimer .icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.howto-disclaimer p{font-size:.8rem;color:#fca5a5;line-height:1.6;margin:0}
+.howto-disclaimer strong{color:#f87171}
+
+.howto-subhead{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);margin:20px 0 10px;
+}
+.howto-subhead:first-of-type{margin-top:0}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-num{
+  width:24px;height:24px;border-radius:50%;background:var(--blue);
+  color:#fff;font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.step-body{}
+.step-body strong{font-size:.9rem;display:block;margin-bottom:2px}
+.step-body span{font-size:.82rem;color:var(--muted);line-height:1.55}
+
+/* Storage grid */
+.storage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.storage-card{background:var(--card1);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.storage-card .sc-icon{font-size:1.1rem;margin-bottom:6px}
+.storage-card h4{font-size:.85rem;font-weight:700;margin-bottom:6px}
+.storage-card ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.storage-card ul li{font-size:.78rem;color:var(--muted);display:flex;gap:6px}
+.storage-card ul li::before{content:'·';flex-shrink:0}
+
+/* Best practices */
+.bp-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.bp-item{
+  background:var(--card1);border:1px solid var(--border);border-radius:10px;
+  padding:9px 12px;font-size:.8rem;color:var(--muted);
+  display:flex;align-items:center;gap:7px;
+}
+.bp-item::before{content:'✓';color:var(--blue);font-weight:700;font-size:.75rem;flex-shrink:0}
+
+@media(max-width:800px){
+  .storage-grid{grid-template-columns:1fr}
+  .bp-grid{grid-template-columns:1fr}
+}
+
+/* ── CTA ── */
+.cta-wrap{padding:110px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-wrap::before{content:'';position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(14,165,233,.1) 0%,transparent 68%);pointer-events:none}
+.cta-card{background:var(--card1);border:1px solid var(--border);border-radius:24px;padding:60px 40px;max-width:700px;margin:0 auto}
+.cta-card h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+.cta-card p{color:var(--muted);font-size:1rem;margin-bottom:36px}
+.pills{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:36px}
+.pill{padding:7px 15px;border-radius:20px;font-size:.82rem;font-weight:600;border:1px solid var(--border);color:var(--muted)}
+.pill.b{background:rgba(14,165,233,.1);border-color:rgba(14,165,233,.3);color:var(--blue)}
+.pill.g{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:var(--green)}
+.pill.w{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--muted)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.83rem;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+footer p{font-size:.78rem;color:var(--muted)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .section,.section.flip{grid-template-columns:1fr;gap:44px;padding:60px 24px;direction:ltr}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  header{padding:0 20px}
+  nav a{display:none}
+  .hero{padding:72px 24px 60px}
+  .phone{width:220px}
+}
+@media(max-width:640px){
+  .hero{padding:56px 16px 44px}
+  .section{padding:44px 16px}
+  .strip{grid-template-columns:1fr}
+  .cta-wrap{padding:60px 16px}
+  footer{padding:24px 16px;flex-direction:column;align-items:flex-start}
+  .phone{width:200px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="walkthrough.html" class="logo">
+    <div class="logo-icon">⚗</div>
+    Schedule RX
+  </a>
+  <nav>
+    <a href="#today">Today</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#library">Library</a>
+    <a href="#reference">Reference</a>
+    <a href="#howto">How-To</a>
+    <a href="privacy.html">Privacy</a>
+  </nav>
+  <a href="#download" class="btn btn-primary">Download Free</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">⚗ Peptide &amp; Supplement Scheduler</div>
+  <h1>Your Protocol.<br><span>Always On Schedule.</span></h1>
+  <p>Schedule RX helps you plan, track, and stay consistent with your peptide and supplement cycles — from BPC-157 to daily vitamins — all offline, all private.</p>
+  <div class="hero-ctas">
+    <a href="#download" class="btn btn-primary">Download on iOS</a>
+    <a href="#download" class="btn btn-outline">Get on Android</a>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item"><div class="strip-icon">💊</div><h3>40+ Supplements</h3><p>Peptides, amino acids &amp; vitamins pre-loaded</p></div>
+  <div class="strip-item"><div class="strip-icon">🔔</div><h3>Smart Reminders</h3><p>Automatic notifications at your scheduled times</p></div>
+  <div class="strip-item"><div class="strip-icon">🧮</div><h3>Dosage Calculator</h3><p>Instant injection volumes — no manual math</p></div>
+  <div class="strip-item"><div class="strip-icon">🔒</div><h3>100% Private</h3><p>All data stored locally — never shared</p></div>
+</div>
+
+<!-- TODAY SECTION -->
+<section class="section" id="today">
+  <div>
+    <div class="s-label">📋 Today Tab</div>
+    <h2>Track Every Dose, Every Day</h2>
+    <p class="desc">Your daily dashboard — "Your Schedule" — shows every dose due today. Check off what you've taken, monitor your daily progress, and start new cycles right from the home screen.</p>
+    <ul class="flist">
+      <li>See all today's scheduled doses in one view</li>
+      <li>Check off doses with a single tap</li>
+      <li>Daily progress bar with completion percentage</li>
+      <li>Empty-state prompt guides you to add your first cycle</li>
+      <li>Tap <strong>+</strong> at any time to add a new supplement cycle</li>
+      <li>Disclaimer and safety notice always visible</li>
+    </ul>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <div class="phone">
+      <img src="screenshots/today.PNG" alt="Today screen showing Your Schedule">
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- CALENDAR SECTION -->
+<section class="section flip" id="calendar">
+  <div>
+    <div class="s-label">📅 Calendar Tab</div>
+    <h2>Visualize Your Entire Protocol</h2>
+    <p class="desc">The monthly calendar maps your full supplement activity at a glance. Active-cycle days are highlighted in blue, today is circled, and color-coded dots tell you the completion status of every past day.</p>
+    <ul class="flist">
+      <li>Month view with color-coded dose indicators per day</li>
+      <li>Blue highlight = active cycle · Grey = off-cycle</li>
+      <li>Green dot = all done · Yellow = partial · Grey = pending</li>
+      <li>Tap any day to view or edit its dose schedule</li>
+      <li>Quick Add button to start a cycle for any date</li>
+      <li>"Active This Month" summary with cycle names listed</li>
+    </ul>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <div class="phone">
+      <img src="screenshots/calendar.PNG" alt="Calendar screen showing March 2026">
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- LIBRARY SECTION -->
+<section class="section" id="library">
+  <div>
+    <div class="s-label">📚 Library Tab</div>
+    <h2>40+ Supplements, Ready to Schedule</h2>
+    <p class="desc">Browse a curated database of peptides, amino acids, and vitamins — each pre-loaded with cycle length, off-cycle period, and default dosage. Can't find what you need? Create a fully custom supplement in seconds.</p>
+    <ul class="flist">
+      <li>40+ pre-loaded peptides, amino acids &amp; vitamins</li>
+      <li>Filter by type: All, Peptides, Amino Acids, Vitamins</li>
+      <li>Toggle between grid and list view</li>
+      <li>Each card shows cycle length and off-cycle period</li>
+      <li>Tap <strong>+</strong> on any card to start a new cycle immediately</li>
+      <li>Add Custom Supplement for anything not on the list</li>
+    </ul>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <div class="phone">
+      <img src="screenshots/library.PNG" alt="Library screen showing supplement grid">
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- REFERENCE SECTION -->
+<section class="section flip" id="reference">
+  <div>
+    <div class="s-label">🧮 Reference Tab</div>
+    <h2>Instant Injection Volume Calculator</h2>
+    <p class="desc">No more math mistakes at the vial. The Reference tab calculates exactly how many units to draw — just select your reconstitution volume, syringe size, and desired dose, and get the answer instantly.</p>
+    <ul class="flist">
+      <li>Select reconstitution volume: 1 mL, 2 mL, or 3 mL</li>
+      <li>Choose syringe size: 0.3, 0.5, 1.0, or 3.0 mL syringes</li>
+      <li>Pick desired dose in mcg (100 → 1000 mcg)</li>
+      <li>Instant result in units <em>and</em> mL — no calculator needed</li>
+      <li>Works for any peptide regardless of vial concentration</li>
+      <li>Perfect for insulin syringes — the most common peptide syringe</li>
+    </ul>
+  </div>
+  <div style="display:flex;justify-content:center;">
+    <div class="phone">
+      <img src="screenshots/reference.PNG" alt="Reference tab showing dosage calculator">
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- HOW-TO SECTION -->
+<section class="section flip" id="howto">
+  <div>
+    <div class="s-label">📖 How-To Guide</div>
+    <h2>Know Before You Dose</h2>
+    <p class="desc">Peptide handling is a skill. The How-To Guide walks you through the complete reconstitution process, correct storage, and essential best practices — everything you need to handle these compounds safely and effectively.</p>
+
+    <!-- Legal disclaimer -->
+    <div class="howto-disclaimer">
+      <span class="icon">⚠</span>
+      <p><strong>Legal Disclaimer:</strong> This information is provided for educational and research purposes only and does not constitute medical advice. Research peptides are not approved by the FDA for human use. Always consult a qualified healthcare professional and comply with all applicable laws and regulations.</p>
+    </div>
+
+    <!-- Reconstitution steps -->
+    <p class="howto-subhead">Reconstitution Process</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Prepare Your Materials</strong>
+          <span>Gather peptide vial, bacteriostatic water (BAC water), alcohol swabs, and syringes. Wash hands thoroughly and work in a clean environment.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Remove Caps and Sterilize</strong>
+          <span>Remove plastic caps from both vials. Wipe the rubber stoppers with alcohol swabs and let dry for 30 seconds.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Draw BAC Water</strong>
+          <span>Using a syringe, draw the calculated amount of BAC water. Use the Reference tab calculator to determine the correct amount.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Add Water to Peptide</strong>
+          <span>Slowly inject the BAC water down the side of the vial — <strong>not</strong> directly onto the powder. This prevents protein degradation.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Mix Gently</strong>
+          <span>Swirl the vial gently in a circular motion. Do <strong>not</strong> shake. Let sit for 5–10 minutes until fully dissolved.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Storage -->
+    <p class="howto-subhead" style="margin-top:20px;">Storage Guidelines</p>
+    <div class="storage-grid">
+      <div class="storage-card">
+        <div class="sc-icon">🧊</div>
+        <h4>Lyophilized (Powder)</h4>
+        <ul>
+          <li>Freezer (−20°C) or fridge (2–8°C)</li>
+          <li>Lasts 1–2 years when stored properly</li>
+          <li>Keep away from light and moisture</li>
+        </ul>
+      </div>
+      <div class="storage-card">
+        <div class="sc-icon">🧪</div>
+        <h4>Reconstituted</h4>
+        <ul>
+          <li>Must be refrigerated (2–8°C)</li>
+          <li>Use within 30 days (varies by peptide)</li>
+          <li>Never freeze after reconstitution</li>
+          <li>Discard if cloudy, discolored, or has particles</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Best practices -->
+    <p class="howto-subhead" style="margin-top:20px;">Best Practices</p>
+    <div class="bp-grid">
+      <div class="bp-item">Always use sterile technique</div>
+      <div class="bp-item">Rotate injection sites</div>
+      <div class="bp-item">Keep detailed records</div>
+      <div class="bp-item">Store in original packaging</div>
+      <div class="bp-item">Check expiration dates</div>
+      <div class="bp-item">Verify calculations twice</div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;">
+    <div class="phone">
+      <img src="screenshots/how-to.PNG" alt="How-To Guide showing reconstitution steps">
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- DOWNLOAD CTA -->
+<section class="cta-wrap" id="download">
+  <div class="cta-card">
+    <div class="badge" style="margin-bottom:16px;">⚗ 100% Free · No Sign-Up Required</div>
+    <h2>Everything You Need,<br><span style="color:var(--blue);">Completely Free</span></h2>
+    <p>No subscription, no account, no cloud sync. Schedule RX is a privacy-first tool that lives entirely on your device.</p>
+    <div class="pills">
+      <span class="pill b">40+ Supplements</span>
+      <span class="pill g">Smart Reminders</span>
+      <span class="pill b">Cycle Management</span>
+      <span class="pill g">Custom Supplements</span>
+      <span class="pill b">Calendar View</span>
+      <span class="pill g">Dosage Calculator</span>
+      <span class="pill b">100% Local Storage</span>
+      <span class="pill g">No Account Required</span>
+    </div>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="#" class="btn btn-primary" style="font-size:1rem;padding:13px 30px;">Download on iOS</a>
+      <a href="#" class="btn btn-outline" style="font-size:1rem;padding:13px 30px;">Get on Android</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="walkthrough.html" class="logo" style="font-size:1rem;">
+    <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">⚗</div>
+    Schedule RX
+  </a>
+  <div class="footer-links">
+    <a href="#today">Today</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#library">Library</a>
+    <a href="#reference">Reference</a>
+    <a href="#howto">How-To</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  <p>© 2026 Schedule RX. For informational &amp; educational purposes only.</p>
+</footer>
+
+</body>
+</html>

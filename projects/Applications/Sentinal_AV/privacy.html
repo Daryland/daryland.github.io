@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Sentinel AV</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0F1B2D;
+      --sidebar:  #0A1220;
+      --titlebar: #060E1A;
+      --slate:    #1E2D40;
+      --divider:  #2D3F56;
+      --blue:     #1A56DB;
+      --teal:     #0EA5E9;
+      --green:    #10B981;
+      --amber:    #F59E0B;
+      --red:      #EF4444;
+      --gray:     #6B7280;
+      --text-xs:  #4B5563;
+      --text-sm:  #64748B;
+      --text-md:  #94A3B8;
+      --text-lg:  #CBD5E1;
+      --text-xl:  #E2E8F0;
+      --text-2xl: #F1F5F9;
+      --white:    #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text-lg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--titlebar);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-2xl);
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
+      background: rgba(26,86,219,0.15);
+      border: 1px solid rgba(26,86,219,0.3);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.4px;
+    }
+
+    .topbar-link {
+      font-size: 13px;
+      color: var(--text-sm);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .topbar-link:hover { color: var(--text-xl); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(180deg, rgba(26,86,219,0.08) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 64px 40px 48px;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-md);
+      max-width: 500px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-meta {
+      font-size: 12px;
+      color: var(--text-sm);
+    }
+
+    /* ── Layout ── */
+    .layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      position: sticky;
+      top: 80px;
+    }
+
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--text-md);
+      text-decoration: none;
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .toc-list a:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-xl);
+      border-left-color: var(--blue);
+    }
+
+    /* ── Content ── */
+    .content section {
+      margin-bottom: 48px;
+    }
+
+    .section-anchor {
+      display: block;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-2xl);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .content p {
+      color: var(--text-lg);
+      margin-bottom: 14px;
+    }
+
+    .content ul, .content ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .content li {
+      color: var(--text-lg);
+      margin-bottom: 6px;
+    }
+
+    /* Info card */
+    .info-card {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+
+    .info-card.blue {
+      background: rgba(26,86,219,0.07);
+      border-color: rgba(26,86,219,0.2);
+    }
+
+    .info-card.green {
+      background: rgba(16,185,129,0.07);
+      border-color: rgba(16,185,129,0.2);
+    }
+
+    .info-card.amber {
+      background: rgba(245,158,11,0.07);
+      border-color: rgba(245,158,11,0.2);
+    }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .info-card-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .info-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-2xl);
+    }
+
+    .info-card p {
+      font-size: 13px;
+      color: var(--text-md);
+      margin: 0;
+    }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .data-table th {
+      background: rgba(0,0,0,0.2);
+      color: var(--text-sm);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    .data-table th:first-child { border-radius: 8px 0 0 0; }
+    .data-table th:last-child  { border-radius: 0 8px 0 0; }
+
+    .data-table td {
+      padding: 10px 14px;
+      color: var(--text-lg);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+    }
+
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .badge-green {
+      background: rgba(16,185,129,0.15);
+      color: #10B981;
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+
+    .badge-amber {
+      background: rgba(245,158,11,0.15);
+      color: #F59E0B;
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+
+    .badge-red {
+      background: rgba(239,68,68,0.15);
+      color: #F87171;
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+
+    /* Contact block */
+    .contact-block {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contact-icon-wrap {
+      width: 44px;
+      height: 44px;
+      background: rgba(26,86,219,0.15);
+      border: 1px solid rgba(26,86,219,0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-block h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-2xl);
+      margin-bottom: 4px;
+    }
+
+    .contact-block p {
+      font-size: 13px;
+      color: var(--text-md);
+      margin: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--titlebar);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    footer .foot-brand span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sm);
+    }
+
+    footer nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    footer nav a {
+      font-size: 13px;
+      color: var(--text-sm);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    footer nav a:hover { color: var(--text-xl); }
+
+    footer .foot-copy {
+      font-size: 12px;
+      color: var(--text-xs);
+    }
+
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { display: none; }
+      .hero-title { font-size: 26px; }
+      .layout { padding: 32px 20px 60px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+  <a class="brand" href="#">
+    <svg class="brand-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="#1A56DB" fill-opacity="0.3" stroke="#1A56DB" stroke-width="1.5"/>
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="none" stroke="#0EA5E9" stroke-width="0.75" stroke-dasharray="2 2"/>
+      <path d="M10 14l3 3 5-5" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="brand-name">Sentinel AV</span>
+    <span class="brand-tag">v1.0</span>
+  </a>
+  <a class="topbar-link" href="walkthrough.html">Product Walkthrough →</a>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <span class="hero-label">Legal</span>
+  <h1 class="hero-title">Privacy Policy</h1>
+  <p class="hero-subtitle">How Sentinel AV collects, uses, and protects your data — plain language, no surprises.</p>
+  <span class="hero-meta">Effective date: March 14, 2026 &nbsp;·&nbsp; Sentinel Security, Inc.</span>
+</div>
+
+<!-- Main layout -->
+<div class="layout">
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">On this page</p>
+    <ul class="toc-list">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#data-collected">Data We Collect</a></li>
+      <li><a href="#local-only">What Stays Local</a></li>
+      <li><a href="#external">External Services</a></li>
+      <li><a href="#api-keys">API Key Handling</a></li>
+      <li><a href="#quarantine">Quarantine &amp; Scanning</a></li>
+      <li><a href="#retention">Data Retention</a></li>
+      <li><a href="#your-rights">Your Rights</a></li>
+      <li><a href="#children">Children</a></li>
+      <li><a href="#changes">Policy Changes</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Content -->
+  <main class="content">
+
+    <section id="overview">
+      <span class="section-anchor"></span>
+      <p class="section-num">01</p>
+      <h2 class="section-title">Overview</h2>
+
+      <div class="info-card green">
+        <div class="info-card-header">
+          <svg class="info-card-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2L3 5.5V10c0 3.9 3.1 7.6 7 8.5 3.9-.9 7-4.6 7-8.5V5.5L10 2Z" fill="rgba(16,185,129,0.2)" stroke="#10B981" stroke-width="1.5"/>
+            <path d="M7.5 10l2 2 3-3" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="info-card-title">Privacy-first by design</span>
+        </div>
+        <p>Sentinel AV is a local-first application. The vast majority of its processing — file scanning, heuristics, quarantine, threat logging — happens entirely on your device. Data is only transmitted to external services when you explicitly configure them.</p>
+      </div>
+
+      <p>This Privacy Policy describes what information Sentinel AV ("the App", "we", "us") collects and how it is used when you install and run Sentinel AV on your computer. By using the App you agree to this policy.</p>
+    </section>
+
+    <section id="data-collected">
+      <span class="section-anchor"></span>
+      <p class="section-num">02</p>
+      <h2 class="section-title">Data We Collect</h2>
+
+      <p>Sentinel AV collects two categories of data: data stored locally on your device, and data optionally transmitted to third-party services.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Where Stored</th>
+            <th>Transmitted?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>File SHA-256 hashes</td>
+            <td>Local SQLite DB</td>
+            <td><span class="badge badge-amber">Optional</span></td>
+          </tr>
+          <tr>
+            <td>Threat detections &amp; metadata</td>
+            <td>Local SQLite DB</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>Quarantine file contents</td>
+            <td>Local (AES-256 encrypted)</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>Scan activity logs</td>
+            <td>Local SQLite DB</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>App settings &amp; preferences</td>
+            <td>Local app userData</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>VirusTotal API key</td>
+            <td>OS keychain (keytar)</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>Anthropic API key</td>
+            <td>OS keychain (keytar)</td>
+            <td><span class="badge badge-green">Never</span></td>
+          </tr>
+          <tr>
+            <td>File path strings</td>
+            <td>Local only (AI analysis)</td>
+            <td><span class="badge badge-amber">Optional</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="local-only">
+      <span class="section-anchor"></span>
+      <p class="section-num">03</p>
+      <h2 class="section-title">What Stays Local</h2>
+      <p>The following data <strong>never leaves your device</strong> under any circumstances:</p>
+      <ul>
+        <li>The contents of scanned files</li>
+        <li>Quarantined file data (stored AES-256-CBC encrypted in your local userData folder)</li>
+        <li>Threat detection records, severity scores, and scan history</li>
+        <li>Your API keys — stored exclusively in your operating system's secure keychain via <code>keytar</code></li>
+        <li>Watch-path configuration and scan schedules</li>
+        <li>All application settings and preferences</li>
+      </ul>
+      <p>Sentinel's two SQLite databases (<code>sentinel.db</code> and <code>signatures.db</code>) reside entirely within your device's <code>userData</code> directory and are never synced or uploaded.</p>
+    </section>
+
+    <section id="external">
+      <span class="section-anchor"></span>
+      <p class="section-num">04</p>
+      <h2 class="section-title">External Services</h2>
+
+      <p>Sentinel AV can optionally communicate with the following third-party services. <strong>These integrations are disabled by default</strong> and only activate when you provide an API key in Settings.</p>
+
+      <div class="info-card blue" style="margin-bottom: 14px;">
+        <div class="info-card-header">
+          <svg class="info-card-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="8" stroke="#1A56DB" stroke-width="1.5"/>
+            <path d="M10 6v4l3 3" stroke="#1A56DB" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="info-card-title">VirusTotal</span>
+        </div>
+        <p>When enabled, the SHA-256 hash of a scanned file is sent to VirusTotal's public API for multi-engine threat lookup. <strong>File contents are never transmitted</strong> — only the hash. VirusTotal's own privacy policy governs data submitted to their service.</p>
+      </div>
+
+      <div class="info-card blue">
+        <div class="info-card-header">
+          <svg class="info-card-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M10 4l6 6-6 6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="info-card-title">Anthropic Claude API (AI Analysis)</span>
+        </div>
+        <p>When AI analysis is enabled, Sentinel sends heuristic feature data — file metadata, behavioral signals, and file path strings — to the Anthropic Claude API for intelligent threat assessment. <strong>Raw file contents are never transmitted.</strong> Anthropic's privacy policy governs data submitted to their API.</p>
+      </div>
+    </section>
+
+    <section id="api-keys">
+      <span class="section-anchor"></span>
+      <p class="section-num">05</p>
+      <h2 class="section-title">API Key Handling</h2>
+      <p>Your API keys for VirusTotal and Anthropic are stored exclusively using your operating system's secure credential store:</p>
+      <ul>
+        <li><strong>Windows:</strong> Windows Credential Manager</li>
+        <li><strong>macOS:</strong> Keychain</li>
+        <li><strong>Linux:</strong> libsecret / GNOME Keyring</li>
+      </ul>
+      <p>Keys are accessed at runtime via <code>keytar</code> and are <strong>never written to disk in plaintext</strong>, never included in logs, and never transmitted to any server other than the API endpoint they authenticate with.</p>
+    </section>
+
+    <section id="quarantine">
+      <span class="section-anchor"></span>
+      <p class="section-num">06</p>
+      <h2 class="section-title">Quarantine &amp; Scanning</h2>
+      <p>When a file is quarantined, Sentinel AV:</p>
+      <ol>
+        <li>Encrypts the file using AES-256-CBC with a key derived via PBKDF2</li>
+        <li>Moves the encrypted blob to your local <code>userData/quarantine/</code> directory</li>
+        <li>Records metadata (original path, threat type, timestamp) in the local database</li>
+      </ol>
+      <p>Quarantined file contents are never transmitted or shared. You may restore or permanently delete quarantined files at any time from the Quarantine panel.</p>
+      <div class="info-card amber">
+        <div class="info-card-header">
+          <svg class="info-card-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3L2 17h16L10 3Z" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M10 9v4M10 15h.01" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="info-card-title">Important: Real-time Watcher</span>
+        </div>
+        <p>The real-time file watcher monitors file system events in your configured watch paths. It reads file contents only to compute SHA-256 hashes and perform heuristic analysis — all on-device. No content is cached beyond the current scan operation.</p>
+      </div>
+    </section>
+
+    <section id="retention">
+      <span class="section-anchor"></span>
+      <p class="section-num">07</p>
+      <h2 class="section-title">Data Retention</h2>
+      <p>All data is retained locally until you choose to delete it:</p>
+      <ul>
+        <li><strong>Scan history &amp; logs</strong> — Stored indefinitely in <code>sentinel.db</code>. You may clear history via Settings.</li>
+        <li><strong>Quarantine files</strong> — Retained until you restore or delete them from the Quarantine panel.</li>
+        <li><strong>Signature database</strong> — Updated when you run <code>update-signatures</code>; old entries are replaced in-place.</li>
+        <li><strong>API keys</strong> — Retained in the OS keychain until you remove them from Settings or uninstall the app.</li>
+      </ul>
+      <p>Uninstalling Sentinel AV removes the application but does <strong>not</strong> automatically delete data in <code>userData</code> or your OS keychain. To fully remove all data, delete the <code>userData</code> folder and remove credentials from your OS keychain manually.</p>
+    </section>
+
+    <section id="your-rights">
+      <span class="section-anchor"></span>
+      <p class="section-num">08</p>
+      <h2 class="section-title">Your Rights</h2>
+      <p>Because Sentinel AV stores data locally on your device, you are in direct control of it at all times:</p>
+      <ul>
+        <li><strong>Access:</strong> All data is stored in open SQLite databases you can inspect directly.</li>
+        <li><strong>Deletion:</strong> Clear history, remove quarantined files, or delete the userData directory at any time.</li>
+        <li><strong>Portability:</strong> Copy or export your SQLite databases at any time.</li>
+        <li><strong>Opt-out:</strong> Disable any external service integration from Settings at any time without affecting core functionality.</li>
+      </ul>
+      <p>We do not operate servers that hold your personal data, so there is no data-subject request process applicable to Sentinel Security for locally stored information.</p>
+    </section>
+
+    <section id="children">
+      <span class="section-anchor"></span>
+      <p class="section-num">09</p>
+      <h2 class="section-title">Children's Privacy</h2>
+      <p>Sentinel AV is not directed at children under 13. We do not knowingly collect personal information from children. The App does not include features targeting minors.</p>
+    </section>
+
+    <section id="changes">
+      <span class="section-anchor"></span>
+      <p class="section-num">10</p>
+      <h2 class="section-title">Policy Changes</h2>
+      <p>We may update this Privacy Policy from time to time. Material changes will be noted in the application release notes and reflected in an updated effective date at the top of this page. Continued use of the App after a policy change constitutes acceptance of the updated terms.</p>
+    </section>
+
+    <section id="contact">
+      <span class="section-anchor"></span>
+      <p class="section-num">11</p>
+      <h2 class="section-title">Contact</h2>
+      <p>Questions or concerns about this Privacy Policy? Reach out to the Sentinel Security team:</p>
+      <div class="contact-block">
+        <div class="contact-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="5" width="16" height="12" rx="2" stroke="#1A56DB" stroke-width="1.5"/>
+            <path d="M2 7l8 5 8-5" stroke="#1A56DB" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Sentinel Security, Inc.</h4>
+          <p>privacy@sentinelav.com &nbsp;·&nbsp; github.com/sentinel-av &nbsp;·&nbsp; Issues: GitHub Issues tracker</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-brand">
+    <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+      <path d="M14 2L4 6.5V13c0 5.25 4.2 10.15 10 11.5C19.8 23.15 24 18.25 24 13V6.5L14 2Z" fill="#1A56DB" fill-opacity="0.3" stroke="#1A56DB" stroke-width="1.5"/>
+      <path d="M10 14l3 3 5-5" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Sentinel AV by Sentinel Security, Inc.</span>
+  </div>
+  <nav>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="walkthrough.html">Walkthrough</a>
+  </nav>
+  <span class="foot-copy">&copy; 2026 Sentinel Security, Inc. All rights reserved.</span>
+</footer>
+
+</body>
+</html>

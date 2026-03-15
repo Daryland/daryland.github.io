@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — SecurAIty EDR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'gray-750': '#2d3748',
+            'gray-850': '#1a202c',
+            'gray-950': '#0d1117',
+          },
+          fontFamily: {
+            mono: ["'JetBrains Mono'", "'Fira Code'", 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { background-color: #0d1117; font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #1a202c; }
+    ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    .toc-link { transition: color 0.15s, padding-left 0.15s; }
+    .toc-link:hover { color: #60a5fa; padding-left: 4px; }
+    .section-anchor { scroll-margin-top: 80px; }
+  </style>
+</head>
+<body class="text-gray-200 min-h-screen">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-gray-700 bg-gray-950/95 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="walkthrough.html" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/50 group-hover:bg-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.955 11.955 0 01.75 12c0 6.09 4.558 11.11 10.458 11.975L12 24l.792-.025C18.692 23.11 23.25 18.09 23.25 12A11.959 11.959 0 0120.4 6a11.98 11.98 0 01-8.4-3.036z" />
+          </svg>
+        </div>
+        <span class="text-sm font-semibold text-gray-200">SecurAIty EDR</span>
+      </a>
+      <nav class="flex items-center gap-4 text-xs">
+        <a href="walkthrough.html" class="text-gray-400 hover:text-gray-200 transition-colors">Walkthrough</a>
+        <a href="privacy.html" class="text-blue-400 border-b border-blue-400 pb-0.5">Privacy</a>
+        <a href="https://github.com/yourusername/SecuirAIty/releases" class="text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="border-b border-gray-800 bg-gray-950">
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
+        <span>Docs</span>
+        <span>/</span>
+        <span class="text-gray-300">Privacy Policy</span>
+      </div>
+      <h1 class="text-3xl font-bold text-white mb-3">Privacy Policy</h1>
+      <p class="text-gray-400 max-w-2xl">SecurAIty EDR is designed from the ground up with privacy as a first principle. Most telemetry and data collection found in commercial security tools does not exist here. This document explains exactly what the software does — and does not — do with your data.</p>
+      <div class="mt-4 flex items-center gap-3 text-xs text-gray-500">
+        <span>Last updated: March 2026</span>
+        <span>·</span>
+        <span>Applies to: SecurAIty EDR v0.1.0+</span>
+        <span>·</span>
+        <span class="text-green-400 flex items-center gap-1">
+          <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+          No cloud telemetry (Free tier)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 py-10 flex gap-10">
+
+    <!-- Table of Contents (sidebar) -->
+    <aside class="hidden lg:block w-56 flex-shrink-0">
+      <div class="sticky top-24">
+        <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">On this page</div>
+        <nav class="space-y-1.5 text-xs text-gray-500">
+          <a href="#summary" class="toc-link block">Quick Summary</a>
+          <a href="#data-collected" class="toc-link block">Data Collected Locally</a>
+          <a href="#no-collection" class="toc-link block">What We Don't Collect</a>
+          <a href="#network" class="toc-link block">Network Activity</a>
+          <a href="#ai" class="toc-link block">AI Features (Ollama)</a>
+          <a href="#downloads" class="toc-link block">Download Protection</a>
+          <a href="#storage" class="toc-link block">Local Storage & Encryption</a>
+          <a href="#pro" class="toc-link block">Pro & Enterprise Tiers</a>
+          <a href="#third-party" class="toc-link block">Third-Party Services</a>
+          <a href="#children" class="toc-link block">Children's Privacy</a>
+          <a href="#rights" class="toc-link block">Your Rights</a>
+          <a href="#contact" class="toc-link block">Contact</a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 min-w-0 space-y-10 text-sm leading-relaxed">
+
+      <!-- Quick Summary -->
+      <section id="summary" class="section-anchor">
+        <div class="bg-blue-950/40 border border-blue-700/50 rounded-lg p-5">
+          <div class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-3">Quick Summary</div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">All monitoring data stays on your machine</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">Event database encrypted with AES-256-GCM</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">No telemetry, analytics, or crash reporting</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">AI explanations run locally via Ollama</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">URL checks use external APIs (opt-in, URL only)</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5 flex-shrink-0">✓</span>
+              <span class="text-gray-300">Open source — audit every line on GitHub</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Collected Locally -->
+      <section id="data-collected" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-blue-500 rounded-full inline-block"></span>
+          Data Collected Locally
+        </h2>
+        <p class="text-gray-400 mb-4">SecurAIty collects and stores the following data <strong class="text-gray-200">on your device only</strong>, in an AES-256-GCM encrypted SQLite database. This data is never transmitted to any external server in the Free tier.</p>
+        <div class="space-y-3">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">Process Events</div>
+            <p class="text-gray-400 text-xs">Process name, PID, path, parent process, command-line arguments, user/session context, creation timestamps. Collected to detect malicious process behavior, hollowing, injection, and persistence techniques.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">File System Events</div>
+            <p class="text-gray-400 text-xs">File paths accessed, created, modified, or deleted by monitored processes. SHA-256 hashes of suspicious files. File contents are <em>not</em> stored unless a file is moved to the quarantine vault by your explicit action.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">Network Events</div>
+            <p class="text-gray-400 text-xs">IP addresses, ports, hostnames, and protocol types for outbound connections flagged as suspicious. Packet contents are <em>not</em> captured or stored.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">Registry Events (Windows)</div>
+            <p class="text-gray-400 text-xs">Registry key paths and value names for keys associated with persistence, credential theft, or known malware techniques. Registry values are not stored unless directly relevant to a detected threat.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">Threat Scores & Actions</div>
+            <p class="text-gray-400 text-xs">ML model output score (0.0–1.0), contributing factors (YARA matches, heuristic flags, IOC hits), and the automated action taken (BLOCK, QUARANTINE, ALERT, WATCH). Stored for your review in the Alerts tab.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- What We Don't Collect -->
+      <section id="no-collection" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-green-500 rounded-full inline-block"></span>
+          What We Don't Collect
+        </h2>
+        <p class="text-gray-400 mb-4">The following data is <strong class="text-gray-200">never collected</strong>, stored, or transmitted by SecurAIty:</p>
+        <div class="grid sm:grid-cols-2 gap-2 text-xs">
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Usernames or passwords</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Browser history or cookies</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Email or message content</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Clipboard contents</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Keystrokes or input events</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Screenshots or screen recordings</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Document or file content (outside quarantine)</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Location or GPS data</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Camera or microphone access</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Hardware identifiers (MAC, serial)</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Usage analytics or feature telemetry</div>
+          <div class="flex items-center gap-2 text-gray-400"><span class="text-red-400">✗</span> Crash reports sent externally</div>
+        </div>
+      </section>
+
+      <!-- Network Activity -->
+      <section id="network" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-yellow-500 rounded-full inline-block"></span>
+          Network Activity
+        </h2>
+        <p class="text-gray-400 mb-4">SecurAIty makes the following outbound network requests. All requests are initiated <strong class="text-gray-200">only by explicit user action</strong> unless otherwise noted.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th class="text-left py-2 pr-4 text-gray-400 font-semibold">Destination</th>
+                <th class="text-left py-2 pr-4 text-gray-400 font-semibold">When</th>
+                <th class="text-left py-2 pr-4 text-gray-400 font-semibold">Data Sent</th>
+                <th class="text-left py-2 text-gray-400 font-semibold">User-Triggered</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+              <tr>
+                <td class="py-2.5 pr-4 text-gray-300 font-mono">urlhaus-api.abuse.ch</td>
+                <td class="py-2.5 pr-4 text-gray-400">URL Intel check</td>
+                <td class="py-2.5 pr-4 text-gray-400">The URL you typed only</td>
+                <td class="py-2.5 text-green-400">Yes — Intel tab</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 pr-4 text-gray-300 font-mono">github.com (releases API)</td>
+                <td class="py-2.5 pr-4 text-gray-400">Update check</td>
+                <td class="py-2.5 pr-4 text-gray-400">Current version string</td>
+                <td class="py-2.5 text-green-400">Yes — on launch</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 pr-4 text-gray-300 font-mono">localhost:11434 (Ollama)</td>
+                <td class="py-2.5 pr-4 text-gray-400">AI alert explanation</td>
+                <td class="py-2.5 pr-4 text-gray-400">Alert fields (local only)</td>
+                <td class="py-2.5 text-green-400">Yes — Explain button</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 pr-4 text-gray-300 font-mono">Webhook URL (yours)</td>
+                <td class="py-2.5 pr-4 text-gray-400">Slack/Discord notify</td>
+                <td class="py-2.5 pr-4 text-gray-400">Alert summary you configured</td>
+                <td class="py-2.5 text-yellow-400">When alert fires</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-gray-500 text-xs mt-3">No background telemetry, heartbeat pings, or license verification calls are made. The update check sends only your current version number to compare against the GitHub releases API — no device identifier is included.</p>
+      </section>
+
+      <!-- AI Features -->
+      <section id="ai" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-indigo-500 rounded-full inline-block"></span>
+          AI Features (Ollama)
+        </h2>
+        <p class="text-gray-400 mb-3">The "Explain with AI" feature uses <strong class="text-gray-200">Ollama</strong>, a local large-language model runtime that runs entirely on your machine. No data is sent to any cloud AI provider (OpenAI, Anthropic, Google, etc.).</p>
+        <div class="bg-indigo-950/40 border border-indigo-700/50 rounded-lg p-4 text-xs text-indigo-200">
+          <strong class="text-indigo-300">What is sent to Ollama:</strong> Alert metadata only — event type, severity, threat score, description, process name, file path, network destination, YARA rule names, and the action taken. File contents, packet data, and credentials are never included.
+        </div>
+        <p class="text-gray-400 mt-3 text-xs">Ollama runs on <code class="text-indigo-300 bg-indigo-950/50 px-1 rounded">localhost:11434</code> by default. You can configure a different endpoint in Settings → AI Assistant if you run Ollama on a different host, but be aware that using a remote Ollama endpoint will send alert data to that host.</p>
+      </section>
+
+      <!-- Download Protection -->
+      <section id="downloads" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-orange-500 rounded-full inline-block"></span>
+          Download Protection
+        </h2>
+        <p class="text-gray-400 mb-3">SecurAIty watches your Downloads folder for executable file types. When a risky file is detected:</p>
+        <ul class="list-disc list-inside space-y-1 text-gray-400 text-xs ml-2">
+          <li>A prompt is shown asking you to Quarantine, Delete, or Allow the file</li>
+          <li>The file path, name, extension, and size are temporarily held in memory to power the prompt</li>
+          <li>If you choose Quarantine, the file is moved locally to the quarantine vault — it is not scanned by any cloud service</li>
+          <li>If you choose Allow, the file is left untouched and no record is written</li>
+        </ul>
+        <p class="text-gray-500 text-xs mt-3">No file content is uploaded during this process. The watcher only reads the file metadata (size) to populate the prompt.</p>
+      </section>
+
+      <!-- Local Storage & Encryption -->
+      <section id="storage" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-purple-500 rounded-full inline-block"></span>
+          Local Storage &amp; Encryption
+        </h2>
+        <p class="text-gray-400 mb-4">All persistent data is stored locally in the following locations:</p>
+        <div class="space-y-2 text-xs font-mono">
+          <div class="bg-gray-800/60 border border-gray-700 rounded p-3 flex gap-4">
+            <span class="text-yellow-400 flex-shrink-0">Windows</span>
+            <span class="text-gray-400">%PROGRAMDATA%\SecurAIty\events.db &nbsp;·&nbsp; agent.toml &nbsp;·&nbsp; quarantine\</span>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded p-3 flex gap-4">
+            <span class="text-green-400 flex-shrink-0">Linux&nbsp;&nbsp;</span>
+            <span class="text-gray-400">/var/lib/securaity/events.db &nbsp;·&nbsp; /etc/securaity/agent.toml &nbsp;·&nbsp; quarantine/</span>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded p-3 flex gap-4">
+            <span class="text-blue-400 flex-shrink-0">macOS&nbsp;&nbsp;</span>
+            <span class="text-gray-400">/var/lib/securaity/events.db &nbsp;·&nbsp; /etc/securaity/agent.toml &nbsp;·&nbsp; quarantine/</span>
+          </div>
+        </div>
+        <p class="text-gray-400 text-xs mt-4">The <code class="text-purple-300 bg-purple-950/40 px-1 rounded">events.db</code> SQLite database stores event records encrypted with <strong class="text-gray-200">AES-256-GCM</strong>. The encryption key is generated randomly on first run and stored in the agent configuration file. Only the SecurAIty agent process reads or writes this database.</p>
+        <div class="bg-yellow-950/30 border border-yellow-700/40 rounded-lg p-3 text-xs text-yellow-200 mt-3">
+          <strong>Note:</strong> The encryption key is currently stored in the config TOML file. A future update will migrate key storage to the system keychain (Windows DPAPI, macOS Keychain, Linux secret-service) for stronger protection.
+        </div>
+      </section>
+
+      <!-- Pro & Enterprise -->
+      <section id="pro" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-blue-500 rounded-full inline-block"></span>
+          Pro &amp; Enterprise Tiers
+        </h2>
+        <p class="text-gray-400 mb-3">Optional paid tiers introduce additional features with different privacy implications. These are <strong class="text-gray-200">opt-in only</strong>.</p>
+        <div class="space-y-3">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs px-2 py-0.5 rounded bg-blue-900 text-blue-300 font-semibold">Pro $9.99/mo</span>
+            </div>
+            <ul class="text-xs text-gray-400 space-y-1 list-disc list-inside ml-1">
+              <li>Cloud ML model updates — model weights only, no event data sent</li>
+              <li>VPN killswitch — network interface state only, no traffic inspection</li>
+            </ul>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs px-2 py-0.5 rounded bg-purple-900 text-purple-300 font-semibold">Enterprise $99/user/mo</span>
+            </div>
+            <ul class="text-xs text-gray-400 space-y-1 list-disc list-inside ml-1">
+              <li>SIEM export — alert metadata forwarded to your configured SIEM endpoint in CEF/JSON/Syslog format</li>
+              <li>REST API — alert data accessible on your local network via authenticated API</li>
+              <li>Custom rules — rule files stored locally, no cloud sync by default</li>
+            </ul>
+            <p class="text-xs text-gray-500 mt-2">SIEM export destinations are configured by your administrator. Ensure your SIEM policy covers the data fields described in the "Data Collected Locally" section above.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Third-Party Services -->
+      <section id="third-party" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-red-500 rounded-full inline-block"></span>
+          Third-Party Services
+        </h2>
+        <div class="space-y-3 text-xs">
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">URLhaus (abuse.ch)</div>
+            <p class="text-gray-400">Used by the Threat Intel tab URL checker. Only the URL string you submit is sent. Governed by the <a href="https://abuse.ch/privacy" class="text-blue-400 hover:text-blue-300 underline" target="_blank">abuse.ch privacy policy</a>. This feature is triggered only by your explicit action — no URLs are submitted automatically.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">GitHub Releases API</div>
+            <p class="text-gray-400">Used to check for software updates. Only your current version string is included in the request. No device identifiers, OS details, or user data are included. Governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" class="text-blue-400 hover:text-blue-300 underline" target="_blank">GitHub's privacy statement</a>.</p>
+          </div>
+          <div class="bg-gray-800/60 border border-gray-700 rounded-lg p-4">
+            <div class="font-semibold text-gray-200 mb-1">Ollama (local)</div>
+            <p class="text-gray-400">Not a third-party service — Ollama runs entirely on your machine. See <a href="https://ollama.com" class="text-blue-400 hover:text-blue-300 underline" target="_blank">ollama.com</a> for Ollama's own privacy terms if you use their hosted models.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Children's Privacy -->
+      <section id="children" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-gray-500 rounded-full inline-block"></span>
+          Children's Privacy
+        </h2>
+        <p class="text-gray-400 text-sm">SecurAIty EDR is a technical security tool intended for adults. It is not directed at children under 13 (or under 16 in the EU/UK) and we do not knowingly collect personal information from minors. If you believe a child has used this software in a way that raises a privacy concern, contact us at the address below.</p>
+      </section>
+
+      <!-- Your Rights -->
+      <section id="rights" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-cyan-500 rounded-full inline-block"></span>
+          Your Rights &amp; Data Control
+        </h2>
+        <p class="text-gray-400 mb-3">Because all data is stored locally on your device, you have full control at all times:</p>
+        <ul class="list-disc list-inside space-y-1.5 text-gray-400 text-sm ml-2">
+          <li><strong class="text-gray-200">Access:</strong> The events database is at the paths listed above. You can read it with any SQLite browser.</li>
+          <li><strong class="text-gray-200">Delete:</strong> Remove <code class="text-gray-300 font-mono text-xs">events.db</code> to wipe all event history. Remove the quarantine folder to delete quarantined files.</li>
+          <li><strong class="text-gray-200">Export:</strong> Use <code class="text-gray-300 font-mono text-xs">sqlite3 events.db .dump &gt; export.sql</code> to export all stored events.</li>
+          <li><strong class="text-gray-200">Uninstall:</strong> Uninstalling the application and deleting the data directories above removes all data completely.</li>
+        </ul>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="section-anchor">
+        <h2 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <span class="w-1 h-5 bg-gray-500 rounded-full inline-block"></span>
+          Contact
+        </h2>
+        <p class="text-gray-400 text-sm">For privacy-related questions, data concerns, or vulnerability disclosures, open an issue on the <a href="https://github.com/yourusername/SecuirAIty/issues" class="text-blue-400 hover:text-blue-300 underline">GitHub repository</a>. This policy may be updated as new features are added — check the repository for the latest version.</p>
+        <p class="text-gray-500 text-xs mt-3">SecurAIty is open source (MIT License). You are encouraged to audit the code to verify any claims in this policy.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800 mt-10">
+    <div class="max-w-5xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+      <span>Copyright 2026 SecurAIty — MIT License — No warranties — For defensive use only</span>
+      <div class="flex items-center gap-4">
+        <a href="privacy.html" class="hover:text-gray-400 transition-colors">Privacy</a>
+        <a href="walkthrough.html" class="hover:text-gray-400 transition-colors">Walkthrough</a>
+        <a href="https://github.com/yourusername/SecuirAIty" class="hover:text-gray-400 transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

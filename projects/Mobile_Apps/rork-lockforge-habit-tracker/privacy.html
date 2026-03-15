@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – LockForge Habit Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A1628;
+      --surface: #0F1F4D;
+      --surface2: #142254;
+      --border: rgba(255,255,255,0.08);
+      --orange: #F97316;
+      --orange-dim: rgba(249,115,22,0.15);
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+      --green: #22C55E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 64px;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--orange);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logo-text span { color: var(--orange); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 24px 48px;
+      text-align: center;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(249,115,22,0.12) 0%, transparent 70%);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .updated {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── TOC ── */
+    .toc-card {
+      max-width: 860px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+
+    .toc-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+    }
+
+    .toc-inner h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .toc-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .toc-link:hover {
+      background: var(--orange-dim);
+      color: var(--orange);
+    }
+
+    .toc-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange);
+      width: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .section {
+      margin-bottom: 48px;
+      scroll-margin-top: 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-num {
+      width: 36px;
+      height: 36px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    .section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+    }
+
+    .section-body p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .section-body h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 24px 0 10px;
+    }
+
+    .section-body h3:first-child { margin-top: 0; }
+
+    ul.policy-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.policy-list li {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    ul.policy-list li:last-child { border-bottom: none; }
+
+    ul.policy-list li::before {
+      content: '•';
+      color: var(--orange);
+      font-size: 18px;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: var(--orange-dim);
+      border: 1px solid rgba(249,115,22,0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .highlight-box p {
+      color: var(--text) !important;
+      margin: 0 !important;
+      font-size: 14px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .contact-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .contact-card .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .contact-card .value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .contact-card a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner { max-width: 860px; margin: 0 auto; }
+
+    footer p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    footer a { color: var(--orange); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .section-body { padding: 20px; }
+      .toc-inner { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-mark">LF</div>
+      <div class="logo-text">Lock<span>Forge</span></div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">&#128274; Legal</div>
+    <h1>Privacy Policy</h1>
+    <p>We believe privacy is a right, not a feature. Here's exactly what we collect, why, and how we protect it.</p>
+    <p class="updated">Last updated: March 13, 2026 &nbsp;·&nbsp; Effective: March 13, 2026</p>
+  </section>
+
+  <!-- Table of Contents -->
+  <div class="toc-card">
+    <div class="toc-inner">
+      <h2>Contents</h2>
+      <div class="toc-grid">
+        <a class="toc-link" href="#overview"><span class="toc-num">01</span>Overview</a>
+        <a class="toc-link" href="#data-collected"><span class="toc-num">02</span>Information We Collect</a>
+        <a class="toc-link" href="#data-use"><span class="toc-num">03</span>How We Use Your Data</a>
+        <a class="toc-link" href="#data-storage"><span class="toc-num">04</span>Data Storage &amp; Security</a>
+        <a class="toc-link" href="#third-parties"><span class="toc-num">05</span>Third-Party Services</a>
+        <a class="toc-link" href="#health"><span class="toc-num">06</span>Apple Health Data</a>
+        <a class="toc-link" href="#screen-time"><span class="toc-num">07</span>Screen Time &amp; App Blocking</a>
+        <a class="toc-link" href="#children"><span class="toc-num">08</span>Children's Privacy</a>
+        <a class="toc-link" href="#your-rights"><span class="toc-num">09</span>Your Rights</a>
+        <a class="toc-link" href="#changes"><span class="toc-num">10</span>Policy Changes</a>
+        <a class="toc-link" href="#contact"><span class="toc-num">11</span>Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- 01 Overview -->
+    <div class="section" id="overview">
+      <div class="section-header">
+        <div class="section-num">01</div>
+        <h2>Overview</h2>
+      </div>
+      <div class="section-body">
+        <div class="highlight-box">
+          <p><strong>Short version:</strong> LockForge stores your habit data locally on your device. We do not sell your data. We do not share your data with advertisers. What you track stays yours.</p>
+        </div>
+        <p>LockForge Habit Tracker ("LockForge," "we," "us," or "our") is a mobile application designed to help you build better habits by combining habit tracking with intentional app blocking. This Privacy Policy explains how we handle your personal information when you use our app on iOS or Android devices.</p>
+        <p>By downloading or using LockForge, you agree to the practices described in this policy. If you do not agree, please do not use the application.</p>
+      </div>
+    </div>
+
+    <!-- 02 Information We Collect -->
+    <div class="section" id="data-collected">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>Information We Collect</h2>
+      </div>
+      <div class="section-body">
+        <h3>Information You Provide Directly</h3>
+        <ul class="policy-list">
+          <li>Habit names, emojis, colors, and descriptions you create</li>
+          <li>Habit schedules (start time, duration, days of the week)</li>
+          <li>Your selected list of apps to block during habit sessions</li>
+          <li>Subscription and payment information (processed securely by Apple or Google — we never see your payment card details)</li>
+        </ul>
+
+        <h3>Information Collected Automatically</h3>
+        <ul class="policy-list">
+          <li>Habit completion dates and timestamps (stored locally on your device)</li>
+          <li>Streak counts and calculated analytics</li>
+          <li>In-app session data (which habits were started, completed, or abandoned)</li>
+          <li>App version and crash reports (anonymous, used only to fix bugs)</li>
+        </ul>
+
+        <h3>Information We Do NOT Collect</h3>
+        <ul class="policy-list">
+          <li>Your name, email address, or account information (no account required)</li>
+          <li>Device contacts, camera roll, or microphone access</li>
+          <li>Precise location data (location is never accessed)</li>
+          <li>Browsing history or data from blocked apps</li>
+          <li>Any data for advertising or profiling purposes</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 03 How We Use Your Data -->
+    <div class="section" id="data-use">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>How We Use Your Data</h2>
+      </div>
+      <div class="section-body">
+        <p>We use the information collected solely to provide and improve LockForge. Specifically:</p>
+        <ul class="policy-list">
+          <li>To display your habits, streaks, and analytics within the app</li>
+          <li>To calculate completion rates and generate AI-powered insights (Pro feature)</li>
+          <li>To send habit reminders via local push notifications (only if you enable this)</li>
+          <li>To validate your LockForge Pro subscription status</li>
+          <li>To diagnose crashes and fix bugs using anonymized error reports</li>
+        </ul>
+        <p>We do not use your data to build advertising profiles, sell to data brokers, or share with any third party for marketing purposes.</p>
+      </div>
+    </div>
+
+    <!-- 04 Data Storage & Security -->
+    <div class="section" id="data-storage">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>Data Storage &amp; Security</h2>
+      </div>
+      <div class="section-body">
+        <h3>Local-First Storage</h3>
+        <p>All of your habit data — including your habits, schedules, completion history, and streaks — is stored locally on your device using encrypted AsyncStorage. We do not upload this data to any cloud server.</p>
+
+        <h3>What Happens If You Delete the App</h3>
+        <p>Uninstalling LockForge will permanently delete all locally stored habit data from your device. We cannot recover this data because we do not have a copy of it. We recommend using the data export feature (LockForge Pro) before uninstalling.</p>
+
+        <h3>Security Measures</h3>
+        <ul class="policy-list">
+          <li>All data is stored within your device's protected app sandbox</li>
+          <li>Payment transactions are handled entirely by Apple App Store or Google Play — we never receive or store payment card information</li>
+          <li>App communications with any external services use HTTPS/TLS encryption</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 05 Third-Party Services -->
+    <div class="section" id="third-parties">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>Third-Party Services</h2>
+      </div>
+      <div class="section-body">
+        <p>LockForge uses a small number of third-party services to function. Each is listed below with a description of what data they receive:</p>
+
+        <h3>Apple App Store / Google Play</h3>
+        <p>Subscription purchases and payment processing. Governed by Apple's and Google's respective privacy policies. We receive only confirmation of subscription status — never your payment details.</p>
+
+        <h3>Expo (by Expo Team)</h3>
+        <p>Our app is built on the Expo platform for React Native. Expo may collect anonymized usage statistics and crash reports to improve the platform. No personally identifiable information is shared.</p>
+
+        <h3>Push Notifications</h3>
+        <p>If you enable habit reminders, we use Apple Push Notification Service (APNs) or Firebase Cloud Messaging (FCM) to deliver local notifications. These are scheduled on-device and do not require sending your data to a server.</p>
+
+        <p>We do not use any advertising SDKs, analytics trackers (e.g., Mixpanel, Amplitude, Google Analytics), or social media tracking pixels in LockForge.</p>
+      </div>
+    </div>
+
+    <!-- 06 Apple Health Data -->
+    <div class="section" id="health">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2>Apple Health Data</h2>
+      </div>
+      <div class="section-body">
+        <div class="highlight-box">
+          <p><strong>Apple Health data is never uploaded, shared, or sold.</strong> It is accessed only to display your stats within the app.</p>
+        </div>
+        <p>LockForge optionally integrates with Apple Health to display fitness metrics alongside your habits. If you grant Health access, LockForge may read:</p>
+        <ul class="policy-list">
+          <li>Step count</li>
+          <li>Active energy burned (calories)</li>
+          <li>Sleep analysis data</li>
+          <li>Workout sessions</li>
+        </ul>
+        <p>This data is read directly from HealthKit on your device and displayed in-app. It is never transmitted off your device. You can revoke Health access at any time in iOS Settings &gt; Privacy &amp; Security &gt; Health &gt; LockForge.</p>
+      </div>
+    </div>
+
+    <!-- 07 Screen Time & App Blocking -->
+    <div class="section" id="screen-time">
+      <div class="section-header">
+        <div class="section-num">07</div>
+        <h2>Screen Time &amp; App Blocking</h2>
+      </div>
+      <div class="section-body">
+        <p>LockForge's core feature is the ability to block distracting apps during your habit sessions. Here's how we handle this:</p>
+        <ul class="policy-list">
+          <li>The list of apps you choose to block is stored only on your device</li>
+          <li>We do not log which specific apps you have blocked or when blocking occurs</li>
+          <li>We do not monitor what you do (or don't do) in any blocked or unblocked app</li>
+          <li>App blocking leverages the operating system's native Screen Time / Digital Wellbeing APIs — we do not intercept network traffic or read app content</li>
+        </ul>
+        <p>Your app usage behavior within blocked apps is completely inaccessible to us.</p>
+      </div>
+    </div>
+
+    <!-- 08 Children's Privacy -->
+    <div class="section" id="children">
+      <div class="section-header">
+        <div class="section-num">08</div>
+        <h2>Children's Privacy</h2>
+      </div>
+      <div class="section-body">
+        <p>LockForge is not directed at children under the age of 13 (or under 16 in the European Economic Area). We do not knowingly collect personal information from children.</p>
+        <p>If you believe a child has provided us with personal information, please contact us at the address below and we will promptly delete any such information.</p>
+      </div>
+    </div>
+
+    <!-- 09 Your Rights -->
+    <div class="section" id="your-rights">
+      <div class="section-header">
+        <div class="section-num">09</div>
+        <h2>Your Rights</h2>
+      </div>
+      <div class="section-body">
+        <p>Because LockForge stores data locally on your device, you have full control over your information:</p>
+
+        <h3>Access &amp; Export</h3>
+        <p>LockForge Pro users can export all habit data as a JSON file directly from Settings &gt; Export Data.</p>
+
+        <h3>Deletion</h3>
+        <p>You can delete individual habits from the app at any time. Uninstalling LockForge removes all app data from your device. Since we do not hold copies of your data on our servers, there is nothing additional to request deletion of.</p>
+
+        <h3>Notification Opt-Out</h3>
+        <p>You can disable habit reminders at any time in Settings &gt; Notifications or through your device's notification settings.</p>
+
+        <h3>Health Data Revocation</h3>
+        <p>Revoke Apple Health access at any time via iOS Settings &gt; Privacy &amp; Security &gt; Health &gt; LockForge.</p>
+
+        <h3>California Residents (CCPA)</h3>
+        <p>California residents have the right to know what personal information is collected, the right to delete personal information, and the right to opt out of the sale of personal information. LockForge does not sell personal information. To exercise your rights, contact us below.</p>
+
+        <h3>EEA/UK Residents (GDPR)</h3>
+        <p>If you are located in the European Economic Area or United Kingdom, you have rights under GDPR including: access, rectification, erasure, portability, and the right to lodge a complaint with a supervisory authority. Contact us to exercise these rights.</p>
+      </div>
+    </div>
+
+    <!-- 10 Policy Changes -->
+    <div class="section" id="changes">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <h2>Policy Changes</h2>
+      </div>
+      <div class="section-body">
+        <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. For significant changes, we will provide notice within the app.</p>
+        <p>Continued use of LockForge after any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically.</p>
+      </div>
+    </div>
+
+    <!-- 11 Contact -->
+    <div class="section" id="contact">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <h2>Contact Us</h2>
+      </div>
+      <div class="section-body">
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or LockForge's data practices, please reach out:</p>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="label">App</div>
+            <div class="value">LockForge Habit Tracker</div>
+          </div>
+          <div class="contact-card">
+            <div class="label">Email</div>
+            <div class="value"><a href="mailto:privacy@lockforgeapp.com">privacy@lockforgeapp.com</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="label">Response Time</div>
+            <div class="value">Within 5 business days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <p>&copy; 2026 LockForge Habit Tracker. All rights reserved.</p>
+      <p>
+        <a href="privacy.html">Privacy Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="walkthrough.html">App Walkthrough</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
