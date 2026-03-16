@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CUSTOMIZE: Update title and meta description -->
+  <title>Nova Wellness Coaching — Recode Your Health</title>
+  <meta name="description" content="Science-backed health coaching for busy professionals. Optimize energy, weight, and stress in 12 weeks." />
+
+  <!-- ============================================================
+       FONTS
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       STRIPE JS  (remove if not using Stripe)
+  ============================================================ -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <style>
+    /* =============================================================
+       CSS VARIABLES — edit these to retheme the entire site
+    ============================================================= */
+    :root {
+      --bg-base:        #0a0a0b;
+      --bg-surface:     #111114;
+      --bg-elevated:    #18181d;
+      --bg-card:        #1e1e25;
+      --border:         rgba(255,255,255,0.07);
+      --border-accent:  rgba(0,229,190,0.35);
+
+      --text-primary:   #f0f0f5;
+      --text-secondary: #9090a8;
+      --text-muted:     #55556a;
+
+      /* CUSTOMIZE: swap accent to electric-blue (#4f8ef7) if you prefer */
+      --accent:         #00e5be;
+      --accent-dim:     rgba(0,229,190,0.12);
+      --accent-glow:    0 0 24px rgba(0,229,190,0.35);
+
+      --radius-sm:  6px;
+      --radius-md:  12px;
+      --radius-lg:  20px;
+      --radius-xl:  32px;
+
+      --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --max-width: 1140px;
+      --nav-h: 68px;
+    }
+
+    /* =============================================================
+       RESET & BASE
+    ============================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 96px 0; }
+
+    /* =============================================================
+       TYPOGRAPHY HELPERS
+    ============================================================= */
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+    }
+    .section-header { margin-bottom: 56px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-sub { margin: 0 auto; }
+
+    /* =============================================================
+       BUTTONS
+    ============================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      text-decoration: none !important;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover {
+      background: #00ffd0;
+      box-shadow: var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1.5px solid var(--border-accent);
+    }
+    .btn-ghost:hover {
+      background: rgba(0,229,190,0.2);
+      box-shadow: var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-lg { padding: 17px 36px; font-size: 1rem; border-radius: var(--radius-lg); }
+
+    /* =============================================================
+       NAVIGATION
+    ============================================================= */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      background: rgba(10,10,11,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    #navbar.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(10,10,11,0.92);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      text-decoration: none !important;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: color var(--transition), background var(--transition);
+      text-decoration: none !important;
+    }
+    .nav-links a:hover { color: var(--text-primary); background: var(--bg-elevated); }
+
+    .nav-cta { margin-left: 12px; padding: 9px 20px; font-size: 0.88rem; }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding: 16px 24px 24px;
+      gap: 4px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none !important;
+      transition: color var(--transition);
+    }
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--accent); }
+
+    /* =============================================================
+       HERO
+    ============================================================= */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    /* Abstract background shapes */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 680px; height: 680px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,190,0.07) 0%, transparent 70%);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      left: -8%;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,142,247,0.06) 0%, transparent 70%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 80%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      padding: var(--nav-h) 24px 0;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .hero-text { padding: 48px 0; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero-headline {
+      font-family: var(--font-head);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 22px;
+    }
+    .hero-headline .accent { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 460px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .avatar-stack {
+      display: flex;
+    }
+    .avatar-stack span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--bg-base);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-left: -10px;
+    }
+    .avatar-stack span:first-child { margin-left: 0; }
+    .social-proof-text { font-size: 0.85rem; color: var(--text-secondary); }
+    .social-proof-text strong { color: var(--text-primary); }
+
+    /* Hero visual placeholder */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-image-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+    }
+    /* CUSTOMIZE: Replace this placeholder with an actual <img> tag */
+    .hero-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(145deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-img-placeholder svg { opacity: 0.3; }
+    .hero-img-placeholder .placeholder-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 0 24px;
+    }
+
+    .hero-stat-cards {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .stat-card:nth-child(2) { animation-delay: -2s; }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .stat-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .stat-card-text { font-size: 0.8rem; }
+    .stat-card-value { font-weight: 700; color: var(--text-primary); font-size: 1rem; }
+    .stat-card-label { color: var(--text-muted); font-size: 0.72rem; }
+
+    /* =============================================================
+       ABOUT / COACH INTRO
+    ============================================================= */
+    #about { background: var(--bg-surface); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .coach-photo-wrap { position: relative; }
+    /* CUSTOMIZE: Replace with actual <img> tag */
+    .coach-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(160deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .coach-photo-placeholder svg { opacity: 0.3; }
+
+    .coach-accent-line {
+      position: absolute;
+      bottom: -16px; left: -16px;
+      width: 80px; height: 80px;
+      border-left: 3px solid var(--accent);
+      border-bottom: 3px solid var(--accent);
+      border-radius: 0 0 0 var(--radius-md);
+      opacity: 0.6;
+    }
+
+    .coach-name {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .coach-credentials {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+    .coach-bio {
+      color: var(--text-secondary);
+      font-size: 1.02rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .cred-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 110px;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .cred-badge:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .cred-badge-value {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .cred-badge-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* =============================================================
+       PROGRAMS / SERVICES
+    ============================================================= */
+    #programs {}
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .program-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border);
+      transition: background var(--transition);
+    }
+    .program-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+    }
+    .program-card:hover::before { background: var(--accent); }
+    .program-card.featured {
+      border-color: var(--border-accent);
+      background: linear-gradient(145deg, var(--bg-card) 0%, rgba(0,229,190,0.05) 100%);
+    }
+    .program-card.featured::before { background: var(--accent); }
+
+    .program-featured-tag {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .program-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .program-title {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .program-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .program-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .program-benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+    .program-benefits li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .program-card .btn { margin-top: auto; }
+
+    /* =============================================================
+       RESULTS / TESTIMONIALS
+    ============================================================= */
+    #results { background: var(--bg-surface); }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+    .stat-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .stat-block:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-3px);
+    }
+    .stat-block-value {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-block-label {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .testimonial-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+    .stars { color: var(--accent); font-size: 0.9rem; letter-spacing: 2px; }
+    .testimonial-quote {
+      font-size: 0.97rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      flex: 1;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    /* CUSTOMIZE: Replace with actual client headshots */
+    .author-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .author-name { font-weight: 600; font-size: 0.9rem; }
+    .author-info { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* =============================================================
+       PRICING
+    ============================================================= */
+    #pricing {}
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .pricing-card.popular {
+      border-color: var(--border-accent);
+      background: linear-gradient(160deg, var(--bg-card) 0%, rgba(0,229,190,0.06) 100%);
+    }
+    .popular-badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    .pricing-tier-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .price-currency {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+    .price-amount {
+      font-family: var(--font-head);
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .price-period { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+    .pricing-desc { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 28px; }
+
+    .pricing-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .pricing-features li .check {
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pricing-features li.dimmed { opacity: 0.35; }
+
+    /* Stripe error message */
+    .stripe-error {
+      display: none;
+      background: rgba(255,80,80,0.1);
+      border: 1px solid rgba(255,80,80,0.3);
+      color: #ff6b6b;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .stripe-error.visible { display: block; }
+
+    /* =============================================================
+       FAQ
+    ============================================================= */
+    #faq { background: var(--bg-surface); }
+
+    .faq-list {
+      max-width: 740px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .faq-item.open { border-color: var(--border-accent); }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text-primary);
+      font-size: 0.97rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      transition: color var(--transition);
+    }
+    .faq-question:hover { color: var(--accent); }
+
+    .faq-icon {
+      width: 24px; height: 24px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-elevated);
+      border-radius: 50%;
+      transition: transform var(--transition), background var(--transition);
+      font-size: 1rem;
+      line-height: 1;
+      color: var(--text-muted);
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.75;
+    }
+
+    /* =============================================================
+       CONTACT / BOOKING
+    ============================================================= */
+    #contact {}
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .contact-info { padding-top: 8px; }
+    .contact-info .section-sub { margin-bottom: 32px; }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    /* CUSTOMIZE: Replace placeholder email with real one */
+    .contact-email {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.03em;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--bg-elevated);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.93rem;
+      outline: none;
+      transition: border-color var(--transition);
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-muted); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group select option { background: var(--bg-card); }
+
+    .form-success {
+      display: none;
+      background: rgba(0,229,190,0.08);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 12px;
+    }
+    .form-success.visible { display: block; }
+
+    /* =============================================================
+       FOOTER
+    ============================================================= */
+    footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* Social icons */
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+    .social-link {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color var(--transition), border-color var(--transition), transform var(--transition);
+      text-decoration: none !important;
+    }
+    .social-link:hover {
+      color: var(--accent);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    /* =============================================================
+       SCROLL-REVEAL ANIMATION
+    ============================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* =============================================================
+       RESPONSIVE
+    ============================================================= */
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; gap: 40px; min-height: unset; padding-top: calc(var(--nav-h) + 32px); padding-bottom: 48px; }
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .coach-photo-wrap { max-width: 300px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats-row { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .badge-row { justify-content: center; }
+    }
+    @media (max-width: 520px) {
+      .hero-headline { font-size: 2.2rem; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .contact-form { padding: 24px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <!-- CUSTOMIZE: Replace "Nova" with your brand name -->
+      <a href="#hero" class="nav-logo">Nova<span>.</span>Wellness</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="btn btn-primary nav-cta">Book Free Call</a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="nav-mobile" id="navMobile" role="navigation">
+      <a href="#about" class="nav-mobile-link">About</a>
+      <a href="#programs" class="nav-mobile-link">Programs</a>
+      <a href="#results" class="nav-mobile-link">Results</a>
+      <a href="#pricing" class="nav-mobile-link">Pricing</a>
+      <a href="#faq" class="nav-mobile-link">FAQ</a>
+      <a href="#contact" class="nav-mobile-link">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section id="hero" aria-label="Hero">
+      <div class="hero-bg">
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-text reveal">
+          <!-- CUSTOMIZE: Update badge text -->
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Science-Backed Coaching for Busy Professionals
+          </div>
+
+          <!-- CUSTOMIZE: Update headline -->
+          <h1 class="hero-headline">
+            Recode Your Health.<br />
+            <span class="accent">Upgrade Your Life.</span>
+          </h1>
+
+          <!-- CUSTOMIZE: Update subheadline -->
+          <p class="hero-sub">
+            Most high-performers are running on empty. In 12 weeks, we rewire your energy, metabolism, and stress response — backed by science, built for real life.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary btn-lg">Book Free Consultation</a>
+            <!-- This button triggers Stripe Checkout -->
+            <button class="btn btn-outline btn-lg" onclick="startCheckout()">
+              Start 12-Week Reset
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+          <!-- Social proof / avatar stack -->
+          <div class="hero-social-proof">
+            <div class="avatar-stack" aria-hidden="true">
+              <span>JR</span><span>AK</span><span>ML</span><span>+</span>
+            </div>
+            <!-- CUSTOMIZE: Update client count -->
+            <p class="social-proof-text"><strong>340+ clients</strong> transformed in the last 3 years</p>
+          </div>
+        </div>
+
+        <!-- Hero visual — replace placeholder with real image -->
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="hero-image-wrap">
+            <!--
+              CUSTOMIZE: Replace the div below with:
+              <img src="your-hero-image.jpg" alt="Coach [Your Name]" style="width:100%;border-radius:var(--radius-xl);border:1px solid var(--border);" />
+            -->
+            <div class="hero-img-placeholder">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="22" r="14" stroke="#fff" stroke-width="2"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#fff" stroke-width="2"/></svg>
+              <span class="placeholder-label">Replace with a high-quality<br/>coach photo (4:5 ratio)</span>
+            </div>
+
+            <!-- Floating stat cards -->
+            <div class="hero-stat-cards">
+              <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-card-text">
+                  <div class="stat-card-value">+32%</div>
+                  <div class="stat-card-label">avg energy increase</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-card-text">
+                  <div class="stat-card-value">94%</div>
+                  <div class="stat-card-label">complete the program</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT / COACH INTRO
+    ============================================================ -->
+    <section id="about" aria-label="About the coach">
+      <div class="container">
+        <div class="about-grid">
+          <!-- Coach photo -->
+          <div class="coach-photo-wrap reveal">
+            <!--
+              CUSTOMIZE: Replace div below with:
+              <img src="coach-photo.jpg" alt="[Coach Name], Health & Wellness Coach" style="width:100%;border-radius:var(--radius-xl);border:1px solid var(--border);" />
+            -->
+            <div class="coach-photo-placeholder">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="22" r="14" stroke="#fff" stroke-width="2"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#fff" stroke-width="2"/></svg>
+              <span style="font-size:0.75rem;padding:0 24px;text-align:center;">Coach headshot<br/>3:4 ratio recommended</span>
+            </div>
+            <div class="coach-accent-line"></div>
+          </div>
+
+          <!-- Bio -->
+          <div class="coach-bio-block reveal">
+            <span class="section-label">Meet Your Coach</span>
+            <!-- CUSTOMIZE: Update coach name -->
+            <h2 class="coach-name">Dr. Alex Rivera</h2>
+            <!-- CUSTOMIZE: Update credentials -->
+            <p class="coach-credentials">MS Functional Nutrition · NASM CPT · Certified Stress Management Coach</p>
+
+            <!-- CUSTOMIZE: Update bio copy -->
+            <p class="coach-bio">
+              I spent a decade as a burnt-out corporate consultant before hitting a wall — exhausted, overweight, and running on caffeine and willpower. I went back to school, rebuilt myself from the ground up using evidence-based protocols, and now I teach driven professionals exactly how to do the same. No fads. No overnight fixes. Just a systematic reboot of how your body and mind operate.
+            </p>
+
+            <!-- Credibility badges -->
+            <!-- CUSTOMIZE: Update stats -->
+            <div class="badge-row">
+              <div class="cred-badge">
+                <div class="cred-badge-value">10+</div>
+                <div class="cred-badge-label">Years Coaching</div>
+              </div>
+              <div class="cred-badge">
+                <div class="cred-badge-value">340+</div>
+                <div class="cred-badge-label">Clients Served</div>
+              </div>
+              <div class="cred-badge">
+                <div class="cred-badge-value">5</div>
+                <div class="cred-badge-label">Certifications</div>
+              </div>
+            </div>
+
+            <a href="#contact" class="btn btn-ghost">Work with me →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PROGRAMS / SERVICES
+    ============================================================ -->
+    <section id="programs" aria-label="Programs and services">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">Programs</span>
+          <!-- CUSTOMIZE: Update section title -->
+          <h2 class="section-title">Choose Your Transformation Path</h2>
+          <p class="section-sub">Every program is personalized, data-informed, and designed for people who can't afford to waste time.</p>
+        </div>
+
+        <div class="programs-grid">
+
+          <!-- Program 1 — PRIMARY PAID OFFER (Stripe linked) -->
+          <div class="program-card featured reveal">
+            <span class="program-featured-tag">Most Popular</span>
+            <div class="program-icon">🔬</div>
+            <!-- CUSTOMIZE: Update program name / description -->
+            <h3 class="program-title">12-Week Metabolic Reset</h3>
+            <p class="program-desc">A full-spectrum protocol addressing nutrition, movement, sleep, and stress — designed to rewire your metabolism in 90 days.</p>
+            <ul class="program-benefits">
+              <li>Weekly 1:1 coaching sessions</li>
+              <li>Custom meal & movement plan</li>
+              <li>Lab-guided progress tracking</li>
+            </ul>
+            <!-- This triggers Stripe Checkout -->
+            <button class="btn btn-primary" onclick="startCheckout()">Enroll Now — Start Today</button>
+          </div>
+
+          <!-- Program 2 -->
+          <div class="program-card reveal">
+            <div class="program-icon">🚀</div>
+            <!-- CUSTOMIZE -->
+            <h3 class="program-title">High-Performance Lifestyle</h3>
+            <p class="program-desc">Built for executives and founders who need peak mental and physical performance without sacrificing results.</p>
+            <ul class="program-benefits">
+              <li>Focus & cognitive optimization</li>
+              <li>Travel-proof protocols</li>
+              <li>Biometric monitoring support</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline">Book Discovery Call</a>
+          </div>
+
+          <!-- Program 3 -->
+          <div class="program-card reveal">
+            <div class="program-icon">🌙</div>
+            <!-- CUSTOMIZE -->
+            <h3 class="program-title">Stress & Sleep Reboot</h3>
+            <p class="program-desc">Targeted 6-week intensive for people whose sleep is broken and cortisol is through the roof.</p>
+            <ul class="program-benefits">
+              <li>HRV & sleep-stage analysis</li>
+              <li>Nervous system regulation techniques</li>
+              <li>Evidence-based supplement stack</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline">Learn More</a>
+          </div>
+
+          <!-- Program 4 -->
+          <div class="program-card reveal">
+            <div class="program-icon">🧭</div>
+            <!-- CUSTOMIZE -->
+            <h3 class="program-title">1-on-1 Strategy Session</h3>
+            <p class="program-desc">A single 90-minute deep-dive to map your health gaps, set priorities, and build your roadmap — no ongoing commitment needed.</p>
+            <ul class="program-benefits">
+              <li>Full health history audit</li>
+              <li>Personalized action plan PDF</li>
+              <li>30-day follow-up check-in</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline">Schedule Session</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         RESULTS / SOCIAL PROOF
+    ============================================================ -->
+    <section id="results" aria-label="Client results and testimonials">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="section-label">Results</span>
+          <!-- CUSTOMIZE -->
+          <h2 class="section-title">Real People. Real Numbers.</h2>
+          <p class="section-sub">These aren't cherry-picked outliers — they're what happens when you follow the system.</p>
+        </div>
+
+        <!-- Stats -->
+        <!-- CUSTOMIZE: Update with your real program averages -->
+        <div class="stats-row">
+          <div class="stat-block reveal">
+            <div class="stat-block-value">+32%</div>
+            <div class="stat-block-label">Average energy increase at week 6</div>
+          </div>
+          <div class="stat-block reveal">
+            <div class="stat-block-value">−18 lbs</div>
+            <div class="stat-block-label">Average weight lost in 12 weeks</div>
+          </div>
+          <div class="stat-block reveal">
+            <div class="stat-block-value">2×</div>
+            <div class="stat-block-label">Average sleep quality improvement</div>
+          </div>
+        </div>
+
+        <!-- Testimonials -->
+        <!-- CUSTOMIZE: Replace with real client testimonials + permission -->
+        <div class="testimonials-grid">
+
+          <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-quote">"I've tried every diet and program out there. This was the first time I actually understood *why* my body was doing what it was doing. Lost 22 lbs and finally have energy past 3 PM."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">JR</div>
+              <div>
+                <div class="author-name">James R.</div>
+                <div class="author-info">VP of Operations · 12-Week Metabolic Reset</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-quote">"I was sleeping 7 hours and waking up exhausted every day. After 8 weeks I'm sleeping 6.5 hours and feeling more rested than I did on 9. The sleep protocol alone was worth every penny."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">SK</div>
+              <div>
+                <div class="author-name">Sarah K.</div>
+                <div class="author-info">Founder & CEO · Stress & Sleep Reboot</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-quote">"The High-Performance program was built exactly for my life — travel 3 weeks a month, no time to cook. I now have a system that works in airports and hotels. My HRV is up 40 points in 3 months."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">MT</div>
+              <div>
+                <div class="author-name">Marcus T.</div>
+                <div class="author-info">Management Consultant · High-Performance Lifestyle</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PRICING
+    ============================================================ -->
+    <section id="pricing" aria-label="Pricing tiers">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="section-label">Pricing</span>
+          <!-- CUSTOMIZE -->
+          <h2 class="section-title">Invest in Your Performance</h2>
+          <p class="section-sub">Two paths to transformation. Both are backed by a results guarantee.</p>
+        </div>
+
+        <div class="pricing-grid">
+
+          <!-- Tier 1 — Essentials -->
+          <div class="pricing-card reveal">
+            <!-- CUSTOMIZE: Update tier name -->
+            <div class="pricing-tier-name">Essentials</div>
+            <div class="pricing-price">
+              <!-- CUSTOMIZE: Update price -->
+              <span class="price-currency">$</span>
+              <span class="price-amount">897</span>
+            </div>
+            <div class="price-period">one-time · 6-week program</div>
+            <!-- CUSTOMIZE: Short description -->
+            <p class="pricing-desc">For those who want a solid starting point and the core tools to change their health trajectory.</p>
+            <hr class="pricing-divider" />
+            <ul class="pricing-features">
+              <li><span class="check">✓</span> 6-week Stress & Sleep Reboot</li>
+              <li><span class="check">✓</span> 3 × 60-min coaching sessions</li>
+              <li><span class="check">✓</span> Custom sleep protocol</li>
+              <li><span class="check">✓</span> Private messaging support</li>
+              <li><span class="check">✓</span> Resource library access</li>
+              <li class="dimmed"><span class="check">✓</span> Lab testing support</li>
+              <li class="dimmed"><span class="check">✓</span> Metabolic analysis</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline" style="text-align:center;justify-content:center;">Get Started</a>
+          </div>
+
+          <!-- Tier 2 — MOST POPULAR / primary Stripe offer -->
+          <div class="pricing-card popular reveal">
+            <div class="popular-badge">Most Popular</div>
+            <!-- CUSTOMIZE: Update tier name -->
+            <div class="pricing-tier-name">Full Reset</div>
+            <div class="pricing-price">
+              <!-- CUSTOMIZE: Update price -->
+              <span class="price-currency">$</span>
+              <span class="price-amount">2,497</span>
+            </div>
+            <div class="price-period">one-time · 12-week program</div>
+            <!-- CUSTOMIZE: Short description -->
+            <p class="pricing-desc">The complete 12-Week Metabolic Reset — everything you need to systematically rebuild your health from the inside out.</p>
+            <hr class="pricing-divider" />
+            <ul class="pricing-features">
+              <li><span class="check">✓</span> 12-week Metabolic Reset</li>
+              <li><span class="check">✓</span> 12 × weekly coaching sessions</li>
+              <li><span class="check">✓</span> Custom nutrition + movement plan</li>
+              <li><span class="check">✓</span> Lab-guided progress tracking</li>
+              <li><span class="check">✓</span> Unlimited messaging support</li>
+              <li><span class="check">✓</span> Stress & sleep protocol included</li>
+              <li><span class="check">✓</span> 30-day post-program follow-up</li>
+            </ul>
+            <!-- Primary Stripe CTA -->
+            <button class="btn btn-primary" onclick="startCheckout()" style="justify-content:center;">
+              Enroll Now
+            </button>
+            <div id="stripe-error" class="stripe-error" role="alert"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ
+    ============================================================ -->
+    <section id="faq" aria-label="Frequently asked questions">
+      <div class="container">
+        <div class="section-header center reveal">
+          <span class="section-label">FAQ</span>
+          <h2 class="section-title">Questions? Answered.</h2>
+          <p class="section-sub">Still on the fence? These are the questions I hear most often.</p>
+        </div>
+
+        <ul class="faq-list reveal" role="list">
+
+          <!-- CUSTOMIZE: Edit questions and answers -->
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              How is this different from hiring a personal trainer or nutritionist?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Trainers focus on exercise; nutritionists focus on food. I work at the intersection of both — and layer in sleep science, stress physiology, and behavior change. You get a single integrated system instead of disconnected advice that doesn't add up.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              I travel constantly and have no routine. Can this still work for me?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Yes — most of my clients are frequent travelers. The protocols are specifically designed to be portable. I'll build your plan around airports, hotel gyms, and restaurant meals. If anything, working with constraints makes the system more robust.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              How quickly will I see results?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Most clients notice measurable energy and sleep improvements within weeks 2–3. Visible body composition changes typically begin around week 4–6. Full metabolic adaptation takes the complete 12 weeks — and the changes tend to be permanent because we're rewiring habits, not willpower.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              What does a typical week look like in the program?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Each week includes a 60-minute 1:1 coaching call, a personalized protocol update based on your data, and access to my private messaging channel for questions. The program requires roughly 30–45 minutes of active implementation per day — we design it to fit inside your existing schedule.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              Is there a guarantee or refund policy?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                <!-- CUSTOMIZE: Update your actual refund/guarantee policy -->
+                Yes. If you complete all 12 weeks, implement the protocols as designed, and don't see measurable improvement in at least two key biomarkers, I'll refund you in full. I've never had to honor that guarantee — but it exists because I stand behind the work.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              Do I need any special equipment, supplements, or apps?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                No mandatory purchases beyond the program. I'll recommend specific wearables, apps, and supplements based on your goals and budget — but we build the foundation using tools you already have. A smartphone and a willingness to be honest about your habits are the only requirements.
+              </div>
+            </div>
+          </li>
+
+          <li class="faq-item" data-faq>
+            <button class="faq-question" aria-expanded="false">
+              How do I get started?
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                The fastest path is to click "Book Free Consultation" and get 30 minutes on the calendar. We'll do a quick health audit, I'll answer your questions, and if it's a fit, we enroll you the same day. There's no obligation on the call.
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT / BOOKING
+    ============================================================ -->
+    <section id="contact" aria-label="Contact and booking">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- Left: info -->
+          <div class="contact-info reveal">
+            <span class="section-label">Let's Talk</span>
+            <!-- CUSTOMIZE -->
+            <h2 class="section-title">Ready to Start?<br />Let's Find Out.</h2>
+            <p class="section-sub">The free consultation call is 30 minutes. No sales pressure — just clarity on whether this is right for you.</p>
+
+            <div style="margin-top:32px;">
+              <div class="contact-detail">
+                <div class="contact-detail-icon">✉️</div>
+                <!-- CUSTOMIZE: Replace with your actual email -->
+                <span>Or email me at: <a href="mailto:hello@yourdomain.com" class="contact-email">hello@yourdomain.com</a></span>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon">📍</div>
+                <!-- CUSTOMIZE: Update timezone/location or remove -->
+                <span>Remote coaching · Available worldwide · EST timezone</span>
+              </div>
+            </div>
+
+            <div style="margin-top:32px;">
+              <!-- CUSTOMIZE: Replace href with your Calendly/scheduler URL -->
+              <a href="#" class="btn btn-ghost btn-lg">
+                Schedule a Call
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: form -->
+          <div class="reveal">
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <!-- CUSTOMIZE: Form connects to your backend or Formspree/Netlify -->
+                  <input type="text" id="firstName" name="firstName" placeholder="Alex" required />
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" placeholder="Rivera" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@company.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="startDate">Preferred Start Date</label>
+                <input type="date" id="startDate" name="startDate" />
+              </div>
+
+              <div class="form-group">
+                <label for="message">What's your biggest health challenge right now?</label>
+                <textarea id="message" name="message" placeholder="Tell me what's going on..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                Send Message
+              </button>
+
+              <div class="form-success" id="formSuccess" role="status">
+                ✓ Message received! I'll be in touch within 24 hours.
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer role="contentinfo">
+    <div class="container footer-inner">
+      <div>
+        <!-- CUSTOMIZE: Update brand name -->
+        <div class="footer-logo">Nova<span>.</span>Wellness</div>
+        <!-- CUSTOMIZE: Update year and name -->
+        <p class="footer-copy" style="margin-top:6px;">© 2026 Nova Wellness Coaching. All rights reserved.</p>
+      </div>
+
+      <!-- Social icons — CUSTOMIZE: Add real hrefs -->
+      <div class="social-links" aria-label="Social media links">
+        <!-- Instagram -->
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="#" class="social-link" aria-label="Twitter / X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+
+      <!-- Legal links -->
+      <div class="footer-links">
+        <!-- CUSTOMIZE: Add real privacy/terms pages -->
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ============================================================
+       STRIPE CHECKOUT INTEGRATION
+       ============================================================
+
+       HOW TO WIRE UP STRIPE:
+       1. Replace STRIPE_PUBLISHABLE_KEY below with your real key from
+          https://dashboard.stripe.com/apikeys
+       2. Deploy the backend snippet (see comment block below) as
+          a serverless function or Express route at /create-checkout-session
+       3. Replace YOUR_PRICE_ID with the Price ID from your Stripe dashboard
+
+       ---------------------------------------------------------
+       BACKEND EXAMPLE (Node.js / Express):
+
+       const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+       app.post('/create-checkout-session', async (req, res) => {
+         try {
+           const session = await stripe.checkout.sessions.create({
+             payment_method_types: ['card'],
+             line_items: [{
+               price: 'YOUR_PRICE_ID',   // ← your Stripe Price ID
+               quantity: 1,
+             }],
+             mode: 'payment',            // or 'subscription' for recurring
+             success_url: 'https://yourdomain.com/success',
+             cancel_url:  'https://yourdomain.com/#pricing',
+           });
+           res.json({ url: session.url });
+         } catch (err) {
+           res.status(500).json({ error: err.message });
+         }
+       });
+
+       ---------------------------------------------------------
+       SERVERLESS / NETLIFY FUNCTION VERSION:
+       Save as netlify/functions/create-checkout-session.js
+
+       const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+       exports.handler = async () => {
+         const session = await stripe.checkout.sessions.create({
+           payment_method_types: ['card'],
+           line_items: [{ price: 'YOUR_PRICE_ID', quantity: 1 }],
+           mode: 'payment',
+           success_url:  'https://yourdomain.com/success',
+           cancel_url:   'https://yourdomain.com/#pricing',
+         });
+         return { statusCode: 200, body: JSON.stringify({ url: session.url }) };
+       };
+       ============================================================ */
+
+    // CUSTOMIZE: Replace with your real Stripe publishable key
+    const STRIPE_PUBLISHABLE_KEY = 'pk_test_REPLACE_WITH_YOUR_KEY';
+
+    // CUSTOMIZE: Update this URL when you deploy your backend
+    const CHECKOUT_ENDPOINT = '/create-checkout-session';
+
+    async function startCheckout() {
+      const errorEl = document.getElementById('stripe-error');
+
+      // Hide any previous error
+      if (errorEl) { errorEl.textContent = ''; errorEl.classList.remove('visible'); }
+
+      try {
+        const response = await fetch(CHECKOUT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ priceId: 'YOUR_PRICE_ID' }) // CUSTOMIZE
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || 'Unable to start checkout. Please try again.');
+        }
+
+        const { url } = await response.json();
+        window.location.href = url;
+
+      } catch (err) {
+        console.error('Stripe checkout error:', err);
+        if (errorEl) {
+          errorEl.textContent = err.message || 'Something went wrong. Please try again or contact us.';
+          errorEl.classList.add('visible');
+        }
+      }
+    }
+
+    /* ============================================================
+       NAVBAR — scroll state + mobile toggle
+    ============================================================ */
+    const navbar   = document.getElementById('navbar');
+    const toggle   = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('navMobile');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    toggle.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', false);
+      });
+    });
+
+    /* ============================================================
+       FAQ ACCORDION
+    ============================================================ */
+    document.querySelectorAll('[data-faq]').forEach(item => {
+      const btn    = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        // Close all others
+        document.querySelectorAll('[data-faq].open').forEach(other => {
+          other.classList.remove('open');
+          other.querySelector('.faq-question').setAttribute('aria-expanded', false);
+          other.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', true);
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    /* ============================================================
+       CONTACT FORM — demo submission
+       CUSTOMIZE: Replace with a real form handler (Formspree, Netlify
+       Forms, your own backend endpoint, etc.)
+    ============================================================ */
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn     = e.target.querySelector('[type=submit]');
+      const success = document.getElementById('formSuccess');
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      // CUSTOMIZE: Replace with real API call, e.g.:
+      // await fetch('/api/contact', { method:'POST', body: new FormData(e.target) })
+      await new Promise(r => setTimeout(r, 1000)); // simulated delay
+
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      e.target.reset();
+      success.classList.add('visible');
+
+      setTimeout(() => success.classList.remove('visible'), 6000);
+    });
+
+    /* ============================================================
+       SCROLL-REVEAL ANIMATION
+    ============================================================ */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger siblings
+          const siblings = entry.target.parentElement.querySelectorAll('.reveal:not(.visible)');
+          let delay = 0;
+          siblings.forEach(el => {
+            if (el === entry.target || el.getBoundingClientRect().top < window.innerHeight) {
+              setTimeout(() => el.classList.add('visible'), delay);
+              delay += 80;
+            }
+          });
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>

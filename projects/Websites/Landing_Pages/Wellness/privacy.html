@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Nova Wellness Coaching</title>
+  <meta name="description" content="Privacy Policy for Nova Wellness Coaching." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-base:        #0a0a0b;
+      --bg-surface:     #111114;
+      --bg-elevated:    #18181d;
+      --bg-card:        #1e1e25;
+      --border:         rgba(255,255,255,0.07);
+      --border-accent:  rgba(0,229,190,0.35);
+
+      --text-primary:   #f0f0f5;
+      --text-secondary: #9090a8;
+      --text-muted:     #55556a;
+
+      --accent:         #00e5be;
+      --accent-dim:     rgba(0,229,190,0.12);
+      --accent-glow:    0 0 24px rgba(0,229,190,0.35);
+
+      --radius-sm:  6px;
+      --radius-md:  12px;
+      --radius-lg:  20px;
+
+      --transition: 0.22s cubic-bezier(0.4,0,0.2,1);
+
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --max-width: 760px;
+      --nav-h: 68px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      height: var(--nav-h);
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+    }
+    .nav-brand span { color: var(--accent); }
+    .back-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── Hero ── */
+    .page-hero {
+      padding: 72px 0 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .page-meta {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Content ── */
+    .privacy-content {
+      padding: 56px 0 96px;
+    }
+
+    .section-block {
+      margin-bottom: 2.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2rem;
+    }
+    .section-block:last-child { margin-bottom: 0; }
+
+    .block-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.9rem;
+      line-height: 1.7;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 0.9rem;
+    }
+    ul:last-child { margin-bottom: 0; }
+    li {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      padding-left: 1.25rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.7;
+    }
+
+    .highlight-box {
+      background: var(--accent-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .highlight-box p {
+      color: var(--text-primary);
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .contact-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .contact-card .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .contact-card a {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    footer p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    footer a { color: var(--text-muted); }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .section-block { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-brand">Nova <span>Wellness</span></div>
+      <a href="./index.html" class="back-link">
+        ← Back to Site
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="page-hero">
+      <div class="page-tag">Legal</div>
+      <h1 class="page-title">Privacy Policy</h1>
+      <p class="page-meta">Effective Date: March 15, 2026 &nbsp;·&nbsp; Last Updated: March 15, 2026</p>
+    </div>
+
+    <div class="privacy-content">
+
+      <div class="section-block">
+        <div class="block-label">Overview</div>
+        <h2>Your privacy, plainly stated</h2>
+        <div class="highlight-box">
+          <p>Nova Wellness Coaching does not sell, rent, or share your personal information with third parties for advertising or marketing purposes — ever.</p>
+        </div>
+        <p>This policy explains what information is collected when you use this website, how it is used, and who it may be shared with. If you have questions, the contact details at the bottom of this page are the right place to start.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Information We Collect</div>
+        <h2>What you provide directly</h2>
+        <p>When you submit an inquiry or book a coaching session, you may provide:</p>
+        <ul>
+          <li>Name and email address</li>
+          <li>Health goals or background information shared in intake forms</li>
+          <li>Any other details you voluntarily include in a message</li>
+        </ul>
+        <p>This information is used only to respond to your inquiry, schedule sessions, and deliver coaching services. It is never used for unsolicited marketing.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Payments</div>
+        <h2>Payment processing via Stripe</h2>
+        <p>All payments are processed securely by <strong>Stripe</strong>. Nova Wellness Coaching does not collect, store, or have access to your credit card number, billing address, or any other payment credentials.</p>
+        <ul>
+          <li>Payment data is transmitted directly between your browser and Stripe's servers</li>
+          <li>Stripe is PCI-DSS Level 1 certified — the highest level of payment security</li>
+          <li>Stripe's privacy practices are governed by their own policy at <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Third-Party Services</div>
+        <h2>Services used on this site</h2>
+        <p>This site uses a small number of third-party services to function:</p>
+        <ul>
+          <li><strong>Google Fonts</strong> — loads typography assets. Google may log the request. No personal data from this site is shared with Google for advertising.</li>
+          <li><strong>Stripe.js</strong> — loads Stripe's payment library. This is required to securely handle any checkout flows.</li>
+        </ul>
+        <p>No advertising networks, tracking pixels, social media embeds, or analytics scripts are loaded on this site.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Data Retention</div>
+        <h2>How long we keep your information</h2>
+        <p>Inquiry and intake information is retained only for as long as necessary to deliver coaching services and fulfill any legal or contractual obligations. You may request deletion of your information at any time by contacting us directly.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Your Rights</div>
+        <h2>Access, correction, and deletion</h2>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Request a copy of any personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your information</li>
+          <li>Withdraw consent for communications at any time</li>
+        </ul>
+        <p>To exercise any of these rights, contact us using the details below. We will respond within 30 days.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Policy Updates</div>
+        <h2>Changes to this policy</h2>
+        <p>If this policy is updated in a material way, the "Last Updated" date at the top of this page will reflect the change. Continued use of the site after an update constitutes acceptance of the revised policy.</p>
+      </div>
+
+      <div class="section-block">
+        <div class="block-label">Contact</div>
+        <h2>Questions or requests</h2>
+        <p>For any privacy-related questions or data requests, please reach out directly:</p>
+        <div class="contact-card">
+          <span class="label">Email</span>
+          <a href="mailto:hello@novawellness.com">hello@novawellness.com</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Nova Wellness Coaching · <a href="./index.html">Back to site</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
