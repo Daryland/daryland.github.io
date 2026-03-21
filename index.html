@@ -214,52 +214,6 @@
             <a href="./projects/Mobile_Apps/matiq-by-frameworks/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-matiq">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-matiq">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> techniqueRecall.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface Technique {
-  id: string;
-  name: string;
-  position: 'Guard' | 'Mount'
-    | 'Back' | 'Side Control';
-  type: 'Submission' | 'Sweep' | 'Pass';
-  recallScore: number; // 0–100
-  lastReviewed?: Date;
-  nextReview?: Date;
-}
-
-const updateRecall = (
-  t: Technique,
-  rating: 0 | 1 | 2 | 3 | 4 | 5
-): Technique =&gt; {
-  const ease = 0.1 + (rating / 5) * 0.9;
-  const days = t.lastReviewed
-    ? Math.round(
-        (t.nextReview!.getTime() -
-          t.lastReviewed.getTime()) /
-          86400000 * ease
-      )
-    : 1;
-  const next = new Date();
-  next.setDate(next.getDate() + days);
-  return {
-    ...t,
-    recallScore: Math.min(100,
-      Math.round(
-        t.recallScore + (rating - 2.5) * 10
-      )
-    ),
-    lastReviewed: new Date(),
-    nextReview: next,
-  };
-};</code></pre>
-            </div>
           </div>
 
           <!-- LockForge -->
@@ -285,52 +239,6 @@ const updateRecall = (
             <a href="./projects/Mobile_Apps/rork-lockforge-habit-tracker/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-lockforge">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-lockforge">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> lockSession.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface LockSession {
-  habitId: string;
-  startedAt: Date;
-  durationMs: number;
-  blockedApps: string[];
-  completed: boolean;
-  abandonedAt?: Date;
-}
-
-const startLock = async (
-  habit: Habit
-): Promise&lt;LockSession&gt; =&gt; {
-  await BlockingManager
-    .activate(habit.appsToBlock);
-  const session: LockSession = {
-    habitId: habit.id,
-    startedAt: new Date(),
-    durationMs: habit.durationMs,
-    blockedApps: habit.appsToBlock,
-    completed: false,
-  };
-  await SessionStore.save(session);
-  return session;
-};
-
-const completeLock = async (
-  session: LockSession
-): Promise&lt;void&gt; =&gt; {
-  await BlockingManager.deactivate();
-  await StreakTracker.record(
-    session.habitId
-  );
-  await SessionStore.update({
-    ...session, completed: true,
-  });
-};</code></pre>
-            </div>
           </div>
 
           <!-- SchedulerX -->
@@ -356,46 +264,6 @@ const completeLock = async (
             <a href="./projects/Mobile_Apps/rork-schedule-rx/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-schedulerx">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-schedulerx">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> scheduler.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface ScheduleEvent {
-  id: string;
-  title: string;
-  startTime: Date;
-  endTime: Date;
-  recurring?: 'daily' | 'weekly' | 'monthly';
-  participants: string[];
-}
-
-const createEvent = async (
-  event: Omit&lt;ScheduleEvent, 'id'&gt;
-): Promise&lt;ScheduleEvent&gt; =&gt; {
-  const newEvent = {
-    ...event,
-    id: crypto.randomUUID(),
-  };
-  await AsyncStorage.setItem(
-    `event:${newEvent.id}`,
-    JSON.stringify(newEvent)
-  );
-  return newEvent;
-};
-
-const getAvailability = async (
-  userId: string,
-  date: Date
-): Promise&lt;TimeSlot[]&gt; =&gt; {
-  const events = await fetchUserEvents(userId);
-  return buildTimeSlots(date, events);
-};</code></pre>
-            </div>
           </div>
 
         </div>
@@ -436,45 +304,6 @@ const getAvailability = async (
             <a href="./projects/Applications/Edushield/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-edushield">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-edushield">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> detectionEngine.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface DetectionResult {
-  score: number; // 0–100
-  signals: Signal[];
-  verdict: 'human' | 'ai' | 'uncertain';
-}
-
-interface Signal {
-  name: 'perplexity' | 'burstiness'
-    | 'hedging' | 'vocabulary'
-    | 'structural' | 'personal_voice';
-  score: number;
-  weight: number;
-}
-
-const analyzeSubmission = (
-  text: string
-): DetectionResult =&gt; {
-  const signals = runSignals(text);
-  const score = signals.reduce(
-    (acc, s) =&gt; acc + s.score * s.weight, 0
-  );
-  return {
-    score,
-    signals,
-    verdict:
-      score &gt; 70 ? 'ai' :
-      score &lt; 30 ? 'human' : 'uncertain',
-  };
-};</code></pre>
-            </div>
           </div>
 
           <!-- SecurAIty EDR -->
@@ -500,44 +329,6 @@ const analyzeSubmission = (
             <a href="./projects/Applications/SecurAIty/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-securaity">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-securaity">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> threatEvaluator.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface ThreatEvent {
-  id: string;
-  timestamp: Date;
-  type: 'process' | 'file'
-    | 'network' | 'registry';
-  severity: 'low' | 'medium'
-    | 'high' | 'critical';
-  threatScore: number; // 0.0–1.0
-  action: 'log' | 'alert'
-    | 'block' | 'quarantine';
-  hash?: string; // SHA-256
-}
-
-const evaluateThreat = async (
-  event: RawEvent
-): Promise&lt;ThreatEvent&gt; =&gt; {
-  const score = await mlModel
-    .predict(event);
-  const action =
-    score &gt; 0.9 ? 'quarantine' :
-    score &gt; 0.7 ? 'block' :
-    score &gt; 0.4 ? 'alert' : 'log';
-  return {
-    ...event,
-    threatScore: score,
-    action,
-  };
-};</code></pre>
-            </div>
           </div>
 
           <!-- Sentinel AV -->
@@ -563,46 +354,6 @@ const evaluateThreat = async (
             <a href="./projects/Applications/Sentinal_AV/walkthrough.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-book-open"></i> View Product Walkthrough →
             </a>
-            <button class="expand-trigger" data-target="snippet-sentinel">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-sentinel">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> fileScan.ts</span>
-                <span class="code-lang">TypeScript</span>
-              </div>
-              <pre class="code-block"><code>interface ScanResult {
-  path: string;
-  sha256: string;
-  threat?: ThreatInfo;
-  quarantined: boolean;
-  scannedAt: Date;
-  source: 'local' | 'virustotal'
-    | 'claude';
-}
-
-const scanFile = async (
-  filePath: string
-): Promise&lt;ScanResult&gt; =&gt; {
-  const hash = await computeSHA256(filePath);
-  const local = await db.signatures
-    .find(hash);
-  if (local) return quarantine(filePath, local);
-  if (settings.virusTotalEnabled) {
-    const vt = await VirusTotal.check(hash);
-    if (vt.malicious &gt; 0)
-      return quarantine(filePath, vt);
-  }
-  return {
-    path: filePath,
-    sha256: hash,
-    quarantined: false,
-    scannedAt: new Date(),
-    source: 'local',
-  };
-};</code></pre>
-            </div>
           </div>
 
         </div>
@@ -643,59 +394,6 @@ const scanFile = async (
             <a href="./projects/trading/algobot/algo_trading_bot_builder.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
               <i class="fas fa-chart-line"></i> Launch App →
             </a>
-            <button class="expand-trigger" data-target="snippet-algoforge">
-              <i class="fas fa-code"></i> View Code Snippet
-              <i class="fas fa-chevron-down expand-arrow"></i>
-            </button>
-            <div class="code-collapse" id="snippet-algoforge">
-              <div class="code-block-header">
-                <span class="code-file"><i class="fas fa-file-code"></i> ichimokuSignal.js</span>
-                <span class="code-lang">JavaScript</span>
-              </div>
-              <pre class="code-block"><code>const evalIchimokuSignal = (
-  candles, config
-) => {
-  const {
-    tenkan, kijun,
-    senkouA, senkouB, chikou
-  } = computeIchimoku(candles, config);
-
-  const price = candles.at(-1).close;
-  const cloudTop = Math.max(senkouA, senkouB);
-  const cloudBot = Math.min(senkouA, senkouB);
-
-  // Block trades inside the cloud (neutral zone)
-  if (price >= cloudBot && price <= cloudTop)
-    return 'NEUTRAL';
-
-  if (
-    price > cloudTop &&
-    tenkan > kijun &&
-    chikou > price
-  ) return 'LONG';
-
-  if (
-    price < cloudBot &&
-    tenkan < kijun &&
-    chikou < price
-  ) return 'SHORT';
-
-  return 'NEUTRAL';
-};
-
-const runBacktest = (symbol, config) => {
-  const candles = fetchCandles(symbol);
-  return candles.reduce((acc, _, i) => {
-    if (i < config.lookback) return acc;
-    const signal = evalIchimokuSignal(
-      candles.slice(0, i + 1), config
-    );
-    return signal !== 'NEUTRAL'
-      ? [...acc, { i, signal }]
-      : acc;
-  }, []);
-};</code></pre>
-            </div>
           </div>
 
           <!-- Nova Wellness Coaching -->
