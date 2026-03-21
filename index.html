@@ -614,11 +614,89 @@ const scanFile = async (
       <div class="container">
         <div class="section-label">
           <span class="section-tag">Web</span>
-          <h2 class="header-md">Websites &amp; Landing Pages</h2>
-          <p class="section-desc">High-converting landing pages and full-site builds — production-ready and fully customizable</p>
+          <h2 class="header-md">Websites, Tools &amp; Landing Pages</h2>
+          <p class="section-desc">Production-ready web builds — high-converting landing pages, interactive tools, and full-site builds</p>
         </div>
 
         <div class="rork-grid">
+
+          <!-- AlgoForge Trading Strategy Builder -->
+          <div class="rork-card">
+            <div class="rork-card-header">
+              <div class="rork-icon">📈</div>
+              <div class="rork-meta">
+                <div class="rork-category">Finance &amp; Trading · Web App</div>
+                <h3 class="rork-title">AlgoForge</h3>
+              </div>
+              <a href="./projects/trading/algobot/algo_trading_bot_builder.html" target="_blank" rel="noopener" class="rork-link-btn" aria-label="Open AlgoForge">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <p class="rork-desc">A browser-based trading strategy builder with configurable Ichimoku, trend-following, momentum, and mean-reversion systems. Features a live signal panel, rule engine, multi-timeframe backtesting, and broker connection — all in a terminal-dark UI with no dependencies.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Ichimoku</span>
+              <span class="tech-tag">Backtesting</span>
+            </div>
+            <a href="./projects/trading/algobot/algo_trading_bot_builder.html" target="_blank" rel="noopener" class="rork-walkthrough-link">
+              <i class="fas fa-chart-line"></i> Launch App →
+            </a>
+            <button class="expand-trigger" data-target="snippet-algoforge">
+              <i class="fas fa-code"></i> View Code Snippet
+              <i class="fas fa-chevron-down expand-arrow"></i>
+            </button>
+            <div class="code-collapse" id="snippet-algoforge">
+              <div class="code-block-header">
+                <span class="code-file"><i class="fas fa-file-code"></i> ichimokuSignal.js</span>
+                <span class="code-lang">JavaScript</span>
+              </div>
+              <pre class="code-block"><code>const evalIchimokuSignal = (
+  candles, config
+) => {
+  const {
+    tenkan, kijun,
+    senkouA, senkouB, chikou
+  } = computeIchimoku(candles, config);
+
+  const price = candles.at(-1).close;
+  const cloudTop = Math.max(senkouA, senkouB);
+  const cloudBot = Math.min(senkouA, senkouB);
+
+  // Block trades inside the cloud (neutral zone)
+  if (price >= cloudBot && price <= cloudTop)
+    return 'NEUTRAL';
+
+  if (
+    price > cloudTop &&
+    tenkan > kijun &&
+    chikou > price
+  ) return 'LONG';
+
+  if (
+    price < cloudBot &&
+    tenkan < kijun &&
+    chikou < price
+  ) return 'SHORT';
+
+  return 'NEUTRAL';
+};
+
+const runBacktest = (symbol, config) => {
+  const candles = fetchCandles(symbol);
+  return candles.reduce((acc, _, i) => {
+    if (i < config.lookback) return acc;
+    const signal = evalIchimokuSignal(
+      candles.slice(0, i + 1), config
+    );
+    return signal !== 'NEUTRAL'
+      ? [...acc, { i, signal }]
+      : acc;
+  }, []);
+};</code></pre>
+            </div>
+          </div>
 
           <!-- Nova Wellness Coaching -->
           <div class="rork-card">
