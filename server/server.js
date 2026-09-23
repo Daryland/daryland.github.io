@@ -239,7 +239,7 @@ Everything else below is earlier work.
 
 FEATURED WEBSITES:
 - CivicLens — https://civiclens-eight.vercel.app — Government transparency dashboard tracking public spending, legislation, officials, and infrastructure across all 50 US states. Flags waste signals in federal contracts (no-bid awards, vendor concentration), looks up representatives by zip code, tracks state and federal bills, campaign finance, city meeting agendas, and data center development. 70+ live datasets synced daily. Stack: Next.js, Supabase, Recharts, Tailwind CSS, GitHub Actions, Vercel.
-- Recipe MicroCosm — https://github.com/Daryland/recipemicrocosm — Personal recipe library that imports recipes from around the web and keeps only ingredients, steps, and video (no backstory filler) by reading each page's schema.org Recipe data. Filter by cuisine and A–Z; sign in with Google, Apple, or email to save recipes. Stack: Next.js 14, TypeScript, Prisma, Auth.js, Tailwind CSS.
+- Recipe MicroCosm — https://recipemicrocosm.vercel.app (source: https://github.com/Daryland/recipemicrocosm) — Personal recipe library that imports recipes from around the web and keeps only ingredients, steps, and video (no backstory filler) by reading each page's schema.org Recipe data. Filter by cuisine and A–Z; sign in with Google, Apple, or email to save recipes. Stack: Next.js 14, TypeScript, Prisma, Auth.js, Tailwind CSS.
 
 OTHER WEB PROJECTS:
 - AlgoForge — https://daryland.github.io/projects/trading/algobot/algo_trading_bot_builder.html — Browser-based trading strategy builder with Ichimoku, trend-following, momentum, and mean-reversion systems, backtesting, and a live signal panel (HTML, CSS, JavaScript).
