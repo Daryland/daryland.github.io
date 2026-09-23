@@ -248,7 +248,7 @@ OTHER WEB PROJECTS:
 MOBILE APPS (React Native, built with Rork):
 - MatIQ — https://daryland.github.io/projects/Mobile_Apps/matiq-by-frameworks/walkthrough.html — BJJ training tracker: log rolls, spaced-repetition technique review, streaks, belt progress. Fully offline.
 - LockForge — https://daryland.github.io/projects/Mobile_Apps/rork-lockforge-habit-tracker/walkthrough.html — Habit tracker with enforced app blocking, streaks, heat map calendar, Apple Health sync.
-- SchedulerX — https://schedulerx.rork.app (walkthrough: https://daryland.github.io/projects/Mobile_Apps/rork-schedule-rx/walkthrough.html) — Privacy-first scheduling app with a monthly calendar view. Fully offline.
+- SchedulerX — https://daryland.github.io/projects/Mobile_Apps/rork-schedule-rx/walkthrough.html — Privacy-first scheduling app with a monthly calendar view. Fully offline.
 
 DESKTOP APPLICATIONS (Windows, macOS, Linux):
 - EduShield — https://daryland.github.io/projects/Applications/Edushield/walkthrough.html — Detects AI-generated student submissions using on-device signals; role-based access, batch uploads, PDF reports (Electron, SQLite, TypeScript).
