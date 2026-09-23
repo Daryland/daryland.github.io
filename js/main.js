@@ -364,7 +364,7 @@ document.querySelectorAll('.expand-trigger').forEach(btn => {
           if (prev) prev.remove();
           const banner = document.createElement('div');
           banner.className   = 'form-success';
-          banner.textContent = '✓ Message sent! Daniel will get back to you soon.';
+          banner.textContent = 'Message sent! Daniel will get back to you soon.';
           form.appendChild(banner);
           setTimeout(() => { if (banner.parentNode) banner.remove(); }, 6000);
         } else {
@@ -376,7 +376,7 @@ document.querySelectorAll('.expand-trigger').forEach(btn => {
         if (prev) prev.remove();
         const errBanner = document.createElement('div');
         errBanner.className   = 'form-error';
-        errBanner.textContent = '✗ Something went wrong. Please try again or email Daniel.Ryland@pm.me directly.';
+        errBanner.textContent = 'Something went wrong. Please try again or email Daniel.Ryland@pm.me directly.';
         form.appendChild(errBanner);
       })
       .finally(() => {

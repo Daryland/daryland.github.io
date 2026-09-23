@@ -362,8 +362,7 @@
   padding: 0.4rem 1rem;
   border-radius: 50rem;
   font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 /* Brand icon colors */
@@ -395,16 +394,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0 1.5rem;
-  height: 65px;
+  padding: 0 1.75rem;
+  height: 52px;
   border-radius: 50rem;
-  border: 2px solid rgba(73, 95, 239, 0.4);
+  border: 1.5px solid rgba(73, 95, 239, 0.4);
   color: #495fef;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-decoration: none;
   transition: all 0.25s;
-  letter-spacing: 0.5px;
 }
 
 .btn-ghost:hover {
@@ -438,10 +436,10 @@
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-text-opacity);
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -491,9 +489,9 @@
   display: inline-block;
   background: rgba(73, 95, 239, 0.1);
   color: #495fef;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.35rem 0.9rem;
   border-radius: 50rem;
@@ -502,8 +500,9 @@
 
 .section-desc {
   color: var(--color-text-opacity);
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  font-size: 1.05rem;
+  margin: 0.5rem auto 0;
+  max-width: 640px;
 }
 
 /* =============================================
@@ -514,10 +513,9 @@
   background: var(--bg);
 }
 
-/* Override rork-grid so cards don't stretch when there are only 1–2 */
+/* Featured sites — two per row */
 .websites-section .rork-grid {
-  grid-template-columns: repeat(auto-fill, minmax(320px, 380px));
-  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
 }
 
 /* =============================================
@@ -535,15 +533,15 @@
 
 .rork-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .rork-card {
   background: var(--bg-panel);
-  border: 1px solid rgba(128, 128, 128, 0.12);
-  border-radius: 16px;
-  padding: 1.75rem;
+  border: 1px solid rgba(128, 128, 128, 0.16);
+  border-radius: 14px;
+  padding: 1.5rem;
   transition: transform 0.25s, box-shadow 0.25s;
   display: flex;
   flex-direction: column;
@@ -551,19 +549,26 @@
 }
 
 .rork-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(22, 28, 45, 0.08);
 }
 
 .rork-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.875rem;
 }
 
 .rork-icon {
-  font-size: 2rem;
-  line-height: 1;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(73, 95, 239, 0.1);
+  color: #495fef;
+  font-size: 1.1rem;
   flex-shrink: 0;
 }
 
@@ -573,20 +578,21 @@
 }
 
 .rork-category {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #495fef;
-  margin-bottom: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  color: var(--color-text-opacity);
+  margin-bottom: 0.15rem;
 }
 
 .rork-title {
-  font-size: 1.2rem;
-  font-weight: 800;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
   color: var(--color-headings);
   margin: 0;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.01em;
 }
 
 .rork-link-btn {
@@ -611,10 +617,11 @@
 }
 
 .rork-desc {
-  font-size: 0.9rem;
-  line-height: 1.65;
+  font-size: 0.925rem;
+  line-height: 1.6;
   color: var(--color-text-opacity);
   margin: 0;
+  flex: 1;
 }
 
 .tech-tags {
@@ -627,11 +634,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: #495fef;
   text-decoration: none;
-  letter-spacing: 0.3px;
 }
 
 .rork-walkthrough-link:hover {
@@ -640,12 +646,11 @@
 
 .tech-tag {
   font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.28rem 0.7rem;
-  background: rgba(73, 95, 239, 0.08);
-  color: #495fef;
-  border-radius: 50rem;
-  letter-spacing: 0.4px;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  background: rgba(128, 128, 128, 0.08);
+  color: var(--color-text-opacity);
+  border-radius: 6px;
 }
 
 /* =============================================
@@ -787,10 +792,9 @@
 
 .portfolio-filter-nav .filter-link {
   padding: 0 1rem;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.6;
-  letter-spacing: 1.63px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .portfolio-filter-nav .filter-link:hover {
@@ -847,10 +851,10 @@
 
 .card-popup-box div {
   color: var(--color-text-opacity);
-  font-size: 0.8125rem;
-  line-height: 1.63;
-  letter-spacing: 1.63px;
-  padding-bottom: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.35rem;
   font-weight: 700;
   text-transform: uppercase;
   pointer-events: none;
@@ -860,7 +864,7 @@
   pointer-events: none;
   color: var(--color-headings);
   font-size: 1.3125rem;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.01em;
   font-weight: 700;
   margin-bottom: 0;
 }
@@ -940,11 +944,10 @@
   font-size: 0.8125rem;
   font-weight: 600;
   background: rgba(128, 128, 128, 0.08);
-  color: var(--color-text-base);
+  color: var(--color-text);
   border: 1px solid rgba(128, 128, 128, 0.15);
   transition: all 0.2s;
   cursor: default;
-  letter-spacing: 0.3px;
 }
 
 .tech-tag-cloud:hover {
@@ -969,8 +972,16 @@
 }
 
 .reviews .review-title {
-  font-size: 20px;
-  font-weight: 600;
+  display: inline-block;
+  background: rgba(73, 95, 239, 0.1);
+  color: #495fef;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border-radius: 50rem;
+  margin-bottom: 0.75rem;
 }
 
 .review-preview {
@@ -999,9 +1010,10 @@
   color: var(--color-text-base);
   max-width: 450px;
   width: 100%;
-  padding: 2.5rem;
-  border-radius: 24px;
-  box-shadow: 0 22px 34px rgba(22, 28, 45, 0.18);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(128, 128, 128, 0.16);
+  box-shadow: 0 12px 32px rgba(22, 28, 45, 0.1);
   transition: all 0.3s;
   position: absolute;
   z-index: -1;
@@ -1023,8 +1035,9 @@
 .review-item.next { transform: translateX(75%); }
 
 .review-item .review-text {
-  padding-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
   text-align: left;
+  line-height: 1.6;
 }
 
 .review-author {
@@ -1045,9 +1058,9 @@
 }
 
 .details .name {
-  font-size: 18px;
-  font-weight: 550;
-  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .details .company {
@@ -1079,12 +1092,10 @@
 
 .main-menu .nav-item {
   padding: 0 1rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
-  letter-spacing: 1.63px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  text-transform: lowercase;
 }
 
 .main-menu .nav-item a {
@@ -1314,4 +1325,41 @@
 [data-animation="zoomInOut"].full-site-modal.is-visible,
 [data-animation="slideInOutTop"].is-visible .modal-dialog {
   transform: none;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  max-width: 1140px;
+  margin: 2rem auto 0;
+  padding: 1.5rem 15px 0;
+  border-top: 1px solid rgba(128, 128, 128, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-opacity);
+}
+
+footer p { margin: 0; }
+
+/* =============================================
+   SMALL SCREENS
+   ============================================= */
+@media (max-width: 600px) {
+  .main-menu .nav-item { padding: 0 0.6rem; font-size: 0.875rem; white-space: nowrap; }
+  .brand-logo a h2 { font-size: 1.25rem; }
+  .header-lg { min-height: 2.2em; }
+  .sub-header { font-size: 1rem; }
+  .hero-content { padding: 3.5rem 0; }
+  .hero-cta { flex-direction: column; gap: 0.75rem; }
+  .hero-cta .btn, .btn-ghost { width: 100%; max-width: 320px; justify-content: center; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .stat-label { font-size: 0.65rem; text-align: center; }
+  .stat-number { font-size: 1.75rem; }
+  .rork-section, .apps-section, .websites-section, .skills-section { padding: 3.5rem 0; }
+  .rork-grid, .websites-section .rork-grid { grid-template-columns: 1fr; }
 }

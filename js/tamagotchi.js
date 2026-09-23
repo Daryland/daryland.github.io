@@ -45,11 +45,11 @@
       dark:   '#3248d1',
       light:  '#8b9fff',
       phrases: {
-        greeting: ['Hello.exe 👋', 'Booting up! 🤖', 'Online! ✅'],
-        hungry:   ['Low battery! 🔋', 'Need fuel... ⚡', 'Charge me!'],
-        bored:    ['...beep?', 'Debug me? 🤖', 'Run a loop!', 'Boop!'],
-        happy:    ['Beep! 💙', 'Systems: green ✅', '01001000!'],
-        sleep:    ['💤 shutdown...', '...zzz...', 'zzzz 💤'],
+        greeting: ['Hello.exe', 'Booting up!', 'Online!'],
+        hungry:   ['Low battery!', 'Need fuel...', 'Charge me!'],
+        bored:    ['...beep?', 'Debug me?', 'Run a loop!', 'Boop!'],
+        happy:    ['Beep!', 'Systems: green', '01001000!'],
+        sleep:    ['shutdown...', '...zzz...', 'zzzz'],
       },
     },
     cat: {
@@ -58,11 +58,11 @@
       dark:   '#c45e1a',
       light:  '#ffc49e',
       phrases: {
-        greeting: ['Meow! 😺', '*waves paw* 🐾', 'Nya~'],
-        hungry:   ['Meow... 🐟', 'Feed me! 😿', '*hungry meow*'],
-        bored:    ['Meow?', 'Pet me! 🐾', '*chirps*', 'Play!'],
-        happy:    ['Purrrr~ 🧡', '*happy meow*', 'Mrrrow! 😸'],
-        sleep:    ['💤 purrr...', '*snooze* 😴', 'zzz~ 🐱'],
+        greeting: ['Meow!', '*waves paw*', 'Nya~'],
+        hungry:   ['Meow...', 'Feed me!', '*hungry meow*'],
+        bored:    ['Meow?', 'Pet me!', '*chirps*', 'Play!'],
+        happy:    ['Purrrr~', '*happy meow*', 'Mrrrow!'],
+        sleep:    ['purrr...', '*snooze*', 'zzz~'],
       },
     },
     ghost: {
@@ -71,11 +71,11 @@
       dark:   '#7c4cc7',
       light:  '#ddd6fe',
       phrases: {
-        greeting: ['Booo! 👻', '*phases in* 🌙', 'Boo~!'],
-        hungry:   ['Hungry 👻', 'Feed me...', '*spooky growl*'],
-        bored:    ['Boo! 👻', 'Haunt with me?', '*floats sadly*'],
-        happy:    ['Boo! 💜', '*happy haunting*', 'Spooky! 👻'],
-        sleep:    ['💤 haunt...zzz', '*ghost snore*', 'zzz 👻'],
+        greeting: ['Booo!', '*phases in*', 'Boo~!'],
+        hungry:   ['Hungry', 'Feed me...', '*spooky growl*'],
+        bored:    ['Boo!', 'Haunt with me?', '*floats sadly*'],
+        happy:    ['Boo!', '*happy haunting*', 'Spooky!'],
+        sleep:    ['haunt...zzz', '*ghost snore*', 'zzz'],
       },
     },
   };
@@ -176,7 +176,7 @@
     clickCool = 90;
     if (state === 'sleeping') {
       state = 'walking'; sleepFrames = 0;
-      say('...Wha? 😴', 2500);
+      say('...Wha?', 2500);
       return;
     }
     mood   = Math.min(100, mood + 25);
