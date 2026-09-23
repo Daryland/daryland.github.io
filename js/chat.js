@@ -32,11 +32,18 @@ function linkify(raw) {
   return result.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 }
 
+// Links full URLs, bare domains (github.com/Daryland, schedulerx.rork.app)
+// and email addresses. Trailing punctuation is left outside the link.
+const AUTO_LINK_RE = /\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b|((?:https?:\/\/)?(?:[a-z0-9-]+\.)+(?:com|app|io|dev|me|org|net|ai|co)(?:\/[^\s<"]*)?)/gi;
+
 function linkifyBareUrls(escaped) {
-  return escaped.replace(
-    /(https?:\/\/[^\s<"&]+)/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-  );
+  return escaped.replace(AUTO_LINK_RE, (match, email, url) => {
+    if (email) return `<a href="mailto:${email}">${email}</a>`;
+    const trail = url.match(/[.,;:!?)]+$/);
+    const clean = trail ? url.slice(0, -trail[0].length) : url;
+    const href  = /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${clean}</a>${trail ? trail[0] : ""}`;
+  });
 }
 
 // =============================================
