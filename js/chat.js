@@ -28,7 +28,8 @@ function linkify(raw) {
   }
 
   result += linkifyBareUrls(escapeHtml(raw.slice(lastIndex)));
-  return result;
+  // **bold** — safe after escaping, since escaped text contains no tags
+  return result.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 }
 
 function linkifyBareUrls(escaped) {
@@ -147,7 +148,7 @@ async function sendMessage() {
   currentController = new AbortController();
 
   try {
-    const res = await fetch("https://invigorating-acceptance-production-926c.up.railway.app/api/chat", {
+    const res = await fetch("https://darylandgithubio-production.up.railway.app/api/chat", {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify({ message: text, failCount: consecutiveFails }),
