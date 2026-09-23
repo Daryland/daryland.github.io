@@ -297,22 +297,22 @@ const HOWTO_REPLY     = "That's exactly what Daniel specializes in! He'd love to
 // FAIL-RATE RESPONSES — jokes & poems (3x rule)
 // =============================================
 const FUN_REPLIES = [
-  "Why do programmers prefer dark mode?\nBecause light attracts bugs! 🐛\n\nAsk me something about Daniel's portfolio instead!",
-  "A SQL query walks into a bar and asks two tables:\n'Can I JOIN you?' 🍺\n\nI'm more of a portfolio-questions bar, though!",
-  "Why did the JavaScript developer wear glasses?\nBecause he couldn't C#! 🤓\n\nAsk about Daniel's projects or skills — I'm great at those!",
-  "I told my computer I needed a break.\nNow it won't stop sending me vacation ads. 💻\n\nBack on topic — what would you like to know about Daniel?",
-  "Why do Java developers wear glasses?\nBecause they don't C#! 👓\n\n(Yes, two glasses jokes. I contain multitudes. Ask about Daniel!)",
-  "Roses are red,\nCode compiles clean,\nI only know Daniel's portfolio —\nYou know what I mean! 📜",
-  "Violets are blue,\nMy scope is quite small,\nAsk about Daniel's work,\nOr don't ask at all! 🎭",
-  "There once was a bot on a site,\nWhose knowledge was narrow but bright.\nAsk about Daniel's apps,\nOr his coding perhaps,\nAnd I'll answer you perfectly right! ✨",
-  "I'm a portfolio bot, not a genie,\nMy magic is Daniel's work, you see.\nAsk about his tech stack,\nAnd I'll fire right back —\nBut off-topic? That answer's a fee! 🧞",
+  "Why do programmers prefer dark mode?\nBecause light attracts bugs!\n\nAsk me something about Daniel's portfolio instead!",
+  "A SQL query walks into a bar and asks two tables:\n'Can I JOIN you?'\n\nI'm more of a portfolio-questions bar, though!",
+  "Why did the JavaScript developer wear glasses?\nBecause he couldn't C#!\n\nAsk about Daniel's projects or skills — I'm great at those!",
+  "I told my computer I needed a break.\nNow it won't stop sending me vacation ads.\n\nBack on topic — what would you like to know about Daniel?",
+  "Why do Java developers wear glasses?\nBecause they don't C#!\n\n(Yes, two glasses jokes. I contain multitudes. Ask about Daniel!)",
+  "Roses are red,\nCode compiles clean,\nI only know Daniel's portfolio —\nYou know what I mean!",
+  "Violets are blue,\nMy scope is quite small,\nAsk about Daniel's work,\nOr don't ask at all!",
+  "There once was a bot on a site,\nWhose knowledge was narrow but bright.\nAsk about Daniel's apps,\nOr his coding perhaps,\nAnd I'll answer you perfectly right!",
+  "I'm a portfolio bot, not a genie,\nMy magic is Daniel's work, you see.\nAsk about his tech stack,\nAnd I'll fire right back —\nBut off-topic? That answer's a fee!",
 ];
 
-const CONTACT_PROMPT = `Alright, we keep drifting off-script! 🎡 Let me steer us back to what I actually know:
+const CONTACT_PROMPT = `Alright, we keep drifting off-script! Let me steer us back to what I actually know:
 
-📁 Ask about Daniel's projects — Curriculo, SchedulerX, Recipe Vault, and more
-🛠️ Ask about his skills — TypeScript, React Native, AWS, Node.js, and 15+ more
-📬 Ready to connect? Reach out directly:
+- Ask about Daniel's projects — Curriculo, SchedulerX, Recipe Vault, and more
+- Ask about his skills — TypeScript, React Native, AWS, Node.js, and 15+ more
+- Ready to connect? Reach out directly:
    → [LinkedIn](https://linkedin.com/in/daniel-ryland-1b233a68)
    → [GitHub](https://github.com/Daryland)
    → Email: Daniel.Ryland@pm.me
@@ -426,6 +426,25 @@ app.post("/api/chat", securityCheck, async (req, res) => {
     console.error("❌ Ollama API error:", error.message);
     res.status(500).json({ reply: "Something went wrong. Please try again." });
   }
+});
+
+// =============================================
+// HEALTH CHECK — reports config state without exposing secrets
+// =============================================
+app.get("/api/health", securityCheck, async (_req, res) => {
+  const health = {
+    backend:    "ollama",
+    model:      OLLAMA_MODEL,
+    key_set:    Boolean(process.env.OLLAMA_API_KEY),
+    ollama:     null,
+  };
+  try {
+    await ollamaChat([{ role: "user", content: "ping" }]);
+    health.ollama = "ok";
+  } catch (error) {
+    health.ollama = error.message;
+  }
+  res.status(health.ollama === "ok" ? 200 : 503).json(health);
 });
 
 app.listen(PORT, () => {
