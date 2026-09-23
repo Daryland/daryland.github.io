@@ -26,7 +26,7 @@ Live at: [daryland.github.io](https://daryland.github.io)
 
 ### AI Chat Assistant
 
-- **Portfolio Assistant** — right-side slide-in chat panel powered by [Groq](https://groq.com) (Llama 3.3 70B)
+- **Portfolio Assistant** — right-side slide-in chat panel powered by [Ollama Cloud](https://ollama.com) (Gemma 4 31B)
 - Knows Daniel's full portfolio: projects, skills, Rork apps, GitHub, LinkedIn, CodePen, and contact info
 - **Three-layer guardrail system** — server-side regex pre-check → strict system prompt → LLM response detection; jailbreak, off-topic, and how-to attempts are all blocked
 - **Fail-rate UX** — first two off-topic messages return random dad jokes or snarky poems; third triggers a contact/redirect prompt with clickable links
@@ -47,7 +47,7 @@ Live at: [daryland.github.io](https://daryland.github.io)
 ### Backend (chat server — deployed on Railway)
 
 - Node.js + Express
-- [Groq](https://console.groq.com) via OpenAI-compatible API (Llama 3.3 70B)
+- [Ollama Cloud](https://ollama.com) via its native `/api/chat` endpoint (Gemma 4 31B by default; override with `OLLAMA_MODEL`)
 - dotenv for environment config
 - **Structured JSON logging** — every chat event written to stdout (Railway dashboard) and `server/logs/chat.log`
 - **PII redaction** — emails, phone numbers, SSNs, credit card numbers, and long tokens are stripped before any logging
@@ -90,7 +90,8 @@ daryland.github.io/
 **Chat server** — requires a `.env` file in the project root:
 
 ```env
-GROQ_API_KEY="your_groq_api_key"
+OLLAMA_API_KEY="your_ollama_api_key"
+# OLLAMA_MODEL="gemma4:31b"   # optional
 ```
 
 ```bash
@@ -100,7 +101,7 @@ node server.js
 # Server runs at http://localhost:5551
 ```
 
-Get a free Groq API key at [console.groq.com](https://console.groq.com).
+Create an Ollama API key at [ollama.com/settings/keys](https://ollama.com/settings/keys).
 
 ---
 

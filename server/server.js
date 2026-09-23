@@ -6,7 +6,6 @@ const crypto     = require("crypto");
 const fs         = require("fs");
 const path       = require("path");
 require("dotenv").config({ path: "../.env" });
-const OpenAI = require("openai");
 
 const app  = express();
 const PORT = process.env.PORT || 5551;
@@ -167,11 +166,38 @@ app.use((_req, res, next) => {
 app.use(cors({ origin: "*", methods: ["POST", "OPTIONS"], allowedHeaders: ["Content-Type"] }));
 app.use(bodyParser.json());
 
-// Groq via OpenAI-compatible SDK
-const groq = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: "https://api.groq.com/openai/v1",
-});
+// Ollama Cloud — native /api/chat endpoint via built-in fetch
+const OLLAMA_URL   = "https://ollama.com/api/chat";
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gemma4:31b";
+
+if (!process.env.OLLAMA_API_KEY) {
+  console.warn("⚠️  OLLAMA_API_KEY is not set — chat requests will fail.");
+}
+
+async function ollamaChat(messages) {
+  const res = await fetch(OLLAMA_URL, {
+    method:  "POST",
+    headers: {
+      "Content-Type":  "application/json",
+      "Authorization": `Bearer ${process.env.OLLAMA_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model:    OLLAMA_MODEL,
+      messages,
+      stream:   false,
+      options:  { temperature: 0.5, num_predict: 512 },
+    }),
+    signal: AbortSignal.timeout(30_000),
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Ollama ${res.status}: ${body.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  return data.message?.content || "";
+}
 
 // =============================================
 // SYSTEM PROMPT — strict portfolio-only scope
@@ -361,17 +387,10 @@ app.post("/api/chat", securityCheck, async (req, res) => {
 
   try {
     // Layer 2: model with strict system prompt
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user",   content: userMessage },
-      ],
-      max_tokens: 512,
-      temperature: 0.5,
-    });
-
-    const reply = completion.choices[0].message.content;
+    const reply = await ollamaChat([
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user",   content: userMessage },
+    ]);
 
     // Layer 3: detect if the LLM fell back to a guardrail response
     const llmBlocked =
@@ -403,8 +422,8 @@ app.post("/api/chat", securityCheck, async (req, res) => {
 
     res.json({ reply, blocked: false });
   } catch (error) {
-    writeLog({ event: "groq_api_error", ip_hash: ipHash, error: error.message });
-    console.error("❌ Groq API error:", error.message);
+    writeLog({ event: "ollama_api_error", ip_hash: ipHash, error: error.message });
+    console.error("❌ Ollama API error:", error.message);
     res.status(500).json({ reply: "Something went wrong. Please try again." });
   }
 });
